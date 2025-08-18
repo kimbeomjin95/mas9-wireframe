@@ -28,12 +28,12 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '18.18.2'
           
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: 8
+          version: 8.15.1
           run_install: false
           
       - name: Get pnpm store directory
@@ -52,11 +52,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
         
-      - name: Build shared packages
-        run: pnpm build --filter="@mas9/*"
-        
-      - name: Build FR app
-        run: pnpm build --filter=fr
+      - name: Build all packages and FR app
+        run: pnpm build --filter=fr...
         env:
           # Demo mode for production (no real API keys needed)
           VITE_DEMO_MODE: "true"
