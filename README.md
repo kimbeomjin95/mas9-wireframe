@@ -202,10 +202,14 @@ AI 화면 생성 요청을 위한 폼 컴포넌트
 
 ## 🔗 링크
 
-- [Live Demo](https://your-username.github.io/mas9-wireframe/)
-- [GitHub Repository](https://github.com/your-username/mas9-wireframe)
-- [Issue Tracker](https://github.com/your-username/mas9-wireframe/issues)
+- [Live Demo](https://kimbeomjin95.github.io/mas9-wireframe/)
+- [GitHub Repository](https://github.com/kimbeomjin95/mas9-wireframe)
+- [Issue Tracker](https://github.com/kimbeomjin95/mas9-wireframe/issues)
 
 ## 📞 지원
 
-질문이나 문제가 있다면 [GitHub Issues](https://github.com/your-username/mas9-wireframe/issues)를 통해 문의해 주세요.
+질문이나 문제가 있다면 [GitHub Issues](https://github.com/kimbeomjin95/mas9-wireframe/issues)를 통해 문의해 주세요.
+
+---
+
+🎉 **현재 상태**: Public 저장소로 GitHub Pages 배포 완료!
