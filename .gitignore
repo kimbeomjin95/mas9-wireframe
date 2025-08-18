@@ -1,0 +1,216 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+.pnp
+.pnp.js
+
+# Production builds
+dist/
+build/
+out/
+.next/
+
+# Environment variables
+.env
+# .env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDE and Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage/
+*.lcov
+
+# nyc test coverage
+.nyc_output
+
+# ESLint cache
+.eslintcache
+
+# Parcel-bundler cache (https://parceljs.org/)
+.cache
+.parcel-cache
+
+# Vite
+.vite/
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
+
+# Rollup
+.rollup.cache/
+
+# SvelteKit build output
+.svelte-kit
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+
+# Storybook build outputs
+.out
+.storybook-out
+storybook-static
+
+# Temporary folders
+tmp/
+temp/
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# TypeScript
+*.tsbuildinfo
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Optional stylelint cache
+.stylelintcache
+
+# Microbundle cache
+.rpt2_cache/
+.rts2_cache_cjs/
+.rts2_cache_es/
+.rts2_cache_umd/
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
+
+# Yarn Integrity file
+.yarn-integrity
+
+# dotenv environment variable files
+.env
+.env.development.local
+.env.test.local
+.env.production.local
+.env.local
+
+# Stores VSCode versions used for testing VSCode extensions
+.vscode-test
+
+# yarn v2
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+.pnp.*
+
+# Supabase
+.branches
+.temp
+.import
+.seed
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Test artifacts
+test-results/
+test-failure.png
+e2e-screenshots/
+
+# MCP and Claude Code artifacts
+.mcp/
+.claude/
+
+# Build artifacts
+*.tgz
+*.tar.gz
+
+# Runtime and cache
+.cache/
+.temp/
+
+# Lock files (선택적으로 포함/제외)
+# package-lock.json
+# pnpm-lock.yaml
+# yarn.lock
+
+# Turborepo
+.turbo/
+
+# Local Netlify folder
+.netlify
+
+# Vercel
+.vercel
+
+# Firebase
+.firebase/
+
+# Local development
+.local/
+
+# GitHub Actions artifacts
+.github/workflows/cache/
+
+# Docker
+.dockerignore
+Dockerfile.prod
+
+# Backup files
+*.bak
+*.backup
+*.orig
+
+# Compressed files
+*.zip
+*.rar
+*.7z
+*.tar
+*.gz
+
+# Application specific
+wireframe_history
+demo_user
+claude_api_cache/

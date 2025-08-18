@@ -1,0 +1,5 @@
+{
+  "extends": "@mas9/typescript-config/vite.json",
+  "include": ["src/**/*", "vite.config.ts"],
+  "exclude": ["dist", "node_modules"]
+}

@@ -1,0 +1,30 @@
+{
+  "name": "@mas9/shared-types",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist/**"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts --format esm,cjs --dts",
+    "dev": "tsup src/index.ts --format esm,cjs --dts --watch",
+    "lint": "echo 'Linting disabled for TypeScript files - use type-check instead'",
+    "type-check": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@mas9/typescript-config": "workspace:*",
+    "eslint": "^8.56.0",
+    "tsup": "^8.5.0",
+    "typescript": "^5.3.3"
+  }
+}

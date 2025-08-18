@@ -1,0 +1,52 @@
+{
+  "name": "mas9-wireframe",
+  "private": true,
+  "version": "0.0.0",
+  "description": "AI Wireframe Generator - MUI 기반 화면설계서 실시간 생성 도구",
+  "keywords": [
+    "wireframe",
+    "ai",
+    "mui",
+    "react",
+    "turborepo"
+  ],
+  "homepage": "https://github.com/mas9-team/mas9-wireframe",
+  "bugs": "https://github.com/mas9-team/mas9-wireframe/issues",
+  "license": "MIT",
+  "author": "MAS9 Team",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "turbo build",
+    "dev": "turbo dev",
+    "lint": "turbo lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "type-check": "turbo type-check",
+    "clean": "turbo clean && rm -rf node_modules",
+    "start:fr": "turbo dev --filter=fr",
+    "build:fr": "turbo build --filter=fr",
+    "lint:fix": "turbo lint -- --fix",
+    "test": "turbo test"
+  },
+  "devDependencies": {
+    "@turbo/gen": "^1.12.4",
+    "@types/node": "^20.11.5",
+    "@typescript-eslint/eslint-plugin": "^6.19.1",
+    "@typescript-eslint/parser": "^6.19.1",
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "playwright": "^1.54.2",
+    "prettier": "^3.2.4",
+    "turbo": "^1.12.4",
+    "typescript": "^5.3.3"
+  },
+  "packageManager": "pnpm@8.15.1",
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=8.0.0"
+  }
+}

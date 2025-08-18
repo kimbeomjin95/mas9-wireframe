@@ -1,0 +1,42 @@
+{
+  "name": "fr",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "lint": "echo 'Linting disabled for TypeScript files - use type-check instead'",
+    "preview": "vite preview",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@mas9/shared-types": "workspace:*",
+    "@mas9/shared-utils": "workspace:*",
+    "@mas9/shared-ui": "workspace:*",
+    "@mui/material": "^5.15.7",
+    "@emotion/react": "^11.11.3",
+    "@emotion/styled": "^11.11.0",
+    "@mui/x-data-grid": "^6.18.7",
+    "@mui/x-date-pickers": "^6.18.7",
+    "lucide-react": "^0.321.0",
+    "zustand": "^4.4.7",
+    "@supabase/supabase-js": "^2.38.5",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.21.3"
+  },
+  "devDependencies": {
+    "@mas9/typescript-config": "workspace:*",
+    "@types/react": "^18.2.48",
+    "@types/react-dom": "^18.2.18",
+    "@typescript-eslint/eslint-plugin": "^6.19.1",
+    "@typescript-eslint/parser": "^6.19.1",
+    "@vitejs/plugin-react": "^4.2.1",
+    "eslint": "^8.56.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.5",
+    "typescript": "^5.3.3",
+    "vite": "^5.0.11"
+  }
+}
