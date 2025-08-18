@@ -26,11 +26,8 @@ export const AuthInitializer: React.FC<AuthInitializerProps> = ({ children }) =>
         await initializeAuth();
         console.log('✅ 인증 초기화 완료');
         
-        // 로그인 페이지에서는 즉시 진행, 다른 페이지에서는 조건부 대기
-        let delay = 0;
-        if (!isLoginPage) {
-          delay = isAuthenticated && user ? 100 : 200;
-        }
+        // 로그인 페이지에서는 즉시 진행, 다른 페이지에서는 약간의 대기
+        const delay = isLoginPage ? 0 : 200;
         
         setTimeout(() => {
           setInitialized(true);
@@ -44,7 +41,7 @@ export const AuthInitializer: React.FC<AuthInitializerProps> = ({ children }) =>
     };
     
     init();
-  }, [initializeAuth, isLoginPage, isAuthenticated, user]);
+  }, []);
 
   // 로그인 페이지에서는 로딩을 표시하지 않음
   const shouldShowLoading = !isLoginPage && (isLoading || !initialized) && showLoading;

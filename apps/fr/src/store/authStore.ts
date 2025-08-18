@@ -45,9 +45,8 @@ export const useAuthStore = create<AuthStore>()(
             isAuthenticated: true
           });
 
-          // 상태 업데이트 후 즉시 리다이렉션
-          console.log('🚀 대시보드로 즉시 이동');
-          window.location.replace('/mas9-wireframe/dashboard');
+          // 로그인 성공 - 리다이렉션은 컴포넌트에서 처리
+          console.log('🚀 로그인 완료 - 리다이렉션은 컴포넌트에서 처리');
 
         } catch (error) {
           console.error('❌ Store 로그인 에러:', error);
@@ -84,9 +83,8 @@ export const useAuthStore = create<AuthStore>()(
 
           console.log('✅ Store 로그아웃 완료');
           
-          // 로그아웃 후 즉시 로그인 페이지로 이동
-          console.log('🔄 로그인 페이지로 즉시 이동');
-          window.location.replace('/mas9-wireframe/login');
+          // 로그아웃 완료 - 리다이렉션은 컴포넌트에서 처리
+          console.log('🔄 로그아웃 완료 - 리다이렉션은 컴포넌트에서 처리');
           
         } catch (error) {
           console.error('💥 Store 로그아웃 에러:', error);
@@ -97,8 +95,8 @@ export const useAuthStore = create<AuthStore>()(
             error: { message: errorMessage, code: 'LOGOUT_ERROR' },
           });
 
-          // 에러가 있어도 로그인 페이지로 이동
-          window.location.replace('/mas9-wireframe/login');
+          // 에러 발생 - 리다이렉션은 컴포넌트에서 처리
+          console.log('🔄 로그아웃 에러 - 리다이렉션은 컴포넌트에서 처리');
         }
       },
 

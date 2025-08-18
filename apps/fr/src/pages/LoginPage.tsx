@@ -22,16 +22,16 @@ export const LoginPage: React.FC = () => {
   useEffect(() => {
     if (!isLoading && isAuthenticated && user) {
       console.log('🎯 이미 로그인된 사용자 - 대시보드로 리다이렉션');
-      window.location.replace('/mas9-wireframe/dashboard');
+      navigate('/dashboard', { replace: true });
     }
-  }, [isAuthenticated, user, isLoading]);
+  }, [isAuthenticated, user, isLoading, navigate]);
 
   /**
    * 로그인 성공 시 대시보드로 이동
    */
   const handleLoginSuccess = () => {
-    console.log('🎯 로그인 성공 콜백 - authStore에서 리다이렉션 처리');
-    // authStore의 login 함수에서 리다이렉션을 처리하므로 여기서는 아무것도 하지 않음
+    console.log('🎯 로그인 성공 콜백 - 대시보드로 이동');
+    navigate('/dashboard', { replace: true });
   };
 
   return (

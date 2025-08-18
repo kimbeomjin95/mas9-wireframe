@@ -158,6 +158,10 @@ temp/
 test-results/
 test-failure.png
 e2e-screenshots/
+infinite-render-test.js
+final-test.js
+infinite-render-debug.png
+infinite-render-error.png
 
 # MCP and Claude Code artifacts
 .mcp/

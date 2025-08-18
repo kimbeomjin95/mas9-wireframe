@@ -20,6 +20,7 @@ import {
   Settings,
   Palette,
 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 
 interface AdminHeaderProps {
@@ -32,6 +33,7 @@ export const AdminHeader: React.FC<AdminHeaderProps> = ({
   title = 'AI Wireframe Generator',
 }) => {
   const { user, handleLogout } = useAuth();
+  const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const isMenuOpen = Boolean(anchorEl);
 
@@ -46,6 +48,8 @@ export const AdminHeader: React.FC<AdminHeaderProps> = ({
   const handleLogoutClick = async () => {
     handleProfileMenuClose();
     await handleLogout();
+    console.log('🔄 로그아웃 완료 - 로그인 페이지로 이동');
+    navigate('/login', { replace: true });
   };
 
   const handleSettingsClick = () => {
