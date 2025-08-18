@@ -12,6 +12,24 @@
   </head>
   <body>
     <div id="root"></div>
+    <!-- GitHub Pages SPA 라우팅 복구 스크립트 -->
+    <script>
+      // 404.html에서 저장된 경로가 있다면 히스토리를 복구
+      (function() {
+        var redirectPath = sessionStorage.getItem('pathToRedirect');
+        if (redirectPath) {
+          sessionStorage.removeItem('pathToRedirect');
+          // React Router가 로드된 후 실행되도록 지연
+          setTimeout(function() {
+            if (window.history && window.history.replaceState) {
+              window.history.replaceState(null, null, redirectPath);
+              // 페이지 새로고침 없이 라우터에게 경로 변경 알림
+              window.dispatchEvent(new PopStateEvent('popstate', { state: null }));
+            }
+          }, 0);
+        }
+      })();
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
