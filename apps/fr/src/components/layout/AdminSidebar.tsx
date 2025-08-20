@@ -127,7 +127,7 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({ open, collapsed = fa
       <Box sx={{ height: 64 }} />
 
       {/* 메뉴 섹션들 */}
-      <Box sx={{ flexGrow: 1, overflowY: 'auto', px: 1 }}>
+      <Box sx={{ flexGrow: 1, overflowY: 'auto', px: 1, pt: collapsed ? 2 : 0 }}>
         {MENU_SECTIONS.map((section, sectionIndex) => (
           <Box key={section.title} sx={{ mb: collapsed ? 1 : 2 }}>
             {/* 섹션 제목 */}
