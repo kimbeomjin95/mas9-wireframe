@@ -1,0 +1,6 @@
+/* Override react-spring-bottom-sheet z-index to be above header */
+[data-rsbs-overlay], 
+[data-rsbs-backdrop], 
+[data-rsbs-root]:after {
+  z-index: 1300 !important;
+}

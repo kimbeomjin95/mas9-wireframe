@@ -1,25 +1,25 @@
-import 'react-spring-bottom-sheet/dist/style.css'
+import 'react-spring-bottom-sheet/dist/style.css';
 
-import { IconButton, Stack, Typography, Box } from '@mui/material'
+import { IconButton, Stack, Typography, Box } from '@mui/material';
 
-import { BottomSheet as BottomSheetComponent } from 'react-spring-bottom-sheet'
-import { X as CloseIcon } from 'lucide-react'
-import { isSomeTruthy } from '../../utils/validation.util'
-import { Loading } from '../elements/Loading'
-import { ReactNode } from 'react'
+import { BottomSheet as BottomSheetComponent } from 'react-spring-bottom-sheet';
+import { X as CloseIcon } from 'lucide-react';
+import { isSomeTruthy } from '../../utils/validation.util';
+import { Loading } from '../elements/Loading';
+import { ReactNode } from 'react';
 
 export interface IBottomSheetProps {
-  open: boolean
-  onClose: () => void
-  children: React.ReactNode
-  title: string
-  scrollLocking?: boolean
-  isClose?: boolean
-  defaultSnap?: number
-  isLoading?: boolean[] | undefined
-  actions?: ReactNode
-  zIndex?: number | null
-  skipInitialTransition?: boolean
+  open: boolean;
+  onClose: () => void;
+  children: React.ReactNode;
+  title: string;
+  scrollLocking?: boolean;
+  isClose?: boolean;
+  defaultSnap?: number;
+  isLoading?: boolean[] | undefined;
+  actions?: ReactNode;
+  zIndex?: number | null;
+  skipInitialTransition?: boolean;
 }
 
 export const BottomSheet = ({
@@ -47,7 +47,11 @@ export const BottomSheet = ({
         ...((window as any).ReactNativeWebView && {
           zIndex: 1299,
         }),
+        ...(!(window as any).ReactNativeWebView && {
+          zIndex: 1100 + 1,
+        }),
         position: 'relative',
+        // zIndex: 1299,
       }}
       defaultSnap={defaultSnap}
       snapPoints={({ maxHeight }) => [maxHeight * defaultSnap]}
@@ -73,9 +77,9 @@ export const BottomSheet = ({
       skipInitialTransition={skipInitialTransition}
       scrollLocking={scrollLocking}
     >
-      {!isLoading || (Array.isArray(isLoading) && !isLoading.length) ? null : isSomeTruthy(isLoading) && (
-        <Loading isLoading />
-      )}
+      {!isLoading || (Array.isArray(isLoading) && !isLoading.length)
+        ? null
+        : isSomeTruthy(isLoading) && <Loading isLoading />}
 
       <Box
         sx={{
@@ -102,5 +106,5 @@ export const BottomSheet = ({
         </Box>
       )}
     </BottomSheetComponent>
-  )
-}
+  );
+};
