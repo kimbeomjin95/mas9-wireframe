@@ -22,6 +22,7 @@ interface AdminSidebarProps {
   open: boolean;
   collapsed?: boolean;
   onClose?: () => void;
+  onToggleCollapse?: () => void;
 }
 
 // 1depth 애플리케이션 메뉴
@@ -44,6 +45,7 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({
   open,
   collapsed = false,
   onClose,
+  onToggleCollapse,
 }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
@@ -158,7 +160,10 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({
                 <ListItem disablePadding sx={{ mb: collapsed ? 1 : 0.5 }}>
                   <ListItemButton
                     onClick={() => {
-                      if (menu.subMenu.length > 0) {
+                      if (collapsed && onToggleCollapse) {
+                        // collapsed 상태에서 아이콘 클릭 시 사이드바 펼치기
+                        onToggleCollapse();
+                      } else if (menu.subMenu.length > 0) {
                         toggleMenuExpand(menu.menuId);
                       } else {
                         handleMenuItemClick(menu.menuUrl);

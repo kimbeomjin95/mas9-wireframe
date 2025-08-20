@@ -11,7 +11,7 @@ import {
   Chip,
   useTheme,
 } from '@mui/material';
-import { Mail, Lock, Eye, EyeOff, LogIn, Sparkles } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, LogIn, Sparkles, X } from 'lucide-react';
 import { LoadingSpinner } from '@mas9/shared-ui';
 import { useAuth } from '../../hooks/useAuth';
 import type { LoginCredentials } from '@mas9/shared-types';
@@ -66,14 +66,14 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSuccess }) => {
   const validateField = (field: keyof LoginCredentials, value: string): string | undefined => {
     switch (field) {
       case 'email':
-        if (!value) return '이메일을 입력해주세요.';
+        if (!value) return 'Please enter your email.';
         if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
-          return '올바른 이메일 형식을 입력해주세요.';
+          return 'Please enter a valid email format.';
         }
         return undefined;
       
       case 'password':
-        if (!value) return '패스워드를 입력해주세요.';
+        if (!value) return 'Please enter your password.';
         // 패스워드 길이 제한 해제
         return undefined;
       
@@ -128,6 +128,27 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSuccess }) => {
   };
 
   /**
+   * 필드 클리어 핸들러
+   */
+  const clearField = (field: keyof LoginCredentials) => {
+    setCredentials(prev => ({
+      ...prev,
+      [field]: '',
+    }));
+    
+    // 유효성 검사도 클리어
+    setValidation(prev => ({
+      ...prev,
+      [field]: undefined,
+    }));
+
+    // 에러도 클리어
+    if (error) {
+      clearError();
+    }
+  };
+
+  /**
    * Enter 키 처리
    */
   const handleKeyPress = (event: React.KeyboardEvent) => {
@@ -168,20 +189,20 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSuccess }) => {
             color: theme.palette.text.primary,
           }}
         >
-          관리자 로그인
+Admin Login
         </Typography>
         <Typography 
           variant="body1" 
           color="text.secondary"
           sx={{ mb: 3 }}
         >
-          MAS9 Wireframe에 로그인하세요
+Sign in to MAS9 Wireframe
         </Typography>
 
         {/* 데모 모드 배지 */}
         {import.meta.env.VITE_DEMO_MODE === 'true' && (
           <Chip
-            label="데모 모드"
+            label="Demo Mode"
             size="small"
             color="primary"
             variant="outlined"
@@ -222,7 +243,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSuccess }) => {
 
           {/* 이메일 입력 */}
           <TextField
-            label="이메일"
+            label="Email"
             type="email"
             value={credentials.email}
             onChange={handleInputChange('email')}
@@ -257,12 +278,31 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSuccess }) => {
                   <Mail size={20} color={theme.palette.text.secondary} />
                 </InputAdornment>
               ),
+              endAdornment: credentials.email && (
+                <InputAdornment position="end">
+                  <IconButton
+                    onClick={() => clearField('email')}
+                    disabled={isLoading}
+                    edge="end"
+                    size="small"
+                    sx={{
+                      color: theme.palette.text.secondary,
+                      '&:hover': {
+                        backgroundColor: `${theme.palette.error.main}10`,
+                        color: theme.palette.error.main,
+                      },
+                    }}
+                  >
+                    <X size={18} />
+                  </IconButton>
+                </InputAdornment>
+              ),
             }}
           />
 
           {/* 패스워드 입력 */}
           <TextField
-            label="패스워드"
+            label="Password"
             type={showPassword ? 'text' : 'password'}
             value={credentials.password}
             onChange={handleInputChange('password')}
@@ -299,19 +339,37 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSuccess }) => {
               ),
               endAdornment: (
                 <InputAdornment position="end">
-                  <IconButton
-                    onClick={togglePasswordVisibility}
-                    disabled={isLoading}
-                    edge="end"
-                    sx={{
-                      color: theme.palette.text.secondary,
-                      '&:hover': {
-                        backgroundColor: `${theme.palette.primary.main}10`,
-                      },
-                    }}
-                  >
-                    {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-                  </IconButton>
+                  <Box sx={{ display: 'flex', gap: 0.5 }}>
+                    {credentials.password && (
+                      <IconButton
+                        onClick={() => clearField('password')}
+                        disabled={isLoading}
+                        size="small"
+                        sx={{
+                          color: theme.palette.text.secondary,
+                          '&:hover': {
+                            backgroundColor: `${theme.palette.error.main}10`,
+                            color: theme.palette.error.main,
+                          },
+                        }}
+                      >
+                        <X size={18} />
+                      </IconButton>
+                    )}
+                    <IconButton
+                      onClick={togglePasswordVisibility}
+                      disabled={isLoading}
+                      edge="end"
+                      sx={{
+                        color: theme.palette.text.secondary,
+                        '&:hover': {
+                          backgroundColor: `${theme.palette.primary.main}10`,
+                        },
+                      }}
+                    >
+                      {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                    </IconButton>
+                  </Box>
                 </InputAdornment>
               ),
             }}
@@ -349,20 +407,15 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSuccess }) => {
               <>
                 <LoadingSpinner size={20} message="" />
                 <Typography component="span" sx={{ ml: 1 }}>
-                  로그인 중...
+                  Signing in...
                 </Typography>
               </>
             ) : (
-              '로그인'
+              'Sign In'
             )}
           </Button>
 
-          {/* 구분선 */}
-          <Divider sx={{ my: 2 }}>
-            <Typography variant="caption" color="text.secondary">
-              계정 정보
-            </Typography>
-          </Divider>
+          {/* 구분선 제거 */}
 
           {/* 도움말 텍스트 */}
           <Box 
@@ -384,13 +437,13 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSuccess }) => {
                   color="primary" 
                   sx={{ mb: 2 }}
                 >
-                  🎭 데모 계정
+                  🎭 Demo Account
                 </Typography>
                 <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-                  <strong>이메일:</strong> admin@demo.com
+                  <strong>Email:</strong> admin@demo.com
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  <strong>패스워드:</strong> 123456
+                  <strong>Password:</strong> 123456
                 </Typography>
               </>
             ) : (
@@ -401,12 +454,12 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSuccess }) => {
                   fontWeight="500"
                   sx={{ mb: 1 }}
                 >
-                  🔐 관리자 전용
+                  🔐 Admin Only
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  관리자 계정이 필요합니다.
+                  Administrator account required.
                   <br />
-                  계정 생성은 시스템 관리자에게 문의하세요.
+                  Contact system administrator for account creation.
                 </Typography>
               </>
             )}

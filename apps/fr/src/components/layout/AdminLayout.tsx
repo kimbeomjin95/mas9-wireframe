@@ -43,6 +43,12 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
     }
   };
 
+  const handleToggleCollapse = () => {
+    if (!isMobile && sidebarCollapsed) {
+      setSidebarCollapsed(false);
+    }
+  };
+
   const handleSidebarClose = () => {
     setSidebarOpen(false);
   };
@@ -69,6 +75,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
         open={sidebarOpen}
         collapsed={!isMobile && sidebarCollapsed}
         onClose={handleSidebarClose}
+        onToggleCollapse={handleToggleCollapse}
       />
 
       {/* 메인 콘텐츠 */}
