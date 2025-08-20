@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Drawer,
   List,
@@ -11,16 +11,17 @@ import {
   Divider,
   useTheme,
   useMediaQuery,
+  Collapse,
+  Chip,
 } from '@mui/material';
 import {
-  LayoutDashboard,
-  Wand2,
-  FileText,
-  History,
-  Settings,
-  HelpCircle,
+  ChevronDown,
+  ChevronRight,
+  Globe,
+  Laptop,
 } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { menuList, type MenuItem } from '../../constants/menuConfig';
 
 interface AdminSidebarProps {
   open: boolean;
@@ -28,86 +29,33 @@ interface AdminSidebarProps {
   onClose?: () => void;
 }
 
-interface MenuSection {
-  title: string;
-  items: MenuItem[];
-}
-
-interface MenuItem {
-  id: string;
-  label: string;
-  icon: React.ReactNode;
-  path: string;
-  description?: string;
-}
-
-const MENU_SECTIONS: MenuSection[] = [
+// 1depth 애플리케이션 메뉴
+const APP_SECTIONS = [
   {
-    title: '메인',
-    items: [
-      {
-        id: 'dashboard',
-        label: '대시보드',
-        icon: <LayoutDashboard size={20} />,
-        path: '/dashboard',
-        description: '전체 현황 보기',
-      },
-      {
-        id: 'wireframe',
-        label: 'AI 화면설계',
-        icon: <Wand2 size={20} />,
-        path: '/wireframe',
-        description: 'AI로 화면 생성',
-      },
-    ],
+    id: 'user-app',
+    title: 'User App',
+    icon: <Globe size={20} />,
+    disabled: true,
   },
   {
-    title: '관리',
-    items: [
-      {
-        id: 'templates',
-        label: '템플릿 관리',
-        icon: <FileText size={20} />,
-        path: '/templates',
-        description: '저장된 템플릿',
-      },
-      {
-        id: 'history',
-        label: '생성 이력',
-        icon: <History size={20} />,
-        path: '/history',
-        description: '과거 생성 기록',
-      },
-    ],
-  },
-  {
-    title: '설정',
-    items: [
-      {
-        id: 'settings',
-        label: '시스템 설정',
-        icon: <Settings size={20} />,
-        path: '/settings',
-        description: 'API 키 및 설정',
-      },
-      {
-        id: 'help',
-        label: '도움말',
-        icon: <HelpCircle size={20} />,
-        path: '/help',
-        description: '사용법 안내',
-      },
-    ],
+    id: 'fr-app',
+    title: 'Fr',
+    icon: <Laptop size={20} />,
+    disabled: false,
   },
 ];
+
 
 export const AdminSidebar: React.FC<AdminSidebarProps> = ({ open, collapsed = false, onClose }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const location = useLocation();
   const navigate = useNavigate();
+  const [selectedApp, setSelectedApp] = useState<string>('fr-app');
+  const [expandedMenus, setExpandedMenus] = useState<string[]>([]);
 
   const handleMenuItemClick = (path: string) => {
+    if (path === '-') return; // 서브메뉴가 있는 경우
     navigate(path);
     if (isMobile && onClose) {
       onClose();
@@ -118,6 +66,18 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({ open, collapsed = fa
     return location.pathname === path;
   };
 
+  const toggleMenuExpand = (menuId: string) => {
+    setExpandedMenus(prev => 
+      prev.includes(menuId) 
+        ? prev.filter(id => id !== menuId)
+        : [...prev, menuId]
+    );
+  };
+
+  const isMenuExpanded = (menuId: string) => {
+    return expandedMenus.includes(menuId);
+  };
+
   const drawerWidth = 280;
   const collapsedWidth = 72;
 
@@ -126,35 +86,65 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({ open, collapsed = fa
       {/* 상단 여백 (헤더 높이만큼) */}
       <Box sx={{ height: 64 }} />
 
-      {/* 메뉴 섹션들 */}
-      <Box sx={{ flexGrow: 1, overflowY: 'auto', px: 1, pt: collapsed ? 2 : 0 }}>
-        {MENU_SECTIONS.map((section, sectionIndex) => (
-          <Box key={section.title} sx={{ mb: collapsed ? 1 : 2 }}>
-            {/* 섹션 제목 */}
-            {!collapsed && (
-              <Typography
-                variant="overline"
+      {/* 앱 선택 영역 */}
+      {!collapsed && (
+        <Box sx={{ px: 2, py: 1 }}>
+          <Typography variant="caption" sx={{ color: 'text.secondary', fontSize: '0.7rem' }}>
+            APPLICATION
+          </Typography>
+          <Box sx={{ mt: 1, mb: 2 }}>
+            {APP_SECTIONS.map((app) => (
+              <Box
+                key={app.id}
+                onClick={() => !app.disabled && setSelectedApp(app.id)}
                 sx={{
-                  px: 2,
-                  py: 1,
-                  display: 'block',
-                  fontSize: '0.75rem',
-                  fontWeight: 600,
-                  color: 'text.secondary',
-                  letterSpacing: 1,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  p: 1,
+                  mb: 0.5,
+                  borderRadius: 1,
+                  cursor: app.disabled ? 'not-allowed' : 'pointer',
+                  backgroundColor: selectedApp === app.id ? 'primary.main' : 'transparent',
+                  color: selectedApp === app.id ? 'primary.contrastText' : app.disabled ? 'text.disabled' : 'text.primary',
+                  opacity: app.disabled ? 0.5 : 1,
+                  '&:hover': {
+                    backgroundColor: app.disabled ? 'transparent' : selectedApp === app.id ? 'primary.dark' : 'action.hover',
+                  },
                 }}
               >
-                {section.title}
-              </Typography>
-            )}
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  {app.icon}
+                  <Typography variant="body2" sx={{ fontSize: '0.85rem', fontWeight: 500 }}>
+                    {app.title}
+                  </Typography>
+                </Box>
+                {app.disabled && (
+                  <Chip label="준비중" size="small" sx={{ fontSize: '0.6rem', height: 16 }} />
+                )}
+              </Box>
+            ))}
+          </Box>
+          <Divider sx={{ mb: 2 }} />
+        </Box>
+      )}
 
-            {/* 섹션 메뉴 아이템들 */}
-            <List disablePadding>
-              {section.items.map((item) => (
-                <ListItem key={item.id} disablePadding sx={{ mb: collapsed ? 1 : 0.5 }}>
+      {/* Fr 앱 메뉴들 */}
+      {selectedApp === 'fr-app' && (
+        <Box sx={{ flexGrow: 1, overflowY: 'auto', px: 1, pt: collapsed ? 2 : 0 }}>
+          <List disablePadding>
+            {menuList.map((menu) => (
+              <Box key={menu.menuId}>
+                <ListItem disablePadding sx={{ mb: collapsed ? 1 : 0.5 }}>
                   <ListItemButton
-                    onClick={() => handleMenuItemClick(item.path)}
-                    selected={isActiveItem(item.path)}
+                    onClick={() => {
+                      if (menu.subMenu.length > 0) {
+                        toggleMenuExpand(menu.menuId);
+                      } else {
+                        handleMenuItemClick(menu.menuUrl);
+                      }
+                    }}
+                    selected={menu.subMenu.length === 0 && isActiveItem(menu.menuUrl)}
                     sx={{
                       borderRadius: 2,
                       mx: collapsed ? 0.5 : 1,
@@ -180,44 +170,82 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({ open, collapsed = fa
                       sx={{
                         minWidth: collapsed ? 'auto' : 40,
                         justifyContent: 'center',
-                        color: isActiveItem(item.path) ? 'inherit' : 'text.secondary',
+                        color: (menu.subMenu.length === 0 && isActiveItem(menu.menuUrl)) ? 'inherit' : 'text.secondary',
                       }}
                     >
-                      {item.icon}
+                      {menu.ico && <menu.ico size={20} />}
                     </ListItemIcon>
                     {!collapsed && (
-                      <ListItemText
-                        primary={item.label}
-                        secondary={item.description}
-                        primaryTypographyProps={{
-                          fontSize: '0.95rem',
-                          fontWeight: isActiveItem(item.path) ? 600 : 500,
-                        }}
-                        secondaryTypographyProps={{
-                          fontSize: '0.75rem',
-                          color: isActiveItem(item.path) ? 'inherit' : 'text.secondary',
-                          sx: { opacity: 0.8 },
-                        }}
-                      />
+                      <>
+                        <ListItemText
+                          primary={menu.menuNm}
+                          primaryTypographyProps={{
+                            fontSize: '0.95rem',
+                            fontWeight: (menu.subMenu.length === 0 && isActiveItem(menu.menuUrl)) ? 600 : 500,
+                          }}
+                        />
+                        {menu.subMenu.length > 0 && (
+                          <Box sx={{ ml: 1 }}>
+                            {isMenuExpanded(menu.menuId) ? (
+                              <ChevronDown size={16} />
+                            ) : (
+                              <ChevronRight size={16} />
+                            )}
+                          </Box>
+                        )}
+                      </>
                     )}
                   </ListItemButton>
                 </ListItem>
-              ))}
-            </List>
 
-            {/* 섹션 구분선 (마지막 섹션 제외) */}
-            {!collapsed && sectionIndex < MENU_SECTIONS.length - 1 && (
-              <Divider sx={{ mx: 2, my: 1 }} />
-            )}
-          </Box>
-        ))}
-      </Box>
+                {/* 서브메뉴 */}
+                {!collapsed && menu.subMenu.length > 0 && (
+                  <Collapse in={isMenuExpanded(menu.menuId)} timeout="auto" unmountOnExit>
+                    <List component="div" disablePadding sx={{ pl: 3 }}>
+                      {menu.subMenu.map((subMenu) => (
+                        <ListItem key={subMenu.menuId} disablePadding sx={{ mb: 0.3 }}>
+                          <ListItemButton
+                            onClick={() => handleMenuItemClick(subMenu.menuUrl)}
+                            selected={isActiveItem(subMenu.menuUrl)}
+                            sx={{
+                              borderRadius: 1,
+                              minHeight: 40,
+                              '&.Mui-selected': {
+                                backgroundColor: 'primary.main',
+                                color: 'primary.contrastText',
+                                '&:hover': {
+                                  backgroundColor: 'primary.dark',
+                                },
+                              },
+                              '&:hover': {
+                                backgroundColor: 'action.hover',
+                              },
+                            }}
+                          >
+                            <ListItemText
+                              primary={subMenu.menuNm}
+                              primaryTypographyProps={{
+                                fontSize: '0.85rem',
+                                fontWeight: isActiveItem(subMenu.menuUrl) ? 600 : 400,
+                              }}
+                            />
+                          </ListItemButton>
+                        </ListItem>
+                      ))}
+                    </List>
+                  </Collapse>
+                )}
+              </Box>
+            ))}
+          </List>
+        </Box>
+      )}
 
       {/* 하단 정보 */}
       {!collapsed && (
         <Box sx={{ p: 2, borderTop: '1px solid', borderColor: 'divider' }}>
           <Typography variant="caption" color="text.secondary" textAlign="center" display="block">
-            AI Wireframe Generator
+            MAS9 Franchise System
           </Typography>
           <Typography variant="caption" color="text.secondary" textAlign="center" display="block">
             v1.0.0
