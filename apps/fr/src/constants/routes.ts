@@ -62,4 +62,6 @@ export const ROUTER = {
   // 디자인 시스템
   DESIGN_SYSTEM_TOAST: '/design-system/toast',
   DESIGN_SYSTEM_MODAL: '/design-system/modal',
+  DESIGN_SYSTEM_BUTTON: '/design-system/button',
+  DESIGN_SYSTEM_FORM: '/design-system/form',
 } as const;

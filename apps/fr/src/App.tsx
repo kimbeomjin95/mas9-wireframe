@@ -69,6 +69,8 @@ import SubscriptionBillingPage from './pages/settings/SubscriptionBillingPage';
 // Design System
 import ToastPage from './pages/design-system/ToastPage';
 import ModalPage from './pages/design-system/ModalPage';
+import ButtonPage from './pages/design-system/ButtonPage';
+import FormPage from './pages/design-system/FormPage';
 
 // Example
 import ExamplePage from './pages/ExamplePage';
@@ -166,6 +168,8 @@ function App() {
             {/* Design System */}
             <Route path="/design-system/toast" element={<ProtectedAdminRoute><ToastPage /></ProtectedAdminRoute>} />
             <Route path="/design-system/modal" element={<ProtectedAdminRoute><ModalPage /></ProtectedAdminRoute>} />
+            <Route path="/design-system/button" element={<ProtectedAdminRoute><ButtonPage /></ProtectedAdminRoute>} />
+            <Route path="/design-system/form" element={<ProtectedAdminRoute><FormPage /></ProtectedAdminRoute>} />
             
             {/* 루트 경로는 홈으로 리다이렉션 */}
             <Route path="/" element={<Navigate to="/home" replace />} />

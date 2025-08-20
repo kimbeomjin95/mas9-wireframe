@@ -1,13 +1,12 @@
 import { createTheme } from '@mui/material/styles';
+import { COLORS } from './constants';
 
 export const theme = createTheme({
   palette: {
     primary: {
-      main: '#1976d2',
+      main: COLORS.PRIMARY.RED,
     },
-    secondary: {
-      main: '#dc004e',
-    },
+    // secondary: s,
   },
   typography: {
     fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',

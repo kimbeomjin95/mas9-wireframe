@@ -88,6 +88,24 @@ export const menuList: MenuItem[] = [
         upperMenuId: 'M0000060',
         isDevelopment: true,
       },
+      {
+        menuId: 'M0000063',
+        menuNm: 'Button',
+        menuNmEn: 'Button',
+        menuUrl: ROUTER.DESIGN_SYSTEM_BUTTON,
+        orderNo: 2,
+        upperMenuId: 'M0000060',
+        isDevelopment: true,
+      },
+      {
+        menuId: 'M0000064',
+        menuNm: 'Form',
+        menuNmEn: 'Form',
+        menuUrl: ROUTER.DESIGN_SYSTEM_FORM,
+        orderNo: 3,
+        upperMenuId: 'M0000060',
+        isDevelopment: true,
+      },
     ],
   },
   {
@@ -624,6 +642,8 @@ export const routeToMenuMap = {
   // 디자인 시스템 (Design System)
   [ROUTER.DESIGN_SYSTEM_TOAST]: { gnb: 'M0000060', snb: 'M0000061' },
   [ROUTER.DESIGN_SYSTEM_MODAL]: { gnb: 'M0000060', snb: 'M0000062' },
+  [ROUTER.DESIGN_SYSTEM_BUTTON]: { gnb: 'M0000060', snb: 'M0000063' },
+  [ROUTER.DESIGN_SYSTEM_FORM]: { gnb: 'M0000060', snb: 'M0000064' },
 
   // 설정 (Settings)
   [ROUTER.SCHOOL_SETUP]: { gnb: 'M0000034', snb: 'M0000049' },

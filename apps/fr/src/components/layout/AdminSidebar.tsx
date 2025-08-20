@@ -14,12 +14,7 @@ import {
   Collapse,
   Chip,
 } from '@mui/material';
-import {
-  ChevronDown,
-  ChevronRight,
-  Globe,
-  Laptop,
-} from 'lucide-react';
+import { ChevronDown, ChevronRight, Globe, Laptop } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { menuList, type MenuItem } from '../../constants/menuConfig';
 
@@ -45,8 +40,11 @@ const APP_SECTIONS = [
   },
 ];
 
-
-export const AdminSidebar: React.FC<AdminSidebarProps> = ({ open, collapsed = false, onClose }) => {
+export const AdminSidebar: React.FC<AdminSidebarProps> = ({
+  open,
+  collapsed = false,
+  onClose,
+}) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const location = useLocation();
@@ -67,9 +65,9 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({ open, collapsed = fa
   };
 
   const toggleMenuExpand = (menuId: string) => {
-    setExpandedMenus(prev => 
-      prev.includes(menuId) 
-        ? prev.filter(id => id !== menuId)
+    setExpandedMenus((prev) =>
+      prev.includes(menuId)
+        ? prev.filter((id) => id !== menuId)
         : [...prev, menuId]
     );
   };
@@ -89,7 +87,10 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({ open, collapsed = fa
       {/* 앱 선택 영역 */}
       {!collapsed && (
         <Box sx={{ px: 2, py: 1 }}>
-          <Typography variant="caption" sx={{ color: 'text.secondary', fontSize: '0.7rem' }}>
+          <Typography
+            variant='caption'
+            sx={{ color: 'text.secondary', fontSize: '0.7rem' }}
+          >
             APPLICATION
           </Typography>
           <Box sx={{ mt: 1, mb: 2 }}>
@@ -105,22 +106,39 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({ open, collapsed = fa
                   mb: 0.5,
                   borderRadius: 1,
                   cursor: app.disabled ? 'not-allowed' : 'pointer',
-                  backgroundColor: selectedApp === app.id ? 'primary.main' : 'transparent',
-                  color: selectedApp === app.id ? 'primary.contrastText' : app.disabled ? 'text.disabled' : 'text.primary',
+                  backgroundColor:
+                    selectedApp === app.id ? 'primary.main' : 'transparent',
+                  color:
+                    selectedApp === app.id
+                      ? 'primary.contrastText'
+                      : app.disabled
+                        ? 'text.disabled'
+                        : 'text.primary',
                   opacity: app.disabled ? 0.5 : 1,
                   '&:hover': {
-                    backgroundColor: app.disabled ? 'transparent' : selectedApp === app.id ? 'primary.dark' : 'action.hover',
+                    backgroundColor: app.disabled
+                      ? 'transparent'
+                      : selectedApp === app.id
+                        ? 'primary.dark'
+                        : 'action.hover',
                   },
                 }}
               >
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                   {app.icon}
-                  <Typography variant="body2" sx={{ fontSize: '0.85rem', fontWeight: 500 }}>
+                  <Typography
+                    variant='body2'
+                    sx={{ fontSize: '0.85rem', fontWeight: 500 }}
+                  >
                     {app.title}
                   </Typography>
                 </Box>
                 {app.disabled && (
-                  <Chip label="준비중" size="small" sx={{ fontSize: '0.6rem', height: 16 }} />
+                  <Chip
+                    label='준비중'
+                    size='small'
+                    sx={{ fontSize: '0.6rem', height: 16 }}
+                  />
                 )}
               </Box>
             ))}
@@ -131,7 +149,9 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({ open, collapsed = fa
 
       {/* Fr 앱 메뉴들 */}
       {selectedApp === 'fr-app' && (
-        <Box sx={{ flexGrow: 1, overflowY: 'auto', px: 1, pt: collapsed ? 2 : 0 }}>
+        <Box
+          sx={{ flexGrow: 1, overflowY: 'auto', px: 1, pt: collapsed ? 2 : 0 }}
+        >
           <List disablePadding>
             {menuList.map((menu) => (
               <Box key={menu.menuId}>
@@ -144,7 +164,9 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({ open, collapsed = fa
                         handleMenuItemClick(menu.menuUrl);
                       }
                     }}
-                    selected={menu.subMenu.length === 0 && isActiveItem(menu.menuUrl)}
+                    selected={
+                      menu.subMenu.length === 0 && isActiveItem(menu.menuUrl)
+                    }
                     sx={{
                       borderRadius: 2,
                       mx: collapsed ? 0.5 : 1,
@@ -170,7 +192,11 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({ open, collapsed = fa
                       sx={{
                         minWidth: collapsed ? 'auto' : 40,
                         justifyContent: 'center',
-                        color: (menu.subMenu.length === 0 && isActiveItem(menu.menuUrl)) ? 'inherit' : 'text.secondary',
+                        color:
+                          menu.subMenu.length === 0 &&
+                          isActiveItem(menu.menuUrl)
+                            ? 'inherit'
+                            : 'text.secondary',
                       }}
                     >
                       {menu.ico && <menu.ico size={20} />}
@@ -181,7 +207,11 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({ open, collapsed = fa
                           primary={menu.menuNm}
                           primaryTypographyProps={{
                             fontSize: '0.95rem',
-                            fontWeight: (menu.subMenu.length === 0 && isActiveItem(menu.menuUrl)) ? 600 : 500,
+                            fontWeight:
+                              menu.subMenu.length === 0 &&
+                              isActiveItem(menu.menuUrl)
+                                ? 600
+                                : 500,
                           }}
                         />
                         {menu.subMenu.length > 0 && (
@@ -200,10 +230,18 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({ open, collapsed = fa
 
                 {/* 서브메뉴 */}
                 {!collapsed && menu.subMenu.length > 0 && (
-                  <Collapse in={isMenuExpanded(menu.menuId)} timeout="auto" unmountOnExit>
-                    <List component="div" disablePadding sx={{ pl: 3 }}>
+                  <Collapse
+                    in={isMenuExpanded(menu.menuId)}
+                    timeout='auto'
+                    unmountOnExit
+                  >
+                    <List component='div' disablePadding sx={{ pl: 3 }}>
                       {menu.subMenu.map((subMenu) => (
-                        <ListItem key={subMenu.menuId} disablePadding sx={{ mb: 0.3 }}>
+                        <ListItem
+                          key={subMenu.menuId}
+                          disablePadding
+                          sx={{ mb: 0.3 }}
+                        >
                           <ListItemButton
                             onClick={() => handleMenuItemClick(subMenu.menuUrl)}
                             selected={isActiveItem(subMenu.menuUrl)}
@@ -226,7 +264,9 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({ open, collapsed = fa
                               primary={subMenu.menuNm}
                               primaryTypographyProps={{
                                 fontSize: '0.85rem',
-                                fontWeight: isActiveItem(subMenu.menuUrl) ? 600 : 400,
+                                fontWeight: isActiveItem(subMenu.menuUrl)
+                                  ? 600
+                                  : 400,
                               }}
                             />
                           </ListItemButton>
@@ -244,10 +284,20 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({ open, collapsed = fa
       {/* 하단 정보 */}
       {!collapsed && (
         <Box sx={{ p: 2, borderTop: '1px solid', borderColor: 'divider' }}>
-          <Typography variant="caption" color="text.secondary" textAlign="center" display="block">
-            MAS9 Franchise System
+          <Typography
+            variant='caption'
+            color='text.secondary'
+            textAlign='center'
+            display='block'
+          >
+            MAS9 Wireframe
           </Typography>
-          <Typography variant="caption" color="text.secondary" textAlign="center" display="block">
+          <Typography
+            variant='caption'
+            color='text.secondary'
+            textAlign='center'
+            display='block'
+          >
             v1.0.0
           </Typography>
         </Box>
