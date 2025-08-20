@@ -12,6 +12,22 @@ import {
   UserCheck,
   BarChart3,
   Settings,
+  Tags,
+  Users2,
+  FileText,
+  Award,
+  Zap,
+  Package,
+  AlertTriangle,
+  Receipt,
+  RefreshCw,
+  Clock,
+  FileBarChart,
+  TrendingUp,
+  Building,
+  MessageCircle,
+  Shield,
+  Mail,
 } from 'lucide-react';
 import { MENU_KEYS } from './menuKeys';
 import { ROUTER } from './routes';
@@ -203,7 +219,7 @@ export const menuList: MenuItem[] = [
   },
   {
     menuId: 'M0000024',
-    menuNm: '이벤트',
+    menuNm: 'Events',
     menuNmEn: 'Events',
     orderNo: 0,
     upperMenuId: 'TOP',
@@ -211,8 +227,8 @@ export const menuList: MenuItem[] = [
       {
         menuId: 'M0000040',
         menuKey: MENU_KEYS.EVENTS.EVENT_MANAGEMENT,
-        menuNm: '이벤트 관리',
-        menuNmEn: 'Events Management',
+        menuNm: 'Event Management',
+        menuNmEn: 'Event Management',
         menuUrl: ROUTER.EVENT,
         orderNo: 0,
         upperMenuId: 'M0000024',
@@ -221,7 +237,7 @@ export const menuList: MenuItem[] = [
       {
         menuId: 'M0000012',
         menuKey: MENU_KEYS.EVENTS.TESTINGS,
-        menuNm: '승급 관리',
+        menuNm: 'Testing',
         menuNmEn: 'Testing',
         menuUrl: ROUTER.TESTING_LIST,
         orderNo: 0,
@@ -234,8 +250,8 @@ export const menuList: MenuItem[] = [
   },
   {
     menuId: 'M0000025',
-    menuNm: '학습센터',
-    menuNmEn: 'Learning Center',
+    menuNm: 'Learning Centers',
+    menuNmEn: 'Learning Centers',
     menuUrl: ROUTER.LEARN,
     orderNo: 0,
     upperMenuId: 'TOP',
@@ -243,7 +259,7 @@ export const menuList: MenuItem[] = [
       {
         menuId: 'M0000039',
         menuKey: MENU_KEYS.LEARNING_CENTERS.LEARNING_CENTERS,
-        menuNm: '학습 센터 관리',
+        menuNm: 'Learning Centers',
         menuNmEn: 'Learning Centers',
         menuUrl: ROUTER.LEARN,
         orderNo: 0,
@@ -253,7 +269,7 @@ export const menuList: MenuItem[] = [
       {
         menuId: 'M0000010',
         menuKey: MENU_KEYS.LEARNING_CENTERS.HOMEWORKS,
-        menuNm: '과제 관리',
+        menuNm: 'Homeworks',
         menuNmEn: 'Homeworks',
         menuUrl: ROUTER.HOMEWORK,
         orderNo: 0,
@@ -266,7 +282,7 @@ export const menuList: MenuItem[] = [
   },
   {
     menuId: 'M0000042',
-    menuNm: '마케팅 툴',
+    menuNm: 'Marketing Tools',
     menuNmEn: 'Marketing Tools',
     menuUrl: '-',
     orderNo: 0,
@@ -276,7 +292,7 @@ export const menuList: MenuItem[] = [
       {
         menuId: 'M0000041',
         menuKey: MENU_KEYS.MARKETING_TOOLS.FORMS,
-        menuNm: '폼 관리',
+        menuNm: 'Forms',
         menuNmEn: 'Forms',
         menuUrl: ROUTER.FORM,
         orderNo: 0,
@@ -297,7 +313,7 @@ export const menuList: MenuItem[] = [
   },
   {
     menuId: 'M0000026',
-    menuNm: '이스토어',
+    menuNm: 'eStore',
     menuNmEn: 'eStore',
     menuUrl: '-',
     orderNo: 0,
@@ -307,7 +323,7 @@ export const menuList: MenuItem[] = [
       {
         menuId: 'M0000027',
         menuKey: MENU_KEYS.ESTORE.ORDERS,
-        menuNm: '주문 관리',
+        menuNm: 'Orders',
         menuNmEn: 'Orders',
         menuUrl: ROUTER.ECOMMERCE_ORDER,
         orderNo: 0,
@@ -317,7 +333,7 @@ export const menuList: MenuItem[] = [
       {
         menuId: 'M0000028',
         menuKey: MENU_KEYS.ESTORE.PRODUCTS,
-        menuNm: '상품 관리',
+        menuNm: 'Products',
         menuNmEn: 'Products',
         menuUrl: ROUTER.PRODUCTS,
         orderNo: 0,
@@ -328,7 +344,7 @@ export const menuList: MenuItem[] = [
   },
   {
     menuId: 'M0000029',
-    menuNm: '결제',
+    menuNm: 'Payments',
     menuNmEn: 'Payments',
     menuUrl: '-',
     orderNo: 0,
@@ -338,7 +354,7 @@ export const menuList: MenuItem[] = [
       {
         menuId: 'M0000030',
         menuKey: MENU_KEYS.PAYMENTS.TRANSACTION_ERRORS,
-        menuNm: '결제 에러 이력',
+        menuNm: 'Transaction Errors',
         menuNmEn: 'Transaction Errors',
         menuUrl: ROUTER.PAYMENT_ERROR,
         orderNo: 0,
@@ -348,7 +364,7 @@ export const menuList: MenuItem[] = [
       {
         menuId: 'M0000031',
         menuKey: MENU_KEYS.PAYMENTS.TRANSACTIONS,
-        menuNm: '결제 현황',
+        menuNm: 'Transactions',
         menuNmEn: 'Transactions',
         menuUrl: ROUTER.TRANSACTIONS,
         orderNo: 0,
@@ -358,7 +374,7 @@ export const menuList: MenuItem[] = [
       {
         menuId: 'M0000032',
         menuKey: MENU_KEYS.PAYMENTS.INVOICES,
-        menuNm: '청구서',
+        menuNm: 'Invoices',
         menuNmEn: 'Invoices',
         menuUrl: ROUTER.INVOICE,
         orderNo: 0,
@@ -368,7 +384,7 @@ export const menuList: MenuItem[] = [
       {
         menuId: 'M0000033',
         menuKey: MENU_KEYS.PAYMENTS.AUTOPAYS,
-        menuNm: '오토페이 현황',
+        menuNm: 'Autopays',
         menuNmEn: 'Autopays',
         menuUrl: ROUTER.AUTOPAY_HISTORY,
         orderNo: 0,
@@ -379,7 +395,7 @@ export const menuList: MenuItem[] = [
   },
   {
     menuId: 'M0000051',
-    menuNm: '스테프',
+    menuNm: 'Staff',
     menuNmEn: 'Staff',
     menuUrl: '-',
     orderNo: 0,
@@ -389,7 +405,7 @@ export const menuList: MenuItem[] = [
       {
         menuId: 'M0000052',
         menuKey: MENU_KEYS.STAFF.STAFF_MEMBERS,
-        menuNm: '스테프 관리',
+        menuNm: 'Staff Members',
         menuNmEn: 'Staff Members',
         menuUrl: ROUTER.STAFF_MEMBERS,
         orderNo: 0,
@@ -399,7 +415,7 @@ export const menuList: MenuItem[] = [
       {
         menuId: 'M0000053',
         menuKey: MENU_KEYS.STAFF.CLOCK_IN_AND_OUT,
-        menuNm: '출퇴근 관리',
+        menuNm: 'Clock-In / Out',
         menuNmEn: 'Clock-In / Out',
         menuUrl: ROUTER.CLOCKINOUT,
         orderNo: 0,
@@ -458,7 +474,7 @@ export const menuList: MenuItem[] = [
       ]),
   {
     menuId: 'M0000034',
-    menuNm: '설정',
+    menuNm: 'Settings',
     menuNmEn: 'Settings',
     menuUrl: '-',
     orderNo: 0,
@@ -498,7 +514,7 @@ export const menuList: MenuItem[] = [
       {
         menuId: 'M0000047',
         menuKey: MENU_KEYS.SETTINGS.SYSTEM_SECURITY,
-        menuNm: '시스템 설정',
+        menuNm: 'System & Security',
         menuNmEn: 'System & Security',
         menuUrl: ROUTER.SYSTEM_SECURITY,
         orderNo: 0,
@@ -508,7 +524,7 @@ export const menuList: MenuItem[] = [
       {
         menuId: 'M0000050',
         menuKey: MENU_KEYS.SETTINGS.SUBSCRIPTION_BILLINGS,
-        menuNm: '구독 및 청구',
+        menuNm: 'Subscription & Billing',
         menuNmEn: 'Subscription & Billing',
         menuUrl: ROUTER.SUB_BILLING,
         orderNo: 0,
@@ -518,3 +534,66 @@ export const menuList: MenuItem[] = [
     ],
   },
 ] as MenuItem[];
+
+// URL 경로와 메뉴 ID 간의 매핑
+export const routeToMenuMap = {
+  // 홈 (Home)
+  [ROUTER.HOME]: { gnb: 'M0000000', snb: '' },
+
+  // 회원 (Accounts)
+  [ROUTER.FR_PROFILES]: { gnb: 'M0000001', snb: 'M0000044' },
+  [ROUTER.FR_GROUPS]: { gnb: 'M0000001', snb: 'M0000003' },
+  [ROUTER.FR_TAG_SETTING]: { gnb: 'M0000001', snb: 'M0000043' },
+
+  // 멤버십 (Memberships)
+  [ROUTER.MEMBERSHIP_MANAGEMENT]: { gnb: 'M0000005', snb: '' },
+
+  // 클래스 (Class)
+  [ROUTER.CLASS]: { gnb: 'M0000008', snb: 'M0000009' },
+  [ROUTER.ATTENDANCE_HISTORY]: { gnb: 'M0000008', snb: 'M0000013' },
+  [ROUTER.BULK_ACTION]: { gnb: 'M0000008', snb: 'M0000014' },
+  [ROUTER.ATTENDANCE_SELF_REGISTER]: { gnb: 'M0000008', snb: 'M0000045' },
+
+  // 커뮤니케이션 (Communications)
+  [ROUTER.MESSAGING]: { gnb: 'M0000014', snb: 'M0000020' },
+  [ROUTER.ANNOUNCEMENTS]: { gnb: 'M0000014', snb: 'M0000021' },
+  [ROUTER.CONVERSATIONS]: { gnb: 'M0000014', snb: 'M0000023' },
+
+  // 이벤트 (Events)
+  [ROUTER.EVENT]: { gnb: 'M0000024', snb: 'M0000040' },
+  [ROUTER.TESTING_LIST]: { gnb: 'M0000024', snb: 'M0000012' },
+
+  // 학습센터 (Learning Centers)
+  [ROUTER.LEARN]: { gnb: 'M0000025', snb: 'M0000039' },
+  [ROUTER.HOMEWORK]: { gnb: 'M0000025', snb: 'M0000010' },
+
+  // 마케팅 툴 (Marketing Tools)
+  [ROUTER.FORM]: { gnb: 'M0000042', snb: 'M0000041' },
+  [ROUTER.MARKETING_AUTOMATION]: { gnb: 'M0000042', snb: 'M0000046' },
+
+  // 이스토어 (eStore)
+  [ROUTER.ECOMMERCE_ORDER]: { gnb: 'M0000026', snb: 'M0000027' },
+  [ROUTER.PRODUCTS]: { gnb: 'M0000026', snb: 'M0000028' },
+
+  // 결제 (Payments)
+  [ROUTER.PAYMENT_ERROR]: { gnb: 'M0000029', snb: 'M0000030' },
+  [ROUTER.TRANSACTIONS]: { gnb: 'M0000029', snb: 'M0000031' },
+  [ROUTER.INVOICE]: { gnb: 'M0000029', snb: 'M0000032' },
+  [ROUTER.AUTOPAY_HISTORY]: { gnb: 'M0000029', snb: 'M0000033' },
+
+  // 스테프 (Staff)
+  [ROUTER.STAFF_MEMBERS]: { gnb: 'M0000051', snb: 'M0000052' },
+  [ROUTER.CLOCKINOUT]: { gnb: 'M0000051', snb: 'M0000053' },
+  [ROUTER.STAFF_MANAGEMENT_LOG]: { gnb: 'M0000051', snb: 'M0000038' },
+
+  // Reports
+  [ROUTER.REPORTS_INSIGHTS]: { gnb: 'M0000054', snb: 'M0000055' },
+  [ROUTER.REPORTS_REPORTS]: { gnb: 'M0000054', snb: 'M0000056' },
+
+  // 설정 (Settings)
+  [ROUTER.SCHOOL_SETUP]: { gnb: 'M0000034', snb: 'M0000049' },
+  [ROUTER.SETTINGS_PAYMENTS]: { gnb: 'M0000034', snb: 'M0000046' },
+  [ROUTER.COMMUNICATION]: { gnb: 'M0000034', snb: 'M0000048' },
+  [ROUTER.SYSTEM_SECURITY]: { gnb: 'M0000034', snb: 'M0000047' },
+  [ROUTER.SUB_BILLING]: { gnb: 'M0000034', snb: 'M0000050' },
+};
