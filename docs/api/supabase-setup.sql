@@ -1,4 +1,4 @@
--- AI Wireframe Generator - Supabase Setup Script
+-- MAS9 Wireframe - Supabase Setup Script
 -- 이 파일을 Supabase SQL Editor에 복사해서 실행하세요
 
 -- 1. 프로필 테이블 생성 (auth.users를 확장)

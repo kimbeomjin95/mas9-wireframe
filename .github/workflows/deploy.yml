@@ -59,7 +59,7 @@ jobs:
         env:
           # Production mode with real Supabase authentication
           VITE_DEMO_MODE: "false"
-          VITE_APP_TITLE: "AI Wireframe Generator"
+          VITE_APP_TITLE: "MAS9 Wireframe"
           VITE_APP_DESCRIPTION: "MUI 기반 화면설계서 실시간 생성 도구"
           VITE_CLAUDE_API_URL: "https://api.anthropic.com/v1/messages"
           VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}

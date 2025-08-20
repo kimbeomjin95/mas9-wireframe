@@ -143,7 +143,7 @@ export const DashboardPage: React.FC = () => {
             대시보드
           </Typography>
           <Typography variant="body1" color="text.secondary">
-            AI Wireframe Generator에 오신 것을 환영합니다, {user?.email?.split('@')[0]}님!
+            MAS9 Wireframe에 오신 것을 환영합니다, {user?.email?.split('@')[0]}님!
           </Typography>
           {import.meta.env.VITE_DEMO_MODE === 'true' && (
             <Box sx={{ mt: 2 }}>

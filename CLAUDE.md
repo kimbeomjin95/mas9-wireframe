@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-**AI Wireframe Generator** is a React-based tool for generating wireframes and UI components using Claude AI. Built with Turborepo, it's currently a single-app monorepo structure with shared packages for types, utilities, and UI components.
+**MAS9 Wireframe** is a React-based tool for generating wireframes and UI components using Claude AI. Built with Turborepo, it's currently a single-app monorepo structure with shared packages for types, utilities, and UI components.
 
 **Tech Stack:**
 - React 18 + TypeScript 5.x
@@ -92,7 +92,7 @@ The project supports both demo mode and production mode:
 **Demo Mode** (no API keys required):
 ```env
 VITE_DEMO_MODE="true"
-VITE_APP_TITLE="AI Wireframe Generator"
+VITE_APP_TITLE="MAS9 Wireframe"
 ```
 
 **Production Mode**:

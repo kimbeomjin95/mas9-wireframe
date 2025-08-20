@@ -1,6 +1,6 @@
 # 🔐 Supabase 설정 가이드
 
-이 가이드는 AI Wireframe Generator에서 사용할 Supabase 인증 시스템을 설정하는 방법을 안내합니다.
+이 가이드는 MAS9 Wireframe에서 사용할 Supabase 인증 시스템을 설정하는 방법을 안내합니다.
 
 ## 1. Supabase 프로젝트 생성
 
@@ -111,4 +111,4 @@ VITE_SUPABASE_ANON_KEY=your-production-anon-key
 
 ---
 
-이 설정을 완료하면 AI Wireframe Generator에서 안전한 인증 시스템을 사용할 수 있습니다. 문제가 발생하면 Supabase 문서를 참고하거나 이슈를 등록해주세요.
+이 설정을 완료하면 MAS9 Wireframe에서 안전한 인증 시스템을 사용할 수 있습니다. 문제가 발생하면 Supabase 문서를 참고하거나 이슈를 등록해주세요.

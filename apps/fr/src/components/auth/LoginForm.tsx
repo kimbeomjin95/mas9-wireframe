@@ -175,7 +175,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSuccess }) => {
           color="text.secondary"
           sx={{ mb: 3 }}
         >
-          AI Wireframe Generator에 로그인하세요
+          MAS9 Wireframe에 로그인하세요
         </Typography>
 
         {/* 데모 모드 배지 */}

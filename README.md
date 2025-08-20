@@ -1,4 +1,4 @@
-# AI Wireframe Generator
+# MAS9 Wireframe
 
 MUI 기반 화면설계서를 실시간으로 생성하는 AI 도구입니다.
 
@@ -92,7 +92,7 @@ pnpm build
 
 ```env
 # Application
-VITE_APP_TITLE="AI Wireframe Generator"
+VITE_APP_TITLE="MAS9 Wireframe"
 VITE_APP_DESCRIPTION="MUI 기반 화면설계서 실시간 생성 도구"
 
 # Demo Mode (API 키 없이 테스트)
