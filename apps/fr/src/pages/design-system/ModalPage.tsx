@@ -128,28 +128,52 @@ const ModalPage: React.FC = () => {
           </Alert>
 
           {/* 공통 모달 테스트 버튼들 */}
-          <Box sx={{ display: 'flex', gap: 1, mb: 2, flexWrap: 'wrap' }}>
+          <Box sx={{ display: 'flex', gap: 2, mb: 2, flexWrap: 'wrap' }}>
             <Button 
-              size="small" 
-              variant="outlined" 
+              variant="contained" 
               onClick={handleModalTest}
               data-testid="modal-test-btn"
+              sx={{
+                backgroundColor: 'white',
+                color: 'primary.main',
+                '&:hover': {
+                  backgroundColor: 'grey.100',
+                },
+                fontWeight: 600,
+                minWidth: 120
+              }}
             >
               샘플 모달
             </Button>
             <Button 
-              size="small" 
-              variant="outlined" 
+              variant="contained" 
               onClick={handleResponsiveModalTest}
               data-testid="responsive-modal-btn"
+              sx={{
+                backgroundColor: 'white',
+                color: 'primary.main',
+                '&:hover': {
+                  backgroundColor: 'grey.100',
+                },
+                fontWeight: 600,
+                minWidth: 120
+              }}
             >
               반응형 모달
             </Button>
             <Button 
-              size="small" 
-              variant="outlined" 
+              variant="contained" 
               onClick={handleNotificationModalTest}
               data-testid="notification-modal-btn"
+              sx={{
+                backgroundColor: 'white',
+                color: 'primary.main',
+                '&:hover': {
+                  backgroundColor: 'grey.100',
+                },
+                fontWeight: 600,
+                minWidth: 120
+              }}
             >
               알림 설정 모달
             </Button>
