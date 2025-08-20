@@ -8,7 +8,6 @@ import {
   Slide,
 } from '@mui/material';
 import { Plus, ArrowUp } from 'lucide-react';
-import { AdminLayout } from '../components/layout';
 import { WireframeRequestForm } from '../components/wireframe/WireframeRequestForm';
 import { CodeDisplay } from '../components/wireframe/CodeDisplay';
 import { wireframeService } from '../services/wireframe';
@@ -168,8 +167,7 @@ export const WireframePage: React.FC = () => {
   };
 
   return (
-    <AdminLayout title="AI 화면설계">
-      <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ flexGrow: 1 }}>
         {/* 페이지 헤더 */}
         <Box sx={{ mb: 4 }}>
           <Typography variant="h4" component="h1" fontWeight="bold" gutterBottom>
@@ -303,7 +301,6 @@ export const WireframePage: React.FC = () => {
             <ArrowUp size={20} />
           </Fab>
         </Slide>
-      </Box>
-    </AdminLayout>
+    </Box>
   );
 };

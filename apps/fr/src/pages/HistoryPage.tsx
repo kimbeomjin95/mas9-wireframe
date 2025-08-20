@@ -6,7 +6,6 @@ import {
   Alert,
   Chip,
 } from '@mui/material';
-import { AdminLayout } from '../components/layout';
 import { HistoryPanel } from '../components/wireframe/HistoryPanel';
 import { CodeDisplay } from '../components/wireframe/CodeDisplay';
 import { wireframeService } from '../services/wireframe';
@@ -106,8 +105,7 @@ export const HistoryPage: React.FC = () => {
   };
 
   return (
-    <AdminLayout title="생성 이력">
-      <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ flexGrow: 1 }}>
         {/* 페이지 헤더 */}
         <Box sx={{ mb: 4 }}>
           <Typography variant="h4" component="h1" fontWeight="bold" gutterBottom>
@@ -183,7 +181,6 @@ export const HistoryPage: React.FC = () => {
             </Typography>
           </Alert>
         </Box>
-      </Box>
-    </AdminLayout>
+    </Box>
   );
 };

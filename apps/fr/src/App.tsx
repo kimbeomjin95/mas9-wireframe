@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthInitializer, ProtectedRoute } from './components';
 import { ErrorBoundary } from './components/ErrorBoundary';
+import { AdminLayout } from './components/layout/AdminLayout';
 import { LoginPage, DashboardPage, WireframePage, HistoryPage } from './pages';
 import HomePage from './pages/HomePage';
 
@@ -23,29 +24,6 @@ import SelfCheckInPage from './pages/class/SelfCheckInPage';
 import MessagingPage from './pages/communications/MessagingPage';
 import AnnouncementsPage from './pages/communications/AnnouncementsPage';
 import ConversationsPage from './pages/communications/ConversationsPage';
-import EventManagementPage from './pages/events/EventManagementPage';
-import TestingPage from './pages/events/TestingPage';
-import LearningCentersPage from './pages/learning-centers/LearningCentersPage';
-import HomeworksPage from './pages/learning-centers/HomeworksPage';
-import FormsPage from './pages/marketing-tools/FormsPage';
-import AutomationsPage from './pages/marketing-tools/AutomationsPage';
-import OrdersPage from './pages/estore/OrdersPage';
-import ProductsPage from './pages/estore/ProductsPage';
-import TransactionErrorsPage from './pages/payments/TransactionErrorsPage';
-import TransactionsPage from './pages/payments/TransactionsPage';
-import InvoicesPage from './pages/payments/InvoicesPage';
-import AutopaysPage from './pages/payments/AutopaysPage';
-import StaffMembersPage from './pages/staff/StaffMembersPage';
-import ClockInOutPage from './pages/staff/ClockInOutPage';
-import LogHistoryPage from './pages/staff/LogHistoryPage';
-import InsightsPage from './pages/reports/InsightsPage';
-import ReportsPage from './pages/reports/ReportsPage';
-import SchoolSetupPage from './pages/settings/SchoolSetupPage';
-import PaymentsPage from './pages/settings/PaymentsPage';
-import CommunicationPage from './pages/settings/CommunicationPage';
-import SystemSecurityPage from './pages/settings/SystemSecurityPage';
-import SubscriptionBillingPage from './pages/settings/SubscriptionBillingPage';
-import MessagesPage from './pages/communications/MessagesPage';
 
 // Events
 import EventManagementPage from './pages/events/EventManagementPage';
@@ -80,10 +58,19 @@ import ReportsPage from './pages/reports/ReportsPage';
 
 // Settings
 import SchoolSetupPage from './pages/settings/SchoolSetupPage';
-import PaymentsSettingsPage from './pages/settings/PaymentsPage';
+import PaymentsPage from './pages/settings/PaymentsPage';
 import CommunicationPage from './pages/settings/CommunicationPage';
 import SystemSecurityPage from './pages/settings/SystemSecurityPage';
 import SubscriptionBillingPage from './pages/settings/SubscriptionBillingPage';
+
+// Protected Route with Admin Layout
+const ProtectedAdminRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+  <ProtectedRoute>
+    <AdminLayout>
+      {children}
+    </AdminLayout>
+  </ProtectedRoute>
+);
 
 function App() {
   return (
@@ -96,108 +83,69 @@ function App() {
             
             {/* 보호된 라우트들 */}
             {/* 기존 라우트 */}
-            <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
-            <Route path="/wireframe" element={<ProtectedRoute><WireframePage /></ProtectedRoute>} />
-            <Route path="/history" element={<ProtectedRoute><HistoryPage /></ProtectedRoute>} />
+            <Route path="/dashboard" element={<ProtectedAdminRoute><DashboardPage /></ProtectedAdminRoute>} />
+            <Route path="/wireframe" element={<ProtectedAdminRoute><WireframePage /></ProtectedAdminRoute>} />
+            <Route path="/history" element={<ProtectedAdminRoute><HistoryPage /></ProtectedAdminRoute>} />
             
             {/* 새로운 Fr 앱 라우트 */}
-            <Route path="/home" element={<ProtectedRoute><HomePage /></ProtectedRoute>} />
+            <Route path="/home" element={<ProtectedAdminRoute><HomePage /></ProtectedAdminRoute>} />
             
             {/* Accounts */}
-            <Route path="/accounts/profiles" element={<ProtectedRoute><ProfilesPage /></ProtectedRoute>} />
-            <Route path="/accounts/groups" element={<ProtectedRoute><GroupsPage /></ProtectedRoute>} />
-            <Route path="/accounts/tags" element={<ProtectedRoute><TagsPage /></ProtectedRoute>} />
+            <Route path="/accounts/profiles" element={<ProtectedAdminRoute ><ProfilesPage /></ProtectedAdminRoute>} />
+            <Route path="/accounts/groups" element={<ProtectedAdminRoute>그룹 관리<GroupsPage /></ProtectedAdminRoute>} />
+            <Route path="/accounts/tags" element={<ProtectedAdminRoute>태그 관리<TagsPage /></ProtectedAdminRoute>} />
             
             {/* Memberships */}
-            <Route path="/memberships/management" element={<ProtectedRoute><MembershipManagementPage /></ProtectedRoute>} />
+            <Route path="/memberships/management" element={<ProtectedAdminRoute>멤버십 관리<MembershipManagementPage /></ProtectedAdminRoute>} />
             
             {/* Class */}
-            <Route path="/class/management" element={<ProtectedRoute><ClassManagementPage /></ProtectedRoute>} />
-            <Route path="/class/attendance-history" element={<ProtectedRoute><AttendanceHistoryPage /></ProtectedRoute>} />
-            <Route path="/class/bulk-actions" element={<ProtectedRoute><BulkActionsPage /></ProtectedRoute>} />
-            <Route path="/class/self-check-in" element={<ProtectedRoute><SelfCheckInPage /></ProtectedRoute>} />
+            <Route path="/class/management" element={<ProtectedAdminRoute>클래스 관리<ClassManagementPage /></ProtectedAdminRoute>} />
+            <Route path="/class/attendance-history" element={<ProtectedAdminRoute>출석 이력<AttendanceHistoryPage /></ProtectedAdminRoute>} />
+            <Route path="/class/bulk-actions" element={<ProtectedAdminRoute>일괄 작업<BulkActionsPage /></ProtectedAdminRoute>} />
+            <Route path="/class/self-check-in" element={<ProtectedAdminRoute>자체 체크인<SelfCheckInPage /></ProtectedAdminRoute>} />
             
             {/* Communications */}
-            <Route path="/communications/messaging" element={<ProtectedRoute><MessagingPage /></ProtectedRoute>} />
-            <Route path="/communications/announcements" element={<ProtectedRoute><AnnouncementsPage /></ProtectedRoute>} />
-            <Route path="/communications/conversations" element={<ProtectedRoute><ConversationsPage /></ProtectedRoute>} />
+            <Route path="/communications/messaging" element={<ProtectedAdminRoute>메시징<MessagingPage /></ProtectedAdminRoute>} />
+            <Route path="/communications/announcements" element={<ProtectedAdminRoute>공지사항<AnnouncementsPage /></ProtectedAdminRoute>} />
+            <Route path="/communications/conversations" element={<ProtectedAdminRoute>대화<ConversationsPage /></ProtectedAdminRoute>} />
             
             {/* Events */}
-            <Route path="/events/management" element={<ProtectedRoute><EventManagementPage /></ProtectedRoute>} />
-            <Route path="/events/testings" element={<ProtectedRoute><TestingPage /></ProtectedRoute>} />
+            <Route path="/events/management" element={<ProtectedAdminRoute>이벤트 관리<EventManagementPage /></ProtectedAdminRoute>} />
+            <Route path="/events/testings" element={<ProtectedAdminRoute>테스트<TestingPage /></ProtectedAdminRoute>} />
             
             {/* Learning Centers */}
-            <Route path="/learning-centers/centers" element={<ProtectedRoute><LearningCentersPage /></ProtectedRoute>} />
-            <Route path="/learning-centers/homeworks" element={<ProtectedRoute><HomeworksPage /></ProtectedRoute>} />
+            <Route path="/learning-centers/centers" element={<ProtectedAdminRoute>학습 센터<LearningCentersPage /></ProtectedAdminRoute>} />
+            <Route path="/learning-centers/homeworks" element={<ProtectedAdminRoute>숙제<HomeworksPage /></ProtectedAdminRoute>} />
             
             {/* Marketing Tools */}
-            <Route path="/marketing-tools/forms" element={<ProtectedRoute><FormsPage /></ProtectedRoute>} />
-            <Route path="/marketing-tools/automations" element={<ProtectedRoute><AutomationsPage /></ProtectedRoute>} />
+            <Route path="/marketing-tools/forms" element={<ProtectedAdminRoute>폼 관리<FormsPage /></ProtectedAdminRoute>} />
+            <Route path="/marketing-tools/automations" element={<ProtectedAdminRoute>자동화<AutomationsPage /></ProtectedAdminRoute>} />
             
             {/* eStore */}
-            <Route path="/estore/orders" element={<ProtectedRoute><OrdersPage /></ProtectedRoute>} />
-            <Route path="/estore/products" element={<ProtectedRoute><ProductsPage /></ProtectedRoute>} />
+            <Route path="/estore/orders" element={<ProtectedAdminRoute>주문 관리<OrdersPage /></ProtectedAdminRoute>} />
+            <Route path="/estore/products" element={<ProtectedAdminRoute>상품 관리<ProductsPage /></ProtectedAdminRoute>} />
             
             {/* Payments */}
-            <Route path="/payments/transaction-errors" element={<ProtectedRoute><TransactionErrorsPage /></ProtectedRoute>} />
-            <Route path="/payments/transactions" element={<ProtectedRoute><TransactionsPage /></ProtectedRoute>} />
-            <Route path="/payments/invoices" element={<ProtectedRoute><InvoicesPage /></ProtectedRoute>} />
-            <Route path="/payments/autopays" element={<ProtectedRoute><AutopaysPage /></ProtectedRoute>} />
+            <Route path="/payments/transaction-errors" element={<ProtectedAdminRoute>결제 오류<TransactionErrorsPage /></ProtectedAdminRoute>} />
+            <Route path="/payments/transactions" element={<ProtectedAdminRoute>결제 내역<TransactionsPage /></ProtectedAdminRoute>} />
+            <Route path="/payments/invoices" element={<ProtectedAdminRoute>인보이스<InvoicesPage /></ProtectedAdminRoute>} />
+            <Route path="/payments/autopays" element={<ProtectedAdminRoute>자동결제<AutopaysPage /></ProtectedAdminRoute>} />
             
             {/* Staff */}
-            <Route path="/staff/members" element={<ProtectedRoute><StaffMembersPage /></ProtectedRoute>} />
-            <Route path="/staff/clock-in-out" element={<ProtectedRoute><ClockInOutPage /></ProtectedRoute>} />
-            <Route path="/staff/log-history" element={<ProtectedRoute><LogHistoryPage /></ProtectedRoute>} />
+            <Route path="/staff/members" element={<ProtectedAdminRoute>직원 관리<StaffMembersPage /></ProtectedAdminRoute>} />
+            <Route path="/staff/clock-in-out" element={<ProtectedAdminRoute>출퇴근 관리<ClockInOutPage /></ProtectedAdminRoute>} />
+            <Route path="/staff/log-history" element={<ProtectedAdminRoute>로그 이력<LogHistoryPage /></ProtectedAdminRoute>} />
             
             {/* Reports */}
-            <Route path="/reports/insights" element={<ProtectedRoute><InsightsPage /></ProtectedRoute>} />
-            <Route path="/reports/reports" element={<ProtectedRoute><ReportsPage /></ProtectedRoute>} />
+            <Route path="/reports/insights" element={<ProtectedAdminRoute>인사이트<InsightsPage /></ProtectedAdminRoute>} />
+            <Route path="/reports/reports" element={<ProtectedAdminRoute>보고서<ReportsPage /></ProtectedAdminRoute>} />
             
             {/* Settings */}
-            <Route path="/settings/school-setup" element={<ProtectedRoute><SchoolSetupPage /></ProtectedRoute>} />
-            <Route path="/settings/payments" element={<ProtectedRoute><PaymentsPage /></ProtectedRoute>} />
-            <Route path="/settings/communication" element={<ProtectedRoute><CommunicationPage /></ProtectedRoute>} />
-            <Route path="/settings/system-security" element={<ProtectedRoute><SystemSecurityPage /></ProtectedRoute>} />
-            <Route path="/settings/subscription-billing" element={<ProtectedRoute><SubscriptionBillingPage /></ProtectedRoute>} />
-            <Route path="/communications/messages" element={<ProtectedRoute><MessagesPage /></ProtectedRoute>} />
-            
-            {/* Events */}
-            <Route path="/events/management" element={<ProtectedRoute><EventManagementPage /></ProtectedRoute>} />
-            <Route path="/events/testing" element={<ProtectedRoute><TestingPage /></ProtectedRoute>} />
-            
-            {/* Learning Centers */}
-            <Route path="/learning-centers" element={<ProtectedRoute><LearningCentersPage /></ProtectedRoute>} />
-            <Route path="/learning-centers/homeworks" element={<ProtectedRoute><HomeworksPage /></ProtectedRoute>} />
-            
-            {/* Marketing Tools */}
-            <Route path="/marketing-tools/forms" element={<ProtectedRoute><FormsPage /></ProtectedRoute>} />
-            <Route path="/marketing-tools/automations" element={<ProtectedRoute><AutomationsPage /></ProtectedRoute>} />
-            
-            {/* eStore */}
-            <Route path="/estore/orders" element={<ProtectedRoute><OrdersPage /></ProtectedRoute>} />
-            <Route path="/estore/products" element={<ProtectedRoute><ProductsPage /></ProtectedRoute>} />
-            
-            {/* Payments */}
-            <Route path="/payments/transaction-errors" element={<ProtectedRoute><TransactionErrorsPage /></ProtectedRoute>} />
-            <Route path="/payments/transactions" element={<ProtectedRoute><TransactionsPage /></ProtectedRoute>} />
-            <Route path="/payments/invoices" element={<ProtectedRoute><InvoicesPage /></ProtectedRoute>} />
-            <Route path="/payments/autopays" element={<ProtectedRoute><AutopaysPage /></ProtectedRoute>} />
-            
-            {/* Staff */}
-            <Route path="/staff/members" element={<ProtectedRoute><StaffMembersPage /></ProtectedRoute>} />
-            <Route path="/staff/clock-in-out" element={<ProtectedRoute><ClockInOutPage /></ProtectedRoute>} />
-            <Route path="/staff/log-history" element={<ProtectedRoute><LogHistoryPage /></ProtectedRoute>} />
-            
-            {/* Reports */}
-            <Route path="/reports/insights" element={<ProtectedRoute><InsightsPage /></ProtectedRoute>} />
-            <Route path="/reports" element={<ProtectedRoute><ReportsPage /></ProtectedRoute>} />
-            
-            {/* Settings */}
-            <Route path="/settings/school-setup" element={<ProtectedRoute><SchoolSetupPage /></ProtectedRoute>} />
-            <Route path="/settings/payments" element={<ProtectedRoute><PaymentsSettingsPage /></ProtectedRoute>} />
-            <Route path="/settings/communication" element={<ProtectedRoute><CommunicationPage /></ProtectedRoute>} />
-            <Route path="/settings/system-security" element={<ProtectedRoute><SystemSecurityPage /></ProtectedRoute>} />
-            <Route path="/settings/subscription-billing" element={<ProtectedRoute><SubscriptionBillingPage /></ProtectedRoute>} />
+            <Route path="/settings/school-setup" element={<ProtectedAdminRoute>학교 설정<SchoolSetupPage /></ProtectedAdminRoute>} />
+            <Route path="/settings/payments" element={<ProtectedAdminRoute>결제 설정<PaymentsPage /></ProtectedAdminRoute>} />
+            <Route path="/settings/communication" element={<ProtectedAdminRoute>커뮤니케이션 설정<CommunicationPage /></ProtectedAdminRoute>} />
+            <Route path="/settings/system-security" element={<ProtectedAdminRoute>시스템 보안<SystemSecurityPage /></ProtectedAdminRoute>} />
+            <Route path="/settings/subscription-billing" element={<ProtectedAdminRoute>구독 및 요금<SubscriptionBillingPage /></ProtectedAdminRoute>} />
             
             {/* 루트 경로는 홈으로 리다이렉션 */}
             <Route path="/" element={<Navigate to="/home" replace />} />

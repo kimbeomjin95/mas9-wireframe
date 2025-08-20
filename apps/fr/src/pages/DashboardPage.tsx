@@ -22,7 +22,6 @@ import {
   ArrowRight,
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { AdminLayout } from '../components/layout';
 import { useAuth } from '../hooks/useAuth';
 import { wireframeService } from '../services/wireframe';
 
@@ -137,8 +136,7 @@ export const DashboardPage: React.FC = () => {
   ];
 
   return (
-    <AdminLayout title="관리자 대시보드">
-      <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ flexGrow: 1 }}>
         {/* 환영 메시지 */}
         <Box sx={{ mb: 4 }}>
           <Typography variant="h4" component="h1" fontWeight="bold" gutterBottom>
@@ -291,7 +289,6 @@ export const DashboardPage: React.FC = () => {
             </Paper>
           </Grid>
         </Grid>
-      </Box>
-    </AdminLayout>
+    </Box>
   );
 };

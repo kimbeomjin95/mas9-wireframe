@@ -30,7 +30,7 @@ interface AdminHeaderProps {
 
 export const AdminHeader: React.FC<AdminHeaderProps> = ({
   onMenuToggle,
-  title = 'AI Wireframe Generator',
+  title = 'MAS9 Wireframe',
 }) => {
   const { user, handleLogout } = useAuth();
   const navigate = useNavigate();
