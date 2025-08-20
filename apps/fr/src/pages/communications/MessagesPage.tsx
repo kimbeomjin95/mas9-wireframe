@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Typography, Card, CardContent, Grid, Button } from '@mui/material';
-import { Mail, Send, Users, Template, BarChart } from 'lucide-react';
+import { Mail, Send, Users, FileText, BarChart } from 'lucide-react';
 
 const MessagesPage: React.FC = () => {
   return (
@@ -40,7 +40,7 @@ const MessagesPage: React.FC = () => {
           <Card sx={{ height: '100%' }}>
             <CardContent>
               <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                <Template size={24} style={{ marginRight: 8 }} />
+                <FileText size={24} style={{ marginRight: 8 }} />
                 <Typography variant="h6">
                   Email Templates
                 </Typography>
@@ -48,7 +48,7 @@ const MessagesPage: React.FC = () => {
               <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
                 Create and manage reusable email templates for common communications.
               </Typography>
-              <Button variant="outlined" startIcon={<Template size={16} />}>
+              <Button variant="outlined" startIcon={<FileText size={16} />}>
                 Manage Templates
               </Button>
             </CardContent>

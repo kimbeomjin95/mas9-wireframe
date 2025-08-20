@@ -3,6 +3,9 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { AuthInitializer, ProtectedRoute } from './components';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { AdminLayout } from './components/layout/AdminLayout';
+import { ViewProvider, ModalsProvider } from '@mas9/shared-ui';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { LoginPage, DashboardPage, WireframePage, HistoryPage } from './pages';
 import HomePage from './pages/HomePage';
 
@@ -63,6 +66,10 @@ import CommunicationPage from './pages/settings/CommunicationPage';
 import SystemSecurityPage from './pages/settings/SystemSecurityPage';
 import SubscriptionBillingPage from './pages/settings/SubscriptionBillingPage';
 
+// Example
+import ExamplePage from './pages/ExamplePage';
+import PublicTestPage from './pages/PublicTestPage';
+
 // Protected Route with Admin Layout
 const ProtectedAdminRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <ProtectedRoute>
@@ -75,11 +82,16 @@ const ProtectedAdminRoute: React.FC<{ children: React.ReactNode }> = ({ children
 function App() {
   return (
     <ErrorBoundary>
-      <Router basename="/mas9-wireframe">
-        <AuthInitializer>
+      <ViewProvider>
+        <ModalsProvider>
+          <Router basename="/mas9-wireframe">
+            <AuthInitializer>
           <Routes>
             {/* 로그인 페이지 */}
             <Route path="/login" element={<LoginPage />} />
+            
+            {/* Public 테스트 페이지 (인증 불필요) */}
+            <Route path="/public-test" element={<PublicTestPage />} />
             
             {/* 보호된 라우트들 */}
             {/* 기존 라우트 */}
@@ -150,12 +162,18 @@ function App() {
             {/* 루트 경로는 홈으로 리다이렉션 */}
             <Route path="/" element={<Navigate to="/home" replace />} />
             
+            {/* Example 페이지 */}
+            <Route path="/example" element={<ProtectedAdminRoute><ExamplePage /></ProtectedAdminRoute>} />
+            
             {/* 404 페이지 (임시로 대시보드로 리다이렉션) */}
             <Route path="*" element={<Navigate to="/dashboard" replace />} />
           </Routes>
         </AuthInitializer>
+        <ToastContainer />
       </Router>
-    </ErrorBoundary>
+    </ModalsProvider>
+  </ViewProvider>
+</ErrorBoundary>
   );
 }
 
