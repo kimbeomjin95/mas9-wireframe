@@ -73,11 +73,10 @@ export const AdminHeader: React.FC<AdminHeaderProps> = ({
       <AppBar
         position='fixed'
         sx={{
-          // zIndex: (theme) => theme.zIndex.drawer + 1,
-          zIndex: (theme) => 2,
+          zIndex: (theme) => theme.zIndex.drawer + 1,
           backgroundColor: 'background.paper',
           color: 'text.primary',
-          boxShadow: (theme) => theme.shadows[1],
+          boxShadow: 'none',
           borderBottom: '1px solid',
           borderColor: 'divider',
         }}

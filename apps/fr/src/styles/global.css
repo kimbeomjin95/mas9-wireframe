@@ -1,0 +1,8 @@
+/* Global styles for Bottom Sheet z-index override */
+/* This ensures the bottom sheet appears above the header */
+[data-rsbs-overlay],
+[data-rsbs-backdrop],
+[data-rsbs-root],
+[data-rsbs-root]:after {
+  z-index: 1299 !important;
+}

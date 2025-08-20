@@ -47,11 +47,7 @@ export const BottomSheet = ({
         ...((window as any).ReactNativeWebView && {
           zIndex: 1299,
         }),
-        ...(!(window as any).ReactNativeWebView && {
-          zIndex: 1100 + 1,
-        }),
         position: 'relative',
-        // zIndex: 1299,
       }}
       defaultSnap={defaultSnap}
       snapPoints={({ maxHeight }) => [maxHeight * defaultSnap]}
