@@ -142,14 +142,14 @@ export class WireframeService {
   }
 
   /**
-   * 생성 이력 저장 (로컬 스토리지 사용)
+   * 생성 이력 저장 (세션 스토리지 사용)
    */
   saveToHistory(result: WireframeGenerationResult): void {
     try {
       const history = this.getHistory();
       const updatedHistory = [result, ...history].slice(0, 50); // 최대 50개 보관
       
-      localStorage.setItem('wireframe_history', JSON.stringify(updatedHistory));
+      sessionStorage.setItem('wireframe_history', JSON.stringify(updatedHistory));
     } catch (error) {
       console.warn('이력 저장에 실패했습니다:', error);
     }
@@ -160,7 +160,7 @@ export class WireframeService {
    */
   getHistory(): WireframeGenerationResult[] {
     try {
-      const historyJson = localStorage.getItem('wireframe_history');
+      const historyJson = sessionStorage.getItem('wireframe_history');
       return historyJson ? JSON.parse(historyJson) : [];
     } catch (error) {
       console.warn('이력 조회에 실패했습니다:', error);
@@ -176,7 +176,7 @@ export class WireframeService {
       const history = this.getHistory();
       const updatedHistory = history.filter(item => item.id !== id);
       
-      localStorage.setItem('wireframe_history', JSON.stringify(updatedHistory));
+      sessionStorage.setItem('wireframe_history', JSON.stringify(updatedHistory));
     } catch (error) {
       console.warn('이력 삭제에 실패했습니다:', error);
     }
@@ -187,7 +187,7 @@ export class WireframeService {
    */
   clearHistory(): void {
     try {
-      localStorage.removeItem('wireframe_history');
+      sessionStorage.removeItem('wireframe_history');
     } catch (error) {
       console.warn('이력 삭제에 실패했습니다:', error);
     }

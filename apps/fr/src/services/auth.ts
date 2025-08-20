@@ -79,10 +79,10 @@ export class AuthService {
     try {
       console.log('🔍 현재 세션 확인 중...');
       
-      // 데모 모드인 경우 로컬 스토리지에서 세션 확인
+      // 데모 모드인 경우 세션 스토리지에서 세션 확인
       if (isDemoMode) {
         console.log('🎭 데모 모드 세션 확인');
-        const demoUser = localStorage.getItem('demo_user');
+        const demoUser = sessionStorage.getItem('demo_user');
         if (demoUser) {
           const user = JSON.parse(demoUser);
           console.log('✅ 데모 사용자 세션 발견');
@@ -211,9 +211,9 @@ export class AuthService {
         updated_at: new Date().toISOString(),
       };
 
-      // 로컬 스토리지에 저장
-      localStorage.setItem('demo_user', JSON.stringify(demoUser));
-      console.log('💾 데모 사용자 로컬스토리지 저장 완료');
+      // 세션 스토리지에 저장
+      sessionStorage.setItem('demo_user', JSON.stringify(demoUser));
+      console.log('💾 데모 사용자 세션스토리지 저장 완료');
 
       const loginResult = {
         user: demoUser,
@@ -232,12 +232,12 @@ export class AuthService {
    * 데모 모드 로그아웃
    */
   private async demoLogout() {
-    console.log('🎭 데모 사용자 로컬스토리지에서 제거');
-    localStorage.removeItem('demo_user');
+    console.log('🎭 데모 사용자 세션스토리지에서 제거');
+    sessionStorage.removeItem('demo_user');
     
     // 추가 세션 데이터 정리
     console.log('🧹 추가 세션 데이터 정리');
-    localStorage.removeItem('auth_state');
+    sessionStorage.removeItem('auth_state');
     sessionStorage.clear();
     
     console.log('✅ 데모 로그아웃 완료');
