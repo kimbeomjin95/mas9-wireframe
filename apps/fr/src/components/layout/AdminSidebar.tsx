@@ -24,6 +24,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 interface AdminSidebarProps {
   open: boolean;
+  collapsed?: boolean;
   onClose?: () => void;
 }
 
@@ -100,7 +101,7 @@ const MENU_SECTIONS: MenuSection[] = [
   },
 ];
 
-export const AdminSidebar: React.FC<AdminSidebarProps> = ({ open, onClose }) => {
+export const AdminSidebar: React.FC<AdminSidebarProps> = ({ open, collapsed = false, onClose }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const location = useLocation();
@@ -118,6 +119,7 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({ open, onClose }) => 
   };
 
   const drawerWidth = 280;
+  const collapsedWidth = 72;
 
   const drawerContent = (
     <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
@@ -127,34 +129,38 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({ open, onClose }) => 
       {/* 메뉴 섹션들 */}
       <Box sx={{ flexGrow: 1, overflowY: 'auto', px: 1 }}>
         {MENU_SECTIONS.map((section, sectionIndex) => (
-          <Box key={section.title} sx={{ mb: 2 }}>
+          <Box key={section.title} sx={{ mb: collapsed ? 1 : 2 }}>
             {/* 섹션 제목 */}
-            <Typography
-              variant="overline"
-              sx={{
-                px: 2,
-                py: 1,
-                display: 'block',
-                fontSize: '0.75rem',
-                fontWeight: 600,
-                color: 'text.secondary',
-                letterSpacing: 1,
-              }}
-            >
-              {section.title}
-            </Typography>
+            {!collapsed && (
+              <Typography
+                variant="overline"
+                sx={{
+                  px: 2,
+                  py: 1,
+                  display: 'block',
+                  fontSize: '0.75rem',
+                  fontWeight: 600,
+                  color: 'text.secondary',
+                  letterSpacing: 1,
+                }}
+              >
+                {section.title}
+              </Typography>
+            )}
 
             {/* 섹션 메뉴 아이템들 */}
             <List disablePadding>
               {section.items.map((item) => (
-                <ListItem key={item.id} disablePadding sx={{ mb: 0.5 }}>
+                <ListItem key={item.id} disablePadding sx={{ mb: collapsed ? 1 : 0.5 }}>
                   <ListItemButton
                     onClick={() => handleMenuItemClick(item.path)}
                     selected={isActiveItem(item.path)}
                     sx={{
                       borderRadius: 2,
-                      mx: 1,
+                      mx: collapsed ? 0.5 : 1,
+                      px: collapsed ? 0.5 : 1,
                       minHeight: 48,
+                      justifyContent: collapsed ? 'center' : 'flex-start',
                       '&.Mui-selected': {
                         backgroundColor: 'primary.main',
                         color: 'primary.contrastText',
@@ -172,32 +178,35 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({ open, onClose }) => 
                   >
                     <ListItemIcon
                       sx={{
-                        minWidth: 40,
+                        minWidth: collapsed ? 'auto' : 40,
+                        justifyContent: 'center',
                         color: isActiveItem(item.path) ? 'inherit' : 'text.secondary',
                       }}
                     >
                       {item.icon}
                     </ListItemIcon>
-                    <ListItemText
-                      primary={item.label}
-                      secondary={item.description}
-                      primaryTypographyProps={{
-                        fontSize: '0.95rem',
-                        fontWeight: isActiveItem(item.path) ? 600 : 500,
-                      }}
-                      secondaryTypographyProps={{
-                        fontSize: '0.75rem',
-                        color: isActiveItem(item.path) ? 'inherit' : 'text.secondary',
-                        sx: { opacity: 0.8 },
-                      }}
-                    />
+                    {!collapsed && (
+                      <ListItemText
+                        primary={item.label}
+                        secondary={item.description}
+                        primaryTypographyProps={{
+                          fontSize: '0.95rem',
+                          fontWeight: isActiveItem(item.path) ? 600 : 500,
+                        }}
+                        secondaryTypographyProps={{
+                          fontSize: '0.75rem',
+                          color: isActiveItem(item.path) ? 'inherit' : 'text.secondary',
+                          sx: { opacity: 0.8 },
+                        }}
+                      />
+                    )}
                   </ListItemButton>
                 </ListItem>
               ))}
             </List>
 
             {/* 섹션 구분선 (마지막 섹션 제외) */}
-            {sectionIndex < MENU_SECTIONS.length - 1 && (
+            {!collapsed && sectionIndex < MENU_SECTIONS.length - 1 && (
               <Divider sx={{ mx: 2, my: 1 }} />
             )}
           </Box>
@@ -205,14 +214,16 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({ open, onClose }) => 
       </Box>
 
       {/* 하단 정보 */}
-      <Box sx={{ p: 2, borderTop: '1px solid', borderColor: 'divider' }}>
-        <Typography variant="caption" color="text.secondary" textAlign="center" display="block">
-          AI Wireframe Generator
-        </Typography>
-        <Typography variant="caption" color="text.secondary" textAlign="center" display="block">
-          v1.0.0
-        </Typography>
-      </Box>
+      {!collapsed && (
+        <Box sx={{ p: 2, borderTop: '1px solid', borderColor: 'divider' }}>
+          <Typography variant="caption" color="text.secondary" textAlign="center" display="block">
+            AI Wireframe Generator
+          </Typography>
+          <Typography variant="caption" color="text.secondary" textAlign="center" display="block">
+            v1.0.0
+          </Typography>
+        </Box>
+      )}
     </Box>
   );
 
@@ -222,14 +233,18 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({ open, onClose }) => 
       open={open}
       onClose={onClose}
       sx={{
-        width: drawerWidth,
+        width: collapsed ? collapsedWidth : drawerWidth,
         flexShrink: 0,
         '& .MuiDrawer-paper': {
-          width: drawerWidth,
+          width: collapsed ? collapsedWidth : drawerWidth,
           boxSizing: 'border-box',
           backgroundColor: 'background.paper',
           borderRight: '1px solid',
           borderColor: 'divider',
+          transition: theme.transitions.create('width', {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.enteringScreen,
+          }),
         },
       }}
       ModalProps={{

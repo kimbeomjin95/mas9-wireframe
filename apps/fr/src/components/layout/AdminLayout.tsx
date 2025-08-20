@@ -26,9 +26,22 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
   
   // 모바일에서는 초기에 닫혀있고, 데스크톱에서는 초기에 열려있음
   const [sidebarOpen, setSidebarOpen] = useState(!isMobile);
+  // 데스크톱에서만 사이드바 접힘 상태 관리
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   const handleSidebarToggle = () => {
-    setSidebarOpen(prev => !prev);
+    if (isMobile) {
+      // 모바일에서는 열기/닫기
+      setSidebarOpen(prev => !prev);
+    } else {
+      // 데스크톱에서는 접기/펼치기
+      if (!sidebarOpen) {
+        setSidebarOpen(true);
+        setSidebarCollapsed(false);
+      } else {
+        setSidebarCollapsed(prev => !prev);
+      }
+    }
   };
 
   const handleSidebarClose = () => {
@@ -36,6 +49,10 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
   };
 
   const drawerWidth = 280;
+  const collapsedWidth = 72;
+  
+  // 현재 사이드바 너비 계산
+  const currentSidebarWidth = isMobile ? 0 : (sidebarOpen ? (sidebarCollapsed ? collapsedWidth : drawerWidth) : 0);
 
   return (
     <Box sx={{ display: 'flex', minHeight: '100vh' }}>
@@ -48,6 +65,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
       {/* 사이드바 */}
       <AdminSidebar
         open={sidebarOpen}
+        collapsed={!isMobile && sidebarCollapsed}
         onClose={handleSidebarClose}
       />
 
@@ -59,10 +77,10 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
           display: 'flex',
           flexDirection: 'column',
           minHeight: '100vh',
-          // 데스크톱에서 사이드바가 열려있을 때만 마진 적용
+          // 데스크톱에서 사이드바 상태에 따라 마진 적용
           ml: {
             xs: 0, // 모바일에서는 마진 없음
-            md: sidebarOpen ? `${drawerWidth}px` : 0, // 데스크톱에서 사이드바 상태에 따라
+            md: `${currentSidebarWidth}px`, // 데스크톱에서 사이드바 너비에 따라
           },
           transition: theme.transitions.create('margin', {
             easing: theme.transitions.easing.sharp,
