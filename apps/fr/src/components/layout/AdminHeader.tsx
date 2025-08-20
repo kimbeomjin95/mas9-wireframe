@@ -71,9 +71,10 @@ export const AdminHeader: React.FC<AdminHeaderProps> = ({
   return (
     <>
       <AppBar
-        position="fixed"
+        position='fixed'
         sx={{
-          zIndex: (theme) => theme.zIndex.drawer + 1,
+          // zIndex: (theme) => theme.zIndex.drawer + 1,
+          zIndex: (theme) => 2,
           backgroundColor: 'background.paper',
           color: 'text.primary',
           boxShadow: (theme) => theme.shadows[1],
@@ -84,9 +85,9 @@ export const AdminHeader: React.FC<AdminHeaderProps> = ({
         <Toolbar sx={{ minHeight: 64 }}>
           {/* 메뉴 토글 버튼 */}
           <IconButton
-            edge="start"
-            color="inherit"
-            aria-label="toggle menu"
+            edge='start'
+            color='inherit'
+            aria-label='toggle menu'
             onClick={onMenuToggle}
             sx={{ mr: 2 }}
           >
@@ -95,10 +96,10 @@ export const AdminHeader: React.FC<AdminHeaderProps> = ({
 
           {/* 앱 제목 */}
           <Box sx={{ display: 'flex', alignItems: 'center', flexGrow: 1 }}>
-            <Palette size={28} color="#1976d2" />
+            <Palette size={28} color='#1976d2' />
             <Typography
-              variant="h6"
-              component="h1"
+              variant='h6'
+              component='h1'
               sx={{
                 ml: 1,
                 fontWeight: 600,
@@ -107,13 +108,13 @@ export const AdminHeader: React.FC<AdminHeaderProps> = ({
             >
               {title}
             </Typography>
-            
+
             {/* 데모 모드 표시 */}
             {import.meta.env.VITE_DEMO_MODE === 'true' && (
               <Chip
-                label="DEMO"
-                size="small"
-                color="warning"
+                label='DEMO'
+                size='small'
+                color='warning'
                 sx={{ ml: 2, fontSize: '0.75rem' }}
               />
             )}
@@ -123,7 +124,7 @@ export const AdminHeader: React.FC<AdminHeaderProps> = ({
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
             {/* 사용자 이름 (데스크톱에서만 표시) */}
             <Typography
-              variant="body2"
+              variant='body2'
               sx={{
                 display: { xs: 'none', sm: 'block' },
                 color: 'text.secondary',
@@ -135,10 +136,10 @@ export const AdminHeader: React.FC<AdminHeaderProps> = ({
             {/* 프로필 버튼 */}
             <IconButton
               onClick={handleProfileMenuOpen}
-              size="small"
+              size='small'
               sx={{ ml: 1 }}
               aria-controls={isMenuOpen ? 'profile-menu' : undefined}
-              aria-haspopup="true"
+              aria-haspopup='true'
               aria-expanded={isMenuOpen ? 'true' : undefined}
             >
               <Avatar
@@ -158,7 +159,7 @@ export const AdminHeader: React.FC<AdminHeaderProps> = ({
 
       {/* 프로필 메뉴 */}
       <Menu
-        id="profile-menu"
+        id='profile-menu'
         anchorEl={anchorEl}
         open={isMenuOpen}
         onClose={handleProfileMenuClose}
@@ -176,11 +177,18 @@ export const AdminHeader: React.FC<AdminHeaderProps> = ({
         }}
       >
         {/* 사용자 정보 */}
-        <Box sx={{ px: 2, py: 1.5, borderBottom: '1px solid', borderColor: 'divider' }}>
-          <Typography variant="subtitle2" fontWeight={600}>
+        <Box
+          sx={{
+            px: 2,
+            py: 1.5,
+            borderBottom: '1px solid',
+            borderColor: 'divider',
+          }}
+        >
+          <Typography variant='subtitle2' fontWeight={600}>
             {getUserDisplayName()}
           </Typography>
-          <Typography variant="body2" color="text.secondary" noWrap>
+          <Typography variant='body2' color='text.secondary' noWrap>
             {user?.email}
           </Typography>
         </Box>
