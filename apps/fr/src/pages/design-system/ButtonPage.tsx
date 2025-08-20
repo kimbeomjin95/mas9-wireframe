@@ -9,10 +9,12 @@ import {
   Divider,
   Stack
 } from '@mui/material';
-import { DesignSystemButton, DesignSystemButtonColor, DesignSystemButtonSize } from '@mas9/shared-ui';
+import { DesignSystemButton, DesignSystemButtonColor, DesignSystemButtonSize, useView } from '@mas9/shared-ui';
+import { ResponsiveContainer, ResponsiveSection } from '../../components/layout/ResponsiveContainer';
 
 const ButtonPage: React.FC = () => {
   const [isDisabled, setIsDisabled] = useState(false);
+  const { IS_MOBILE } = useView();
   
   const colors: DesignSystemButtonColor[] = ['primary', 'secondary', 'tertiary', 'quaternary', 'text', 'textAccent'];
   const sizes: DesignSystemButtonSize[] = ['small', 'medium', 'large'];
@@ -33,81 +35,120 @@ const ButtonPage: React.FC = () => {
   };
 
   return (
-    <Box sx={{ p: 3, maxWidth: 1200 }}>
-      <Typography variant="h4" component="h1" gutterBottom color="primary.main">
-        Design System - Buttons
-      </Typography>
-      
-      <Typography variant="body1" sx={{ mb: 3, color: 'text.secondary' }}>
-        피그마 디자인 시스템을 기반으로 제작된 공통 버튼 컴포넌트입니다.
-      </Typography>
+    <ResponsiveContainer>
+      <ResponsiveSection>
+        <Typography 
+          variant={IS_MOBILE ? "h5" : "h4"} 
+          component="h1" 
+          gutterBottom 
+          color="primary.main"
+        >
+          Design System - Buttons
+        </Typography>
+        
+        <Typography 
+          variant="body1" 
+          sx={{ mb: 3, color: 'text.secondary', fontSize: IS_MOBILE ? '0.875rem' : '1rem' }}
+        >
+          피그마 디자인 시스템을 기반으로 제작된 공통 버튼 컴포넌트입니다.
+        </Typography>
+      </ResponsiveSection>
 
-      <Paper sx={{ p: 3, mb: 4 }}>
-        <FormControlLabel
-          control={
-            <Switch
-              checked={isDisabled}
-              onChange={(e) => setIsDisabled(e.target.checked)}
-            />
-          }
-          label="Disabled 상태 테스트"
-          sx={{ mb: 2 }}
-        />
-      </Paper>
+      <ResponsiveSection>
+        <Paper sx={{ p: IS_MOBILE ? 2 : 3, mb: IS_MOBILE ? 2 : 4 }}>
+          <FormControlLabel
+            control={
+              <Switch
+                checked={isDisabled}
+                onChange={(e) => setIsDisabled(e.target.checked)}
+              />
+            }
+            label="Disabled 상태 테스트"
+            sx={{ mb: 2 }}
+          />
+        </Paper>
+      </ResponsiveSection>
 
       {sizes.map((size) => (
-        <Paper key={size} sx={{ p: 3, mb: 4 }}>
-          <Typography variant="h5" gutterBottom sx={{ textTransform: 'capitalize' }}>
-            {size.toUpperCase()} ({sizeDescriptions[size]})
-          </Typography>
-          
-          <Grid container spacing={3}>
-            {colors.map((color) => (
-              <Grid item xs={12} sm={6} md={4} lg={2} key={color}>
-                <Stack spacing={2} alignItems="center">
-                  <Typography 
-                    variant="subtitle2" 
-                    align="center"
-                    sx={{ textTransform: 'capitalize', minHeight: 40 }}
-                  >
-                    {color.replace(/([A-Z])/g, ' $1').trim()}
-                    <br />
-                    <Typography variant="caption" color="text.secondary">
-                      {colorDescriptions[color]}
+        <ResponsiveSection key={size}>
+          <Paper sx={{ p: IS_MOBILE ? 2 : 3, mb: IS_MOBILE ? 2 : 4 }}>
+            <Typography 
+              variant={IS_MOBILE ? "h6" : "h5"} 
+              gutterBottom 
+              sx={{ textTransform: 'capitalize' }}
+            >
+              {size.toUpperCase()} ({sizeDescriptions[size]})
+            </Typography>
+            
+            <Grid container spacing={IS_MOBILE ? 2 : 3}>
+              {colors.map((color) => (
+                <Grid 
+                  item 
+                  xs={6} 
+                  sm={6} 
+                  md={4} 
+                  lg={2} 
+                  key={color}
+                >
+                  <Stack spacing={IS_MOBILE ? 1 : 2} alignItems="center">
+                    <Typography 
+                      variant={IS_MOBILE ? "caption" : "subtitle2"}
+                      align="center"
+                      sx={{ 
+                        textTransform: 'capitalize', 
+                        minHeight: IS_MOBILE ? 30 : 40,
+                        fontSize: IS_MOBILE ? '0.75rem' : undefined
+                      }}
+                    >
+                      {color.replace(/([A-Z])/g, ' $1').trim()}
+                      <br />
+                      <Typography 
+                        variant="caption" 
+                        color="text.secondary"
+                        sx={{ fontSize: IS_MOBILE ? '0.65rem' : '0.75rem' }}
+                      >
+                        {colorDescriptions[color]}
+                      </Typography>
                     </Typography>
-                  </Typography>
-                  
-                  <DesignSystemButton
-                    color={color}
-                    size={size}
-                    disabled={isDisabled}
-                    sx={{ minWidth: 120 }}
-                  >
-                    Button
-                  </DesignSystemButton>
-                </Stack>
-              </Grid>
-            ))}
-          </Grid>
-          
-          {size !== 'small' && <Divider sx={{ mt: 3 }} />}
-        </Paper>
+                    
+                    <DesignSystemButton
+                      color={color}
+                      size={size}
+                      disabled={isDisabled}
+                      sx={{ 
+                        minWidth: IS_MOBILE ? 80 : 120,
+                        fontSize: IS_MOBILE && size === 'large' ? '0.875rem' : undefined
+                      }}
+                    >
+                      Button
+                    </DesignSystemButton>
+                  </Stack>
+                </Grid>
+              ))}
+            </Grid>
+            
+            {size !== 'small' && <Divider sx={{ mt: 3 }} />}
+          </Paper>
+        </ResponsiveSection>
       ))}
 
-      <Paper sx={{ p: 3, mt: 4 }}>
-        <Typography variant="h6" gutterBottom>
-          Usage Example
-        </Typography>
-        <Box
-          component="pre"
-          sx={{
-            backgroundColor: 'grey.100',
-            p: 2,
-            borderRadius: 1,
-            fontSize: '0.875rem',
-            overflow: 'auto'
-          }}
-        >
+      <ResponsiveSection>
+        <Paper sx={{ p: IS_MOBILE ? 2 : 3, mt: IS_MOBILE ? 2 : 4 }}>
+          <Typography variant={IS_MOBILE ? "subtitle1" : "h6"} gutterBottom>
+            Usage Example
+          </Typography>
+          <Box
+            component="pre"
+            sx={{
+              backgroundColor: 'grey.100',
+              p: IS_MOBILE ? 1.5 : 2,
+              borderRadius: 1,
+              fontSize: IS_MOBILE ? '0.75rem' : '0.875rem',
+              overflow: 'auto',
+              whiteSpace: 'pre-wrap',
+              wordBreak: 'break-all'
+            }}
+          >
 {`import { DesignSystemButton } from '@mas9/shared-ui';
 
 // 기본 사용법
@@ -128,9 +169,10 @@ const ButtonPage: React.FC = () => {
 <DesignSystemButton color="primary" disabled>
   Disabled Button
 </DesignSystemButton>`}
-        </Box>
-      </Paper>
-    </Box>
+          </Box>
+        </Paper>
+      </ResponsiveSection>
+    </ResponsiveContainer>
   );
 };
 

@@ -18,6 +18,7 @@ import { showToast, useView } from '@mas9/shared-ui';
 import { useModal } from '@/hooks/useModal';
 import { TEST_MODALS, PROFILE_NOTIFICATION_MODALS } from '@/constants/modals';
 import { Smartphone, Monitor, TestTube } from 'lucide-react';
+import { ResponsiveContainer, ResponsiveSection } from '../../components/layout/ResponsiveContainer';
 
 const ModalPage: React.FC = () => {
   const [basicModalOpen, setBasicModalOpen] = useState(false);
@@ -99,33 +100,36 @@ const ModalPage: React.FC = () => {
   };
 
   return (
-    <Box sx={{ p: 3 }}>
-      <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
-        <TestTube size={24} style={{ marginRight: 8 }} />
-        <Typography variant="h4" component="h1">
-          Modal Components
-        </Typography>
-      </Box>
+    <ResponsiveContainer>
+      <ResponsiveSection>
+        <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+          <TestTube size={IS_MOBILE ? 20 : 24} style={{ marginRight: 8 }} />
+          <Typography variant={IS_MOBILE ? "h5" : "h4"} component="h1">
+            Modal Components
+          </Typography>
+        </Box>
+      </ResponsiveSection>
       
       {/* 공통 Hooks 테스트 섹션 */}
-      <Card sx={{ mb: 3, bgcolor: 'primary.light', color: 'primary.contrastText' }}>
-        <CardContent>
-          <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-            <TestTube size={20} style={{ marginRight: 8 }} />
-            <Typography variant="h6">공통 Modal System 테스트</Typography>
-          </Box>
-          
-          {/* ViewProvider 테스트 */}
-          <Alert severity="info" sx={{ mb: 2 }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-              {IS_MOBILE ? <Smartphone size={16} /> : <Monitor size={16} />}
-              <Typography variant="body2">
-                현재 디바이스: {IS_MOBILE ? '모바일' : IS_TABLET ? '태블릿' : 'PC'} | 
-                ViewType: {viewType} | 
-                IS_MOBILE: {IS_MOBILE ? 'true' : 'false'}
-              </Typography>
+      <ResponsiveSection>
+        <Card sx={{ mb: IS_MOBILE ? 2 : 3, bgcolor: 'primary.light', color: 'primary.contrastText' }}>
+          <CardContent sx={{ p: IS_MOBILE ? 2 : 3 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+              <TestTube size={IS_MOBILE ? 16 : 20} style={{ marginRight: 8 }} />
+              <Typography variant={IS_MOBILE ? "subtitle1" : "h6"}>공통 Modal System 테스트</Typography>
             </Box>
-          </Alert>
+          
+            {/* ViewProvider 테스트 */}
+            <Alert severity="info" sx={{ mb: 2 }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flexWrap: 'wrap' }}>
+                {IS_MOBILE ? <Smartphone size={16} /> : <Monitor size={16} />}
+                <Typography variant={IS_MOBILE ? "caption" : "body2"} sx={{ fontSize: IS_MOBILE ? '0.75rem' : '0.875rem' }}>
+                  현재 디바이스: {IS_MOBILE ? '모바일' : IS_TABLET ? '태블릿' : 'PC'} | 
+                  ViewType: {viewType} | 
+                  IS_MOBILE: {IS_MOBILE ? 'true' : 'false'}
+                </Typography>
+              </Box>
+            </Alert>
 
           {/* 공통 모달 테스트 버튼들 */}
           <Box sx={{ display: 'flex', gap: 2, mb: 2, flexWrap: 'wrap' }}>
@@ -178,50 +182,78 @@ const ModalPage: React.FC = () => {
               알림 설정 모달
             </Button>
           </Box>
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
+      </ResponsiveSection>
 
-      <Paper sx={{ p: 3, mb: 3 }}>
-        <Typography variant="h6" sx={{ mb: 2 }}>
-          기본 Modal Types (MUI Dialog 기반)
-        </Typography>
-        
-        <Stack direction="row" spacing={2} flexWrap="wrap" gap={2}>
-          <Button variant="contained" onClick={handleBasicModalOpen}>
-            Basic Modal
-          </Button>
+      <ResponsiveSection>
+        <Paper sx={{ p: IS_MOBILE ? 2 : 3, mb: IS_MOBILE ? 2 : 3 }}>
+          <Typography variant={IS_MOBILE ? "subtitle1" : "h6"} sx={{ mb: 2 }}>
+            기본 Modal Types (MUI Dialog 기반)
+          </Typography>
           
-          <Button variant="contained" color="warning" onClick={handleConfirmModalOpen}>
-            Confirm Modal
-          </Button>
-          
-          <Button variant="contained" color="info" onClick={handleFormModalOpen}>
-            Form Modal
-          </Button>
-        </Stack>
-      </Paper>
+          <Stack 
+            direction={IS_MOBILE ? "column" : "row"} 
+            spacing={2} 
+            flexWrap="wrap" 
+            gap={2}
+          >
+            <Button 
+              variant="contained" 
+              onClick={handleBasicModalOpen}
+              sx={{ minWidth: IS_MOBILE ? '100%' : 'auto' }}
+            >
+              Basic Modal
+            </Button>
+            
+            <Button 
+              variant="contained" 
+              color="warning" 
+              onClick={handleConfirmModalOpen}
+              sx={{ minWidth: IS_MOBILE ? '100%' : 'auto' }}
+            >
+              Confirm Modal
+            </Button>
+            
+            <Button 
+              variant="contained" 
+              color="info" 
+              onClick={handleFormModalOpen}
+              sx={{ minWidth: IS_MOBILE ? '100%' : 'auto' }}
+            >
+              Form Modal
+            </Button>
+          </Stack>
+        </Paper>
+      </ResponsiveSection>
 
-      <Paper sx={{ p: 3 }}>
-        <Typography variant="h6" sx={{ mb: 2 }}>
-          Modal Usage
-        </Typography>
-        
-        <Typography variant="body1" color="text.secondary" sx={{ mb: 2 }}>
-          이 프로젝트에서는 두 가지 모달 시스템을 사용합니다:
-        </Typography>
-        
-        <Alert severity="info" sx={{ mb: 2 }}>
-          <Typography variant="body2">
-            <strong>1. 공통 모달 시스템:</strong> useModal hook과 모달 상수를 사용하여 도메인별로 관리되는 반응형 모달
+      <ResponsiveSection>
+        <Paper sx={{ p: IS_MOBILE ? 2 : 3 }}>
+          <Typography variant={IS_MOBILE ? "subtitle1" : "h6"} sx={{ mb: 2 }}>
+            Modal Usage
           </Typography>
-        </Alert>
-        
-        <Alert severity="warning">
-          <Typography variant="body2">
-            <strong>2. 기본 MUI Dialog:</strong> 간단한 확인/입력용 모달을 위한 전통적인 방식
+          
+          <Typography 
+            variant="body1" 
+            color="text.secondary" 
+            sx={{ mb: 2, fontSize: IS_MOBILE ? '0.875rem' : '1rem' }}
+          >
+            이 프로젝트에서는 두 가지 모달 시스템을 사용합니다:
           </Typography>
-        </Alert>
-      </Paper>
+          
+          <Alert severity="info" sx={{ mb: 2 }}>
+            <Typography variant={IS_MOBILE ? "caption" : "body2"} sx={{ fontSize: IS_MOBILE ? '0.75rem' : '0.875rem' }}>
+              <strong>1. 공통 모달 시스템:</strong> useModal hook과 모달 상수를 사용하여 도메인별로 관리되는 반응형 모달
+            </Typography>
+          </Alert>
+          
+          <Alert severity="warning">
+            <Typography variant={IS_MOBILE ? "caption" : "body2"} sx={{ fontSize: IS_MOBILE ? '0.75rem' : '0.875rem' }}>
+              <strong>2. 기본 MUI Dialog:</strong> 간단한 확인/입력용 모달을 위한 전통적인 방식
+            </Typography>
+          </Alert>
+        </Paper>
+      </ResponsiveSection>
 
       {/* Basic Modal */}
       <Dialog open={basicModalOpen} onClose={handleBasicModalClose}>
@@ -286,7 +318,7 @@ const ModalPage: React.FC = () => {
           </Button>
         </DialogActions>
       </Dialog>
-    </Box>
+    </ResponsiveContainer>
   );
 };
 
