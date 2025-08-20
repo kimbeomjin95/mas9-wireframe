@@ -64,7 +64,7 @@ const StyledButton = styled(Button)<{ designColor: DesignSystemButtonColor; desi
           // },
           '&:disabled': {
             backgroundColor: COLORS.BUTTON.DISABLED,
-            color: COLORS.DISABLED.TEXT_QUATERNARY,
+            color: COLORS.BACKGROUND.WHITE,
           },
         };
       case 'secondary':
@@ -80,7 +80,7 @@ const StyledButton = styled(Button)<{ designColor: DesignSystemButtonColor; desi
           // },
           '&:disabled': {
             backgroundColor: COLORS.BUTTON.DISABLED,
-            color: COLORS.DISABLED.TEXT_QUATERNARY,
+            color: COLORS.BACKGROUND.WHITE,
           },
         };
       case 'tertiary':
