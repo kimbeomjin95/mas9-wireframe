@@ -66,6 +66,10 @@ import CommunicationPage from './pages/settings/CommunicationPage';
 import SystemSecurityPage from './pages/settings/SystemSecurityPage';
 import SubscriptionBillingPage from './pages/settings/SubscriptionBillingPage';
 
+// Design System
+import ToastPage from './pages/design-system/ToastPage';
+import ModalPage from './pages/design-system/ModalPage';
+
 // Example
 import ExamplePage from './pages/ExamplePage';
 import PublicTestPage from './pages/PublicTestPage';
@@ -158,6 +162,10 @@ function App() {
             <Route path="/settings/communication" element={<ProtectedAdminRoute>커뮤니케이션 설정<CommunicationPage /></ProtectedAdminRoute>} />
             <Route path="/settings/system-security" element={<ProtectedAdminRoute>시스템 보안<SystemSecurityPage /></ProtectedAdminRoute>} />
             <Route path="/settings/subscription-billing" element={<ProtectedAdminRoute>구독 및 요금<SubscriptionBillingPage /></ProtectedAdminRoute>} />
+            
+            {/* Design System */}
+            <Route path="/design-system/toast" element={<ProtectedAdminRoute><ToastPage /></ProtectedAdminRoute>} />
+            <Route path="/design-system/modal" element={<ProtectedAdminRoute><ModalPage /></ProtectedAdminRoute>} />
             
             {/* 루트 경로는 홈으로 리다이렉션 */}
             <Route path="/" element={<Navigate to="/home" replace />} />

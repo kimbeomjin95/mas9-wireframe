@@ -58,4 +58,8 @@ export const ROUTER = {
   COMMUNICATION: '/settings/communication',
   SYSTEM_SECURITY: '/settings/system-security',
   SUB_BILLING: '/settings/subscription-billing',
+  
+  // 디자인 시스템
+  DESIGN_SYSTEM_TOAST: '/design-system/toast',
+  DESIGN_SYSTEM_MODAL: '/design-system/modal',
 } as const;

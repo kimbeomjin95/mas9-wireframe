@@ -28,6 +28,7 @@ import {
   MessageCircle,
   Shield,
   Mail,
+  TestTube,
 } from 'lucide-react';
 import { MENU_KEYS } from './menuKeys';
 import { ROUTER } from './routes';
@@ -59,6 +60,36 @@ export interface SubMenuItem {
 }
 
 export const menuList: MenuItem[] = [
+  {
+    menuId: 'M0000060',
+    menuNm: 'Design System',
+    menuNmEn: 'Design System',
+    menuUrl: '-',
+    orderNo: -1,
+    upperMenuId: 'TOP',
+    ico: TestTube,
+    isDevelopment: true,
+    subMenu: [
+      {
+        menuId: 'M0000061',
+        menuNm: 'Toast',
+        menuNmEn: 'Toast',
+        menuUrl: ROUTER.DESIGN_SYSTEM_TOAST,
+        orderNo: 0,
+        upperMenuId: 'M0000060',
+        isDevelopment: true,
+      },
+      {
+        menuId: 'M0000062',
+        menuNm: 'Modal',
+        menuNmEn: 'Modal',
+        menuUrl: ROUTER.DESIGN_SYSTEM_MODAL,
+        orderNo: 1,
+        upperMenuId: 'M0000060',
+        isDevelopment: true,
+      },
+    ],
+  },
   {
     menuId: 'M0000000',
     menuKey: MENU_KEYS.HOME,
@@ -589,6 +620,10 @@ export const routeToMenuMap = {
   // Reports
   [ROUTER.REPORTS_INSIGHTS]: { gnb: 'M0000054', snb: 'M0000055' },
   [ROUTER.REPORTS_REPORTS]: { gnb: 'M0000054', snb: 'M0000056' },
+
+  // 디자인 시스템 (Design System)
+  [ROUTER.DESIGN_SYSTEM_TOAST]: { gnb: 'M0000060', snb: 'M0000061' },
+  [ROUTER.DESIGN_SYSTEM_MODAL]: { gnb: 'M0000060', snb: 'M0000062' },
 
   // 설정 (Settings)
   [ROUTER.SCHOOL_SETUP]: { gnb: 'M0000034', snb: 'M0000049' },
