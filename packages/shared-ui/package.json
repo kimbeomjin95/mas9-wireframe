@@ -29,7 +29,8 @@
     "@mui/icons-material": "^5.15.7",
     "@mui/material": "^5.15.7",
     "lodash": "^4.17.21",
-    "lucide-react": "^0.321.0"
+    "lucide-react": "^0.321.0",
+    "react-toastify": "^10.0.5"
   },
   "devDependencies": {
     "@mas9/typescript-config": "workspace:*",
