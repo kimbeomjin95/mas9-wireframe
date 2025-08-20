@@ -1,7 +1,7 @@
 import { Bounce, toast, ToastOptions } from 'react-toastify'
 import { merge } from 'lodash'
 
-type ShowToastOptions = ToastOptions
+export type ShowToastOptions = ToastOptions
 export const showToast = (text: string, options?: ShowToastOptions) =>
   toast(
     text,

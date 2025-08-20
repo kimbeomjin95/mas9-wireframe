@@ -1,29 +1,19 @@
+// 🎯 Shared UI Package - 공통 컴포넌트, 훅, 유틸리티
+
+// 🎨 Theme
 export { theme } from './theme';
+
+// 🧩 Components
 export * from './components';
 
-// DataGrid 관련
-export { DataGrid, DATA_GRID_TYPES } from './DataGrid';
-export type { 
-  DataGridProps, 
-  ColumnDef, 
-  RowId, 
-  TableType 
-} from './DataGrid';
-export { default as TableSummaryHeader } from './TableSummaryHeader';
-export type { TableSummaryHeaderProps } from './TableSummaryHeader';
+// 🔌 Providers
+export * from './providers';
 
-// Providers
-export { ViewProvider, useView } from './providers/ViewProvider';
+// 🪝 Hooks
+export * from './hooks';
 
-// Hooks
-export { useModals } from './hooks/useModals';
+// 🏗️ Contexts
+export * from './contexts';
 
-// Contexts
-export { ModalsProvider, ModalsStateContext, ModalsDispatchContext } from './contexts/ModalsProvider';
-
-// Components
-export { Modals, COMMON_MODAL_ROUTES, COMMON_MODALS } from './components/Modals';
-
-// Utils
-export { isMobile, isTablet } from './utils/user-agent.util';
-export { showToast } from './utils/toasts.util';
+// 🛠️ Utils
+export * from './utils';

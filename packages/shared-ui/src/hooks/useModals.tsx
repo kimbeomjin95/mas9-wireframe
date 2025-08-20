@@ -1,6 +1,7 @@
 import { useContext, useCallback } from 'react'
-import { COMMON_MODALS, COMMON_MODAL_ROUTES } from '../components/Modals'
+import { COMMON_MODALS, COMMON_MODAL_ROUTES } from '../components/modals'
 import { ModalsDispatchContext } from '../contexts/ModalsProvider'
+
 
 function useModals() {
   const { open } = useContext(ModalsDispatchContext)

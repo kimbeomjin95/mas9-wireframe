@@ -1,4 +1,4 @@
-import { Modals } from '../components/Modals'
+import { Modals } from '../components/modals'
 import {
   ReactNode,
   ReactElement,

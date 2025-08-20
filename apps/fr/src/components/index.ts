@@ -9,4 +9,7 @@ export { AdminLayout, AdminHeader, AdminSidebar } from './layout';
 // Wireframe 컴포넌트
 export { WireframeRequestForm, CodeDisplay, HistoryPanel } from './wireframe';
 
+// Modal 컴포넌트
+export * from './modals';
+
 // 추가 컴포넌트들을 이곳에서 export합니다

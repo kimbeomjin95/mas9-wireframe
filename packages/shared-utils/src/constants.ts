@@ -3,9 +3,9 @@ export const API_ENDPOINTS = {
 } as const;
 
 export const APP_CONFIG = {
-  name: 'AI Wireframe Generator',
+  name: 'MAS9 Wireframe',
   version: '0.0.0',
-  description: 'MUI 기반 화면설계서 실시간 생성 도구',
+  description: 'MAS9 Wireframe',
 } as const;
 
 export const LOCAL_STORAGE_KEYS = {

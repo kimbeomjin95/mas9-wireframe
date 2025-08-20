@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { Box, Typography, Button, Chip, Card, CardContent, Alert } from '@mui/material';
 import { Users, Plus, Edit, Trash2, Smartphone, Monitor, TestTube } from 'lucide-react';
-import { DataGrid, ColumnDef, useView, showToast, useModals } from '@mas9/shared-ui';
+import { DataGrid, ColumnDef, useView, showToast } from '@mas9/shared-ui';
+import { useModal } from '@/hooks/useModal';
+import { TEST_MODALS, PROFILE_NOTIFICATION_MODALS } from '@/constants/modals';
 
 interface UserProfile {
   id: number;
@@ -18,7 +20,7 @@ const ProfilesPage: React.FC = () => {
   
   // 공통 hooks 사용
   const { IS_MOBILE, IS_TABLET, viewType } = useView();
-  const { openModal } = useModals();
+  const { openModal } = useModal();
 
   // 샘플 데이터
   const profiles: UserProfile[] = [
@@ -164,19 +166,19 @@ const ProfilesPage: React.FC = () => {
     setSelected(new Set());
   };
 
-  const handleSelectOne = (event: React.ChangeEvent, row: UserProfile) => {
+  const handleSelectOne = (_event: React.ChangeEvent, row: UserProfile) => {
     const newSelected = new Set(selected);
     newSelected.add(row.id);
     setSelected(newSelected);
   };
 
-  const handleDeselectOne = (event: React.ChangeEvent, row: UserProfile) => {
+  const handleDeselectOne = (_event: React.ChangeEvent, row: UserProfile) => {
     const newSelected = new Set(selected);
     newSelected.delete(row.id);
     setSelected(newSelected);
   };
 
-  const handleRowClick = (event: React.MouseEvent, row: UserProfile) => {
+  const handleRowClick = (_event: React.MouseEvent, row: UserProfile) => {
     console.log('Row clicked:', row);
   };
 
@@ -206,16 +208,64 @@ const ProfilesPage: React.FC = () => {
     });
   };
 
+  // 🎯 개선된 모달 테스트 - 도메인별로 직접 사용!
   const handleModalTest = async () => {
     try {
-      // 현재는 모달 컴포넌트가 없으므로 토스트로 대체
-      showToast('📋 모달 시스템이 준비되었습니다!', { 
+      const result = await openModal(TEST_MODALS.TEST_SAMPLE_MODAL, {
+        title: '샘플 모달 테스트',
+        data: { message: '프로필 페이지에서 열었습니다!' }
+      });
+      
+      showToast(`모달 결과: ${result}`, { 
+        type: 'success',
+        position: 'top-right' 
+      });
+    } catch (error) {
+      showToast('모달 테스트 실패', { type: 'error' });
+    }
+  };
+
+  const handleResponsiveModalTest = async () => {
+    try {
+      const result = await openModal(TEST_MODALS.TEST_RESPONSIVE_MODAL, {
+        title: '반응형 모달 테스트',
+        data: { 
+          message: IS_MOBILE ? '모바일에서 BottomSheet로 표시됩니다' : 'PC에서 Dialog로 표시됩니다',
+          device: IS_MOBILE ? 'Mobile' : IS_TABLET ? 'Tablet' : 'PC'
+        }
+      });
+      
+      showToast(`반응형 모달 결과: ${result}`, { 
         type: 'info',
         position: 'top-right' 
       });
-      console.log('Modal system is ready for implementation');
     } catch (error) {
-      showToast('모달 테스트 실패', { type: 'error' });
+      showToast('반응형 모달 테스트 실패', { type: 'error' });
+    }
+  };
+
+  const handleNotificationModalTest = async () => {
+    try {
+      const result = await openModal(PROFILE_NOTIFICATION_MODALS.PROFILE_NOTIFICATION_SETTINGS, {
+        title: '알림 설정',
+        userData: {
+          id: 1,
+          name: '김철수',
+          email: 'kim@example.com',
+          notifications: {
+            email: true,
+            push: false,
+            sms: true
+          }
+        }
+      });
+      
+      showToast(`알림 설정 모달 결과: ${result}`, { 
+        type: 'warning',
+        position: 'top-right' 
+      });
+    } catch (error) {
+      showToast('알림 설정 모달 테스트 실패', { type: 'error' });
     }
   };
 
@@ -304,7 +354,23 @@ const ProfilesPage: React.FC = () => {
               onClick={handleModalTest}
               data-testid="modal-test-btn"
             >
-              Modal Test
+              샘플 모달
+            </Button>
+            <Button 
+              size="small" 
+              variant="outlined" 
+              onClick={handleResponsiveModalTest}
+              data-testid="responsive-modal-btn"
+            >
+              반응형 모달
+            </Button>
+            <Button 
+              size="small" 
+              variant="outlined" 
+              onClick={handleNotificationModalTest}
+              data-testid="notification-modal-btn"
+            >
+              알림 설정 모달
             </Button>
           </Box>
         </CardContent>
