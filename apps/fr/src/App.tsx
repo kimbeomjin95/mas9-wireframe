@@ -77,9 +77,13 @@ import ExamplePage from './pages/ExamplePage';
 import PublicTestPage from './pages/PublicTestPage';
 
 // Protected Route with Admin Layout
-const ProtectedAdminRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+const ProtectedAdminRoute: React.FC<{ 
+  children: React.ReactNode;
+  title?: string;
+  pageId?: string;
+}> = ({ children, title, pageId }) => (
   <ProtectedRoute>
-    <AdminLayout>
+    <AdminLayout title={title} pageId={pageId}>
       {children}
     </AdminLayout>
   </ProtectedRoute>
@@ -109,7 +113,11 @@ function App() {
             <Route path="/home" element={<ProtectedAdminRoute><HomePage /></ProtectedAdminRoute>} />
             
             {/* Accounts */}
-            <Route path="/accounts/profiles" element={<ProtectedAdminRoute ><ProfilesPage /></ProtectedAdminRoute>} />
+            <Route path="/accounts/profiles" element={
+              <ProtectedAdminRoute title="Accounts" pageId="accounts">
+                <ProfilesPage />
+              </ProtectedAdminRoute>
+            } />
             <Route path="/accounts/groups" element={<ProtectedAdminRoute>그룹 관리<GroupsPage /></ProtectedAdminRoute>} />
             <Route path="/accounts/tags" element={<ProtectedAdminRoute>태그 관리<TagsPage /></ProtectedAdminRoute>} />
             

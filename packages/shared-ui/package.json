@@ -16,8 +16,8 @@
     "dist/**"
   ],
   "scripts": {
-    "build": "tsup src/index.ts --format esm,cjs --dts --external react",
-    "dev": "tsup src/index.ts --format esm,cjs --dts --external react --watch",
+    "build": "tsup src/index.ts --format esm,cjs --dts --sourcemap --external react",
+    "dev": "tsup src/index.ts --format esm,cjs --dts --sourcemap --external react --watch",
     "lint": "echo 'Linting disabled for TypeScript files - use type-check instead'",
     "type-check": "tsc --noEmit"
   },

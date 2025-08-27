@@ -80,7 +80,8 @@ export default defineConfig(({ command, mode }) => {
         'lucide-react',
         'zustand',
       ],
-      exclude: ['@mas9/shared-types'],
+      exclude: ['@mas9/shared-types', '@mas9/shared-ui', '@mas9/shared-utils'],
+      force: true, // 의존성 다시 빌드 강제
     },
     
     // 환경변수 설정

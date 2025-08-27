@@ -19,6 +19,7 @@ import {
   LogOut,
   Settings,
   Palette,
+  FileText,
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
@@ -26,11 +27,13 @@ import { useAuth } from '../../hooks/useAuth';
 interface AdminHeaderProps {
   onMenuToggle?: () => void;
   title?: string;
+  onWireframeToggle?: () => void;
 }
 
 export const AdminHeader: React.FC<AdminHeaderProps> = ({
   onMenuToggle,
   title = 'MAS9 Wireframe',
+  onWireframeToggle,
 }) => {
   const { user, handleLogout } = useAuth();
   const navigate = useNavigate();
@@ -121,6 +124,25 @@ export const AdminHeader: React.FC<AdminHeaderProps> = ({
 
           {/* 사용자 정보 영역 */}
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+            {/* 화면설계서 버튼 */}
+            {onWireframeToggle && (
+              <IconButton
+                onClick={onWireframeToggle}
+                size="small"
+                sx={{
+                  bgcolor: 'primary.light',
+                  color: 'primary.main',
+                  '&:hover': {
+                    bgcolor: 'primary.main',
+                    color: 'primary.contrastText',
+                  },
+                }}
+                title="화면설계서 보기"
+              >
+                <FileText size={18} />
+              </IconButton>
+            )}
+            
             {/* 사용자 이름 (데스크톱에서만 표시) */}
             <Typography
               variant='body2'

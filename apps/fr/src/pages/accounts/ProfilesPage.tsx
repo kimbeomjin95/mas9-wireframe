@@ -1,165 +1,213 @@
-import React, { useState } from 'react';
-import { Box, Typography, Button, Chip, Card, CardContent, Alert } from '@mui/material';
-import { Users, Plus, Edit, Trash2, Smartphone, Monitor, TestTube } from 'lucide-react';
-import { DataGrid, ColumnDef, useView, showToast } from '@mas9/shared-ui';
-import { useModal } from '@/hooks/useModal';
-import { TEST_MODALS, PROFILE_NOTIFICATION_MODALS } from '@/constants/modals';
+import React, { useState, useMemo } from 'react';
+import {
+  Box,
+  Typography,
+  Button,
+  Chip,
+  TextField,
+  MenuItem,
+  Paper,
+  IconButton,
+  Avatar,
+  InputAdornment,
+} from '@mui/material';
+import {
+  Search,
+  ChevronDown,
+  X,
+  MoreHorizontal,
+  Info,
+} from 'lucide-react';
+import { DataGrid, ColumnDef } from '@mas9/shared-ui';
 
 interface UserProfile {
   id: number;
   name: string;
   email: string;
-  role: 'admin' | 'teacher' | 'student' | 'parent';
-  status: 'active' | 'inactive';
-  createdAt: string;
-  lastLogin: string;
+  tag: string;
+  membership: string;
+  expirationDate: string;
+  rank: string;
+  status: 'Active' | 'Inactive';
+  avatar: string;
 }
 
 const ProfilesPage: React.FC = () => {
   const [selected, setSelected] = useState<Set<number>>(new Set());
-  
-  // 공통 hooks 사용
-  const { IS_MOBILE, IS_TABLET, viewType } = useView();
-  const { openModal } = useModal();
+  const [searchTerm, setSearchTerm] = useState('');
+  const [statusFilter, setStatusFilter] = useState<string>('');
+  const [membershipFilter, setMembershipFilter] = useState<string>('');
+  const [tagFilter, setTagFilter] = useState<string>('');
+  const [rankFilter, setRankFilter] = useState<string>('');
+  const [expirationDateFilter, setExpirationDateFilter] = useState<string>('');
 
-  // 샘플 데이터
+
+  // 피그마 데이터와 일치하는 샘플 데이터
   const profiles: UserProfile[] = [
     {
       id: 1,
-      name: '김철수',
-      email: 'kim@example.com',
-      role: 'admin',
-      status: 'active',
-      createdAt: '2024-01-15',
-      lastLogin: '2024-08-20 09:30'
+      name: 'Jonathan Kensington-Smythe',
+      email: 'jonathan@example.com',
+      tag: 'TagTheTagTheTag T',
+      membership: 'SUB Auto Renewal Membership 001',
+      expirationDate: 'MM/DD/YYYY',
+      rank: 'Regular',
+      status: 'Active',
+      avatar: '/api/placeholder/40/40'
     },
     {
       id: 2,
-      name: '이영희',
-      email: 'lee@example.com',
-      role: 'teacher',
-      status: 'active',
-      createdAt: '2024-02-20',
-      lastLogin: '2024-08-19 14:20'
+      name: 'Jonathan Kensington-Smythe',
+      email: 'jonathan2@example.com',
+      tag: 'TagTheTagTheTag T',
+      membership: 'SUB Auto Renewal Membership 001',
+      expirationDate: 'MM/DD/YYYY',
+      rank: 'Regular',
+      status: 'Active',
+      avatar: '/api/placeholder/40/40'
     },
     {
       id: 3,
-      name: '박민수',
-      email: 'park@example.com',
-      role: 'student',
-      status: 'inactive',
-      createdAt: '2024-03-10',
-      lastLogin: '2024-08-10 16:45'
+      name: 'Jonathan Kensington-Smythe',
+      email: 'jonathan3@example.com',
+      tag: 'TagTheTagTheTag T',
+      membership: 'SUB Auto Renewal Membership 001',
+      expirationDate: 'MM/DD/YYYY',
+      rank: 'Regular',
+      status: 'Active',
+      avatar: '/api/placeholder/40/40'
     },
     {
       id: 4,
-      name: '최미영',
-      email: 'choi@example.com',
-      role: 'parent',
-      status: 'active',
-      createdAt: '2024-03-15',
-      lastLogin: '2024-08-20 08:15'
-    }
+      name: 'Jonathan Kensington-Smythe',
+      email: 'jonathan4@example.com',
+      tag: 'TagTheTagTheTag T',
+      membership: 'SUB Auto Renewal Membership 001',
+      expirationDate: 'MM/DD/YYYY',
+      rank: 'Regular',
+      status: 'Active',
+      avatar: '/api/placeholder/40/40'
+    },
+    {
+      id: 5,
+      name: 'Jonathan Kensington-Smythe',
+      email: 'jonathan5@example.com',
+      tag: 'TagTheTagTheTag T',
+      membership: 'SUB Auto Renewal Membership 001',
+      expirationDate: 'MM/DD/YYYY',
+      rank: 'Regular',
+      status: 'Active',
+      avatar: '/api/placeholder/40/40'
+    },
   ];
+
+  // 활성 필터들
+  const activeFilterTags = [
+    'Active',
+    'SUB Auto Renewal Membership 001', 
+    'White',
+    'MM/DD/YYYY - MM/DD/YYYY',
+    'SUB Auto Renewal Membership 001',
+    'SUB Auto Renewal Membership 001',
+    'White',
+    '+10'
+  ];
+
+  // 필터링된 데이터
+  const filteredProfiles = useMemo(() => {
+    return profiles.filter((profile) => {
+      const matchesSearch = 
+        profile.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        profile.email.toLowerCase().includes(searchTerm.toLowerCase());
+      
+      return matchesSearch;
+    });
+  }, [profiles, searchTerm]);
 
   const columns: ColumnDef<UserProfile>[] = [
     {
-      name: '이름',
+      name: 'Name',
       field: 'name',
-      width: 120,
-      align: 'left'
-    },
-    {
-      name: '이메일',
-      field: 'email',
-      width: 200,
-      align: 'left'
-    },
-    {
-      name: '역할',
-      field: 'role',
-      width: 100,
-      formatter: (row) => {
-        const roleLabels = {
-          admin: '관리자',
-          teacher: '강사',
-          student: '학생',
-          parent: '학부모'
-        };
-        const colors = {
-          admin: 'error',
-          teacher: 'primary',
-          student: 'success',
-          parent: 'warning'
-        } as const;
-        
-        return (
-          <Chip 
-            label={roleLabels[row.role]} 
-            color={colors[row.role]}
-            size="small"
-          />
-        );
-      }
-    },
-    {
-      name: '상태',
-      field: 'status',
-      width: 80,
+      align: 'left',
       formatter: (row) => (
-        <Chip 
-          label={row.status === 'active' ? '활성' : '비활성'} 
-          color={row.status === 'active' ? 'success' : 'default'}
-          size="small"
-          variant="outlined"
-        />
-      )
-    },
-    {
-      name: '가입일',
-      field: 'createdAt',
-      width: 120,
-      align: 'center'
-    },
-    {
-      name: '최근 로그인',
-      field: 'lastLogin',
-      width: 150,
-      align: 'center'
-    },
-    {
-      name: '액션',
-      width: 120,
-      formatter: (row) => (
-        <Box sx={{ display: 'flex', gap: 1 }}>
-          <Button
-            size="small"
-            startIcon={<Edit size={14} />}
-            onClick={(e) => {
-              e.stopPropagation();
-              console.log('Edit user:', row.id);
-            }}
-          >
-            수정
-          </Button>
-          <Button
-            size="small"
-            color="error"
-            startIcon={<Trash2 size={14} />}
-            onClick={(e) => {
-              e.stopPropagation();
-              console.log('Delete user:', row.id);
-            }}
-          >
-            삭제
-          </Button>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+          <Avatar src={row.avatar} sx={{ width: 32, height: 32 }}>
+            {row.name.charAt(0)}
+          </Avatar>
+          <Typography variant="body2" fontWeight={500}>
+            {row.name}
+          </Typography>
         </Box>
-      )
-    }
+      ),
+    },
+    {
+      name: 'Tag',
+      field: 'tag',
+      align: 'left',
+      formatter: (row) => (
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+          <Typography variant="body2" color="text.secondary">
+            {row.tag}
+          </Typography>
+          <Typography variant="body2" color="primary" fontWeight={500}>
+            +1
+          </Typography>
+        </Box>
+      ),
+    },
+    {
+      name: '',
+      field: 'membership',
+      align: 'left',
+      formatter: (row) => (
+        <Typography variant="body2">
+          {row.membership}
+        </Typography>
+      ),
+    },
+    {
+      name: '',
+      field: 'expirationDate',
+      align: 'left',
+      formatter: (row) => (
+        <Typography variant="body2">
+          {row.expirationDate}
+        </Typography>
+      ),
+    },
+    {
+      name: '',
+      field: 'rank',
+      align: 'left',
+      formatter: (row) => (
+        <Typography variant="body2">
+          {row.rank}
+        </Typography>
+      ),
+    },
+    {
+      name: '',
+      field: 'status',
+      align: 'left',
+      formatter: (row) => (
+        <Typography variant="body2" color="success.main">
+          {row.status}
+        </Typography>
+      ),
+    },
+    {
+      name: 'Payment Info',
+      align: 'right',
+      formatter: () => (
+        <IconButton size="small" sx={{ color: 'text.secondary' }}>
+          <Info size={16} />
+        </IconButton>
+      ),
+    },
   ];
 
   const handleSelectAll = () => {
-    setSelected(new Set(profiles.map(p => p.id)));
+    setSelected(new Set(filteredProfiles.map((p) => p.id)));
   };
 
   const handleDeselectAll = () => {
@@ -182,234 +230,316 @@ const ProfilesPage: React.FC = () => {
     console.log('Row clicked:', row);
   };
 
-  // 공통 hooks 테스트 함수들
-  const handleSuccessToast = () => {
-    showToast('✅ 성공 메시지 테스트!', { type: 'success' });
-  };
-
-  const handleErrorToast = () => {
-    showToast('❌ 에러 메시지 테스트!', { type: 'error' });
-  };
-
-  const handleInfoToast = () => {
-    showToast('ℹ️ 정보 메시지 테스트!', { type: 'info' });
-  };
-
-  const handleWarningToast = () => {
-    showToast('⚠️ 경고 메시지 테스트!', { type: 'warning' });
-  };
-
-  const handleCustomToast = () => {
-    showToast('🎉 커스텀 위치 토스트!', {
-      type: 'success',
-      position: 'top-center',
-      autoClose: 5000,
-      hideProgressBar: false
-    });
-  };
-
-  // 🎯 개선된 모달 테스트 - 도메인별로 직접 사용!
-  const handleModalTest = async () => {
-    try {
-      const result = await openModal(TEST_MODALS.TEST_SAMPLE_MODAL, {
-        title: '샘플 모달 테스트',
-        data: { message: '프로필 페이지에서 열었습니다!' }
-      });
-      
-      showToast(`모달 결과: ${result}`, { 
-        type: 'success',
-        position: 'top-right' 
-      });
-    } catch (error) {
-      showToast('모달 테스트 실패', { type: 'error' });
-    }
-  };
-
-  const handleResponsiveModalTest = async () => {
-    try {
-      const result = await openModal(TEST_MODALS.TEST_RESPONSIVE_MODAL, {
-        title: '반응형 모달 테스트',
-        data: { 
-          message: IS_MOBILE ? '모바일에서 BottomSheet로 표시됩니다' : 'PC에서 Dialog로 표시됩니다',
-          device: IS_MOBILE ? 'Mobile' : IS_TABLET ? 'Tablet' : 'PC'
-        }
-      });
-      
-      showToast(`반응형 모달 결과: ${result}`, { 
-        type: 'info',
-        position: 'top-right' 
-      });
-    } catch (error) {
-      showToast('반응형 모달 테스트 실패', { type: 'error' });
-    }
-  };
-
-  const handleNotificationModalTest = async () => {
-    try {
-      const result = await openModal(PROFILE_NOTIFICATION_MODALS.PROFILE_NOTIFICATION_SETTINGS, {
-        title: '알림 설정',
-        userData: {
-          id: 1,
-          name: '김철수',
-          email: 'kim@example.com',
-          notifications: {
-            email: true,
-            push: false,
-            sms: true
-          }
-        }
-      });
-      
-      showToast(`알림 설정 모달 결과: ${result}`, { 
-        type: 'warning',
-        position: 'top-right' 
-      });
-    } catch (error) {
-      showToast('알림 설정 모달 테스트 실패', { type: 'error' });
-    }
+  const clearAllFilters = () => {
+    setSearchTerm('');
+    setStatusFilter('');
+    setMembershipFilter('');
+    setTagFilter('');
+    setRankFilter('');
+    setExpirationDateFilter('');
   };
 
   return (
-    <Box sx={{ p: 3 }}>
-      <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
-        <Users size={24} style={{ marginRight: 8 }} />
-        <Typography variant="h4" component="h1">
-          프로필 관리
-        </Typography>
+    <Box sx={{ 
+      width: '100%'
+    }}>
+      {/* Header Section - 피그마와 정확히 일치 */}
+      <Box sx={{ 
+        display: 'flex', 
+        justifyContent: 'space-between', 
+        alignItems: 'flex-start',
+        mb: 3
+      }}>
+        <Box>
+          <Typography variant="h4" fontWeight={600} sx={{ color: '#1a1a1a', mb: 0.5 }}>
+            Accounts
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            View, add, edit and delete school members' details.
+          </Typography>
+        </Box>
+        
+        <Box sx={{ display: 'flex', gap: 1 }}>
+          <Button
+            variant="outlined"
+            size="medium"
+            sx={{ 
+              color: '#374151',
+              borderColor: '#d1d5db',
+              textTransform: 'none',
+              fontWeight: 500
+            }}
+          >
+            Export
+          </Button>
+          <Button
+            variant="outlined"
+            size="medium"
+            endIcon={<ChevronDown size={16} />}
+            sx={{ 
+              color: '#374151',
+              borderColor: '#d1d5db',
+              textTransform: 'none',
+              fontWeight: 500
+            }}
+          >
+            Action
+          </Button>
+          <Button
+            variant="contained"
+            size="medium"
+            sx={{ 
+              bgcolor: '#dc2626',
+              '&:hover': { bgcolor: '#b91c1c' },
+              textTransform: 'none',
+              fontWeight: 500,
+              boxShadow: 'none'
+            }}
+          >
+            Add member
+          </Button>
+        </Box>
       </Box>
-      
-      <Typography variant="body1" color="text.secondary" gutterBottom>
-        사용자 프로필을 조회하고 관리할 수 있습니다.
+
+      {/* Search Bar - 피그마와 정확히 일치 */}
+      <Box sx={{ mb: 3 }}>
+        <TextField
+          fullWidth
+          placeholder="Search by member name"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <Search size={20} color="#9ca3af" />
+              </InputAdornment>
+            ),
+          }}
+          sx={{
+            maxWidth: 400,
+            '& .MuiOutlinedInput-root': {
+              bgcolor: 'white',
+              borderRadius: '8px',
+              '& fieldset': {
+                borderColor: '#e5e7eb',
+              },
+              '&:hover fieldset': {
+                borderColor: '#d1d5db',
+              },
+              '&.Mui-focused fieldset': {
+                borderColor: '#3b82f6',
+              },
+            },
+          }}
+        />
+      </Box>
+
+      {/* Filter Dropdowns - 피그마와 정확히 일치 */}
+      <Box sx={{ 
+        display: 'flex', 
+        gap: 2, 
+        mb: 2,
+        flexWrap: 'wrap',
+        alignItems: 'center'
+      }}>
+        <TextField
+          select
+          value={statusFilter}
+          onChange={(e) => setStatusFilter(e.target.value)}
+          sx={{ minWidth: 120 }}
+          size="small"
+          label="Status"
+          InputProps={{
+            endAdornment: <ChevronDown size={16} />
+          }}
+          SelectProps={{
+            displayEmpty: true,
+            renderValue: (value: unknown) => (value as string) || 'Status'
+          }}
+        >
+          <MenuItem value="">All</MenuItem>
+          <MenuItem value="Active">Active</MenuItem>
+          <MenuItem value="Inactive">Inactive</MenuItem>
+        </TextField>
+
+        <TextField
+          select
+          value={membershipFilter}
+          onChange={(e) => setMembershipFilter(e.target.value)}
+          sx={{ minWidth: 140 }}
+          size="small"
+          label="Membership"
+          SelectProps={{
+            displayEmpty: true,
+            renderValue: (value: unknown) => (value as string) || 'Membership'
+          }}
+        >
+          <MenuItem value="">All</MenuItem>
+          <MenuItem value="SUB">SUB Auto Renewal</MenuItem>
+        </TextField>
+
+        <TextField
+          select
+          value={tagFilter}
+          onChange={(e) => setTagFilter(e.target.value)}
+          sx={{ minWidth: 100 }}
+          size="small"
+          label="Tag"
+          SelectProps={{
+            displayEmpty: true,
+            renderValue: (value: unknown) => (value as string) || 'Tag'
+          }}
+        >
+          <MenuItem value="">All</MenuItem>
+        </TextField>
+
+        <TextField
+          select
+          value={rankFilter}
+          onChange={(e) => setRankFilter(e.target.value)}
+          sx={{ minWidth: 100 }}
+          size="small"
+          label="Rank"
+          SelectProps={{
+            displayEmpty: true,
+            renderValue: (value: unknown) => (value as string) || 'Rank'
+          }}
+        >
+          <MenuItem value="">All</MenuItem>
+          <MenuItem value="Regular">Regular</MenuItem>
+        </TextField>
+
+        <TextField
+          select
+          value={expirationDateFilter}
+          onChange={(e) => setExpirationDateFilter(e.target.value)}
+          sx={{ minWidth: 160 }}
+          size="small"
+          label="Expiration Date"
+          SelectProps={{
+            displayEmpty: true,
+            renderValue: (value: unknown) => (value as string) || 'Expiration Date'
+          }}
+        >
+          <MenuItem value="">All</MenuItem>
+        </TextField>
+
+        <Button
+          variant="outlined"
+          size="small"
+          startIcon={<MoreHorizontal size={16} />}
+          sx={{ 
+            color: '#374151',
+            borderColor: '#d1d5db',
+            textTransform: 'none'
+          }}
+        >
+          More Filters
+          <Chip 
+            label="1" 
+            size="small" 
+            sx={{ 
+              ml: 1, 
+              height: 18, 
+              bgcolor: '#3b82f6', 
+              color: 'white',
+              fontSize: '0.75rem'
+            }} 
+          />
+        </Button>
+      </Box>
+
+      {/* Active Filter Tags - 피그마와 정확히 일치 */}
+      <Box sx={{ 
+        display: 'flex', 
+        gap: 1, 
+        mb: 3,
+        flexWrap: 'wrap',
+        alignItems: 'center'
+      }}>
+        {activeFilterTags.map((tag, index) => (
+          <Chip
+            key={index}
+            label={tag}
+            size="small"
+            onDelete={() => {}}
+            deleteIcon={<X size={14} />}
+            sx={{
+              bgcolor: '#f3f4f6',
+              color: '#374151',
+              border: '1px solid #e5e7eb',
+              '& .MuiChip-deleteIcon': {
+                color: '#6b7280'
+              }
+            }}
+          />
+        ))}
+        <Button
+          variant="text"
+          size="small"
+          onClick={clearAllFilters}
+          sx={{ 
+            color: '#6b7280',
+            textDecoration: 'underline',
+            textTransform: 'none',
+            minWidth: 'auto',
+            p: 0
+          }}
+        >
+          Clear All
+        </Button>
+      </Box>
+
+      {/* Total Count - 피그마와 정확히 일치 */}
+      <Typography variant="body2" fontWeight={500} sx={{ mb: 2, color: '#1f2937' }}>
+        Total: {filteredProfiles.length}
       </Typography>
 
-      {/* 공통 Hooks 테스트 섹션 */}
-      <Card sx={{ mb: 3, bgcolor: 'primary.light', color: 'primary.contrastText' }}>
-        <CardContent>
-          <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-            <TestTube size={20} style={{ marginRight: 8 }} />
-            <Typography variant="h6">공통 Hooks 테스트</Typography>
-          </Box>
-          
-          {/* ViewProvider 테스트 */}
-          <Alert severity="info" sx={{ mb: 2 }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-              {IS_MOBILE ? <Smartphone size={16} /> : <Monitor size={16} />}
-              <Typography variant="body2">
-                현재 디바이스: {IS_MOBILE ? '모바일' : IS_TABLET ? '태블릿' : 'PC'} | 
-                ViewType: {viewType} | 
-                IS_MOBILE: {IS_MOBILE ? 'true' : 'false'}
-              </Typography>
-            </Box>
-          </Alert>
+      {/* Data Table - DataGrid 유지 */}
+      <Paper 
+        elevation={0} 
+        sx={{ 
+          border: '1px solid #e5e7eb',
+          borderRadius: '8px',
+          overflow: 'hidden'
+        }}
+      >
+        <DataGrid
+          columns={columns}
+          rows={filteredProfiles}
+          count={filteredProfiles.length}
+          selectable
+          selected={selected}
+          onSelectAll={handleSelectAll}
+          onDeselectAll={handleDeselectAll}
+          onSelectOne={handleSelectOne}
+          onDeselectOne={handleDeselectOne}
+          onClick={handleRowClick}
+          hover
+        />
+      </Paper>
 
-          {/* Toast 테스트 버튼들 */}
-          <Box sx={{ display: 'flex', gap: 1, mb: 2, flexWrap: 'wrap' }}>
-            <Button 
-              size="small" 
-              variant="contained" 
-              color="success"
-              onClick={handleSuccessToast}
-              data-testid="success-toast-btn"
-            >
-              Success Toast
-            </Button>
-            <Button 
-              size="small" 
-              variant="contained" 
-              color="error"
-              onClick={handleErrorToast}
-              data-testid="error-toast-btn"
-            >
-              Error Toast
-            </Button>
-            <Button 
-              size="small" 
-              variant="contained" 
-              color="info"
-              onClick={handleInfoToast}
-              data-testid="info-toast-btn"
-            >
-              Info Toast
-            </Button>
-            <Button 
-              size="small" 
-              variant="contained" 
-              color="warning"
-              onClick={handleWarningToast}
-              data-testid="warning-toast-btn"
-            >
-              Warning Toast
-            </Button>
-            <Button 
-              size="small" 
-              variant="outlined" 
-              onClick={handleCustomToast}
-              data-testid="custom-toast-btn"
-            >
-              Custom Toast
-            </Button>
-            <Button 
-              size="small" 
-              variant="outlined" 
-              onClick={handleModalTest}
-              data-testid="modal-test-btn"
-            >
-              샘플 모달
-            </Button>
-            <Button 
-              size="small" 
-              variant="outlined" 
-              onClick={handleResponsiveModalTest}
-              data-testid="responsive-modal-btn"
-            >
-              반응형 모달
-            </Button>
-            <Button 
-              size="small" 
-              variant="outlined" 
-              onClick={handleNotificationModalTest}
-              data-testid="notification-modal-btn"
-            >
-              알림 설정 모달
-            </Button>
-          </Box>
-        </CardContent>
-      </Card>
-
-      <Box sx={{ mt: 3, display: 'flex', gap: 2, mb: 3 }}>
-        <Button 
-          variant="contained" 
-          startIcon={<Plus size={16} />}
-          onClick={() => console.log('Add new profile')}
+      {/* Floating Action Button - 피그마 우하단 */}
+      <Box sx={{ 
+        position: 'fixed', 
+        bottom: 24, 
+        right: 24 
+      }}>
+        <Button
+          variant="contained"
+          sx={{
+            bgcolor: '#dc2626',
+            '&:hover': { bgcolor: '#b91c1c' },
+            borderRadius: '50%',
+            width: 56,
+            height: 56,
+            minWidth: 'auto',
+            boxShadow: '0 4px 12px rgba(220, 38, 38, 0.3)'
+          }}
         >
-          새 프로필 추가
+          +
         </Button>
-        {selected.size > 0 && (
-          <Button 
-            variant="outlined" 
-            color="error"
-            startIcon={<Trash2 size={16} />}
-            onClick={() => console.log('Delete selected:', Array.from(selected))}
-          >
-            선택 삭제 ({selected.size})
-          </Button>
-        )}
       </Box>
-
-      <DataGrid
-        columns={columns}
-        rows={profiles}
-        count={profiles.length}
-        selectable
-        selected={selected}
-        onSelectAll={handleSelectAll}
-        onDeselectAll={handleDeselectAll}
-        onSelectOne={handleSelectOne}
-        onDeselectOne={handleDeselectOne}
-        onClick={handleRowClick}
-        hover
-        uniqueRowId={(row) => row.id}
-      />
     </Box>
   );
 };

@@ -2,15 +2,18 @@ import React, { useState } from 'react';
 import { Box, useTheme, useMediaQuery } from '@mui/material';
 import { AdminHeader } from './AdminHeader';
 import { AdminSidebar } from './AdminSidebar';
+import { WireframeDrawer } from '../wireframe/WireframeDrawer';
 
 interface AdminLayoutProps {
   children: React.ReactNode;
   title?: string;
+  pageId?: string;
 }
 
 export const AdminLayout: React.FC<AdminLayoutProps> = ({
   children,
   title,
+  pageId,
 }) => {
   console.log('🎯 ===== AdminLayout 컴포넌트 시작 =====');
   console.log('🏗️ AdminLayout 렌더링:', {
@@ -27,6 +30,8 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
   const [sidebarOpen, setSidebarOpen] = useState(!isMobile);
   // 데스크톱에서만 사이드바 접힘 상태 관리
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  // 화면설계서 Drawer 상태
+  const [wireframeDrawerOpen, setWireframeDrawerOpen] = useState(false);
 
   const handleSidebarToggle = () => {
     if (isMobile) {
@@ -68,7 +73,11 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
   return (
     <Box sx={{ display: 'flex', minHeight: '100vh' }}>
       {/* 헤더 */}
-      <AdminHeader onMenuToggle={handleSidebarToggle} title={title} />
+      <AdminHeader 
+        onMenuToggle={handleSidebarToggle} 
+        title={title}
+        onWireframeToggle={() => setWireframeDrawerOpen(true)}
+      />
 
       {/* 사이드바 */}
       <AdminSidebar
@@ -113,6 +122,15 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
           {children}
         </Box>
       </Box>
+      
+      {/* 화면설계서 Drawer */}
+      {pageId && (
+        <WireframeDrawer
+          open={wireframeDrawerOpen}
+          onClose={() => setWireframeDrawerOpen(false)}
+          pageId={pageId}
+        />
+      )}
     </Box>
   );
 };

@@ -200,9 +200,31 @@ AI 화면 생성 요청을 위한 폼 컴포넌트
 
 이 프로젝트는 MIT 라이선스 하에 있습니다.
 
+## 📦 패키지 빌드 시스템
+
+프로젝트는 **tsup**을 사용하여 TypeScript 라이브러리를 빌드합니다:
+
+```bash
+"build": "tsup src/index.ts --format esm,cjs --dts --sourcemap --external react"
+```
+
+### 빌드 옵션 설명
+
+- **`tsup src/index.ts`**: 진입점을 `src/index.ts`로 설정
+- **`--format esm,cjs`**: ESM(ES Module)과 CJS(CommonJS) 두 가지 모듈 형식으로 번들링
+  - **ESM**: `import/export` 문법 (현대적 모듈 시스템)
+  - **CJS**: `require/module.exports` 문법 (Node.js 호환성)
+- **`--dts`**: TypeScript 선언 파일(`.d.ts`) 생성하여 타입 정보 제공
+- **`--sourcemap`**: 소스맵 파일 생성으로 디버깅 시 원본 코드 추적 가능
+- **`--external react`**: React를 번들에 포함하지 않고 외부 의존성으로 처리
+
+이 설정을 통해 라이브러리 패키지가 다양한 환경에서 사용할 수 있도록 최적화된 빌드를 생성합니다.
+
 ## 🔗 링크
 
-- [Live Demo](https://kimbeomjin95.github.io/mas9-wireframe/)
+- [Live Demo](https://kimbeomjin95.github.
+
+io/mas9-wireframe/)
 - [GitHub Repository](https://github.com/kimbeomjin95/mas9-wireframe)
 - [Issue Tracker](https://github.com/kimbeomjin95/mas9-wireframe/issues)
 
