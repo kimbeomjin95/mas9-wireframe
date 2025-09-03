@@ -5,9 +5,7 @@ import {
   Button,
   Stack,
   Chip,
-  FormControl,
-  Select,
-  MenuItem,
+  TextField,
 } from '@mui/material';
 import { ResponsiveDialog } from '@mas9/shared-ui';
 import { 
@@ -16,6 +14,8 @@ import {
   Calendar,
   Bell
 } from 'lucide-react';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 interface ReminderSetupModalProps {
   open: boolean;
@@ -28,8 +28,8 @@ const ReminderSetupModal: React.FC<ReminderSetupModalProps> = ({
   onClose,
   onSave,
 }) => {
-  const [selectedDate, setSelectedDate] = useState('today');
-  const [selectedTime, setSelectedTime] = useState('16:00');
+  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+  const [showDatePicker, setShowDatePicker] = useState(false);
 
   // Quick options (Slack-style)
   const quickOptions = [
@@ -40,24 +40,6 @@ const ReminderSetupModal: React.FC<ReminderSetupModalProps> = ({
     { label: 'Next Monday', nextWeek: true, time: '09:00' },
   ];
 
-  const dateOptions = [
-    { value: 'today', label: 'Today' },
-    { value: 'tomorrow', label: 'Tomorrow' },
-    { value: 'next_week', label: 'Next Week' },
-  ];
-
-  const timeOptions = [
-    { value: '09:00', label: '9:00 AM' },
-    { value: '10:00', label: '10:00 AM' },
-    { value: '11:00', label: '11:00 AM' },
-    { value: '12:00', label: '12:00 PM' },
-    { value: '13:00', label: '1:00 PM' },
-    { value: '14:00', label: '2:00 PM' },
-    { value: '15:00', label: '3:00 PM' },
-    { value: '16:00', label: '4:00 PM' },
-    { value: '17:00', label: '5:00 PM' },
-    { value: '18:00', label: '6:00 PM' },
-  ];
 
   const calculateDateTime = (option: any) => {
     const now = new Date();
@@ -112,83 +94,221 @@ const ReminderSetupModal: React.FC<ReminderSetupModalProps> = ({
     });
   };
 
+
   const handleCustomSave = () => {
     const now = new Date();
-    let targetDate = new Date();
-
-    // Date calculation
-    switch (selectedDate) {
-      case 'today':
-        targetDate = new Date(now);
-        break;
-      case 'tomorrow':
-        targetDate = new Date(now);
-        targetDate.setDate(now.getDate() + 1);
-        break;
-      case 'next_week':
-        targetDate = new Date(now);
-        const daysUntilNextMonday = ((1 + 7 - now.getDay()) % 7) || 7;
-        targetDate.setDate(now.getDate() + daysUntilNextMonday);
-        break;
+    
+    // If selected time has passed today, move to tomorrow
+    if (selectedDate < now) {
+      const tomorrow = new Date(selectedDate);
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      setSelectedDate(tomorrow);
+      return;
     }
 
-    // Time setting
-    const [hours, minutes] = selectedTime.split(':');
-    targetDate.setHours(parseInt(hours || '9'), parseInt(minutes || '0'), 0, 0);
-
-    // If time has passed today, move to tomorrow
-    if (selectedDate === 'today' && targetDate < now) {
-      targetDate.setDate(targetDate.getDate() + 1);
-    }
-
-    const displayText = formatDisplayText(targetDate);
+    const displayText = formatDisplayText(selectedDate);
     
     onSave({
       displayText,
-      timestamp: targetDate
+      timestamp: selectedDate
     });
   };
 
   return (
-    <ResponsiveDialog
-      open={open}
-      onClose={onClose}
-      title="Reminder"
-    >
+    <>
+      {/* Custom DatePicker Styles */}
+      <style jsx global>{`
+        .custom-datepicker .react-datepicker {
+          font-family: inherit;
+          border: 1px solid #e5e7eb;
+          border-radius: 8px;
+          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        .custom-datepicker .react-datepicker--time-only {
+          width: 140px;
+        }
+        
+        .custom-datepicker .react-datepicker--time-only .react-datepicker__header {
+          display: none;
+        }
+        
+        .custom-datepicker .react-datepicker__header {
+          background-color: #f9fafb;
+          border-bottom: 1px solid #e5e7eb;
+          border-radius: 8px 8px 0 0;
+        }
+        
+        .custom-datepicker .react-datepicker__current-month,
+        .custom-datepicker .react-datepicker-time__header {
+          color: #374151;
+          font-weight: 600;
+          font-size: 0.875rem;
+        }
+        
+        .custom-datepicker .react-datepicker__day-name,
+        .custom-datepicker .react-datepicker__day {
+          color: #374151;
+          width: 2rem;
+          height: 2rem;
+          line-height: 2rem;
+          margin: 0.1rem;
+        }
+        
+        .custom-datepicker .react-datepicker__day:hover {
+          background-color: #fef2f2;
+          border-radius: 4px;
+        }
+        
+        .custom-datepicker .react-datepicker__day--selected {
+          background-color: #dc2626;
+          border-radius: 4px;
+        }
+        
+        .custom-datepicker .react-datepicker__day--today {
+          background-color: #fbbf24;
+          color: white;
+          border-radius: 4px;
+        }
+        
+        .custom-datepicker .react-datepicker__time-container {
+          border-left: 1px solid #e5e7eb;
+          width: 120px;
+        }
+        
+        .custom-datepicker .react-datepicker__time-list {
+          width: 120px;
+        }
+        
+        .custom-datepicker .react-datepicker__time-list-item {
+          height: 30px;
+          padding: 5px 10px;
+          font-size: 0.875rem;
+          width: 100px;
+          text-align: center;
+        }
+        
+        .custom-datepicker .react-datepicker__time-list-item:hover {
+          background-color: #fef2f2;
+        }
+        
+        .custom-datepicker .react-datepicker__time-list-item--selected {
+          background-color: #dc2626;
+          color: white;
+        }
+      `}</style>
+      
+      <ResponsiveDialog
+        open={open}
+        onClose={onClose}
+        title="Reminder"
+      >
       <Box sx={{ p: 3 }}>
-        {/* Custom Time Selection */}
+        {/* Custom Date & Time Selection */}
         <Box sx={{ mb: 3 }}>
           <Typography variant="subtitle2" sx={{ mb: 2, fontWeight: 600 }}>
             Date & Time
           </Typography>
-          <Stack direction="row" spacing={2} sx={{ mb: 3 }}>
-            <FormControl size="small" sx={{ minWidth: 120 }}>
-              <Select
-                value={selectedDate}
-                onChange={(e) => setSelectedDate(e.target.value)}
-                displayEmpty
-              >
-                {dateOptions.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-            <FormControl size="small" sx={{ minWidth: 120 }}>
-              <Select
-                value={selectedTime}
-                onChange={(e) => setSelectedTime(e.target.value)}
-                displayEmpty
-              >
-                {timeOptions.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </Stack>
+
+          {/* Date Picker */}
+          <Box sx={{ mb: 2 }}>
+            <Typography variant="body2" sx={{ mb: 1, fontWeight: 500, color: '#374151' }}>
+              Date
+            </Typography>
+            <DatePicker
+              selected={selectedDate}
+              onChange={(date: Date | null) => {
+                if (date) {
+                  // Preserve the current time when changing date
+                  const newDate = new Date(date);
+                  newDate.setHours(selectedDate.getHours(), selectedDate.getMinutes());
+                  setSelectedDate(newDate);
+                }
+              }}
+              dateFormat="MM/dd/yyyy"
+              customInput={
+                <TextField
+                  fullWidth
+                  size="small"
+                  variant="outlined"
+                  placeholder="Select date"
+                  InputProps={{
+                    startAdornment: (
+                      <Box sx={{ mr: 1, display: 'flex', alignItems: 'center' }}>
+                        <Calendar size={16} color="#6b7280" />
+                      </Box>
+                    )
+                  }}
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      backgroundColor: 'white',
+                      '&:hover .MuiOutlinedInput-notchedOutline': {
+                        borderColor: '#dc2626',
+                      },
+                      '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                        borderColor: '#dc2626',
+                      },
+                    },
+                    '& .MuiInputBase-input': {
+                      cursor: 'pointer',
+                    }
+                  }}
+                />
+              }
+              popperClassName="custom-datepicker"
+              popperPlacement="bottom-start"
+              minDate={new Date()}
+            />
+          </Box>
+
+          {/* Time Picker */}
+          <Box>
+            <Typography variant="body2" sx={{ mb: 1, fontWeight: 500, color: '#374151' }}>
+              Time
+            </Typography>
+            <DatePicker
+              selected={selectedDate}
+              onChange={(date: Date | null) => {
+                if (date) setSelectedDate(date);
+              }}
+              showTimeSelect
+              showTimeSelectOnly
+              timeIntervals={15}
+              timeCaption="Time"
+              dateFormat="h:mm aa"
+              customInput={
+                <TextField
+                  fullWidth
+                  size="small"
+                  variant="outlined"
+                  placeholder="Select time"
+                  InputProps={{
+                    startAdornment: (
+                      <Box sx={{ mr: 1, display: 'flex', alignItems: 'center' }}>
+                        <Clock size={16} color="#6b7280" />
+                      </Box>
+                    )
+                  }}
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      backgroundColor: 'white',
+                      '&:hover .MuiOutlinedInput-notchedOutline': {
+                        borderColor: '#dc2626',
+                      },
+                      '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                        borderColor: '#dc2626',
+                      },
+                    },
+                    '& .MuiInputBase-input': {
+                      cursor: 'pointer',
+                    }
+                  }}
+                />
+              }
+              popperClassName="custom-datepicker"
+              popperPlacement="bottom-start"
+            />
+          </Box>
         </Box>
 
         {/* Quick Options */}
@@ -196,7 +316,7 @@ const ReminderSetupModal: React.FC<ReminderSetupModalProps> = ({
           <Typography variant="subtitle2" sx={{ mb: 2, fontWeight: 600 }}>
             Quick Options
           </Typography>
-          <Stack spacing={1}>
+          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
             {quickOptions.map((option, index) => (
               <Chip
                 key={index}
@@ -204,7 +324,6 @@ const ReminderSetupModal: React.FC<ReminderSetupModalProps> = ({
                 clickable
                 onClick={() => handleQuickOption(option)}
                 sx={{
-                  justifyContent: 'flex-start',
                   border: '1px solid #e5e7eb',
                   backgroundColor: 'white',
                   color: '#374151',
@@ -218,7 +337,7 @@ const ReminderSetupModal: React.FC<ReminderSetupModalProps> = ({
                 icon={<Clock size={14} />}
               />
             ))}
-          </Stack>
+          </Box>
         </Box>
 
         {/* Actions */}
@@ -247,7 +366,8 @@ const ReminderSetupModal: React.FC<ReminderSetupModalProps> = ({
           </Button>
         </Box>
       </Box>
-    </ResponsiveDialog>
+      </ResponsiveDialog>
+    </>
   );
 };
 
