@@ -204,18 +204,18 @@ const EditNoteModal: React.FC<EditNoteModalProps> = ({
                   alignItems: 'center', 
                   gap: 1.5,
                   p: 1.5,
-                  border: '1px solid #fed7aa',
+                  border: '1px solid #d1fae5',
                   borderRadius: 2,
-                  backgroundColor: '#fef3c7'
+                  backgroundColor: '#ecfdf5'
                 }}>
-                  <Clock size={16} color="#f59e0b" style={{ flexShrink: 0 }} />
+                  <Clock size={16} color="#10b981" style={{ flexShrink: 0 }} />
                   <Typography 
                     variant="body2" 
                     sx={{ 
                       flex: 1,
                       display: 'flex',
                       alignItems: 'center',
-                      color: '#92400e',
+                      color: '#065f46',
                       fontWeight: 500
                     }}
                   >
@@ -225,7 +225,7 @@ const EditNoteModal: React.FC<EditNoteModalProps> = ({
                     size="small"
                     onClick={handleReminderSetup}
                     sx={{ 
-                      color: '#f59e0b',
+                      color: '#10b981',
                       textTransform: 'none',
                       minWidth: 'auto',
                       px: 1.5,
@@ -233,7 +233,7 @@ const EditNoteModal: React.FC<EditNoteModalProps> = ({
                       fontSize: '0.875rem',
                       fontWeight: 500,
                       '&:hover': {
-                        backgroundColor: 'rgba(245, 158, 11, 0.1)'
+                        backgroundColor: 'rgba(16, 185, 129, 0.1)'
                       }
                     }}
                   >
@@ -244,9 +244,9 @@ const EditNoteModal: React.FC<EditNoteModalProps> = ({
                     onClick={removeReminder}
                     sx={{
                       p: 0.5,
-                      color: '#92400e',
+                      color: '#065f46',
                       '&:hover': {
-                        backgroundColor: 'rgba(146, 64, 14, 0.1)'
+                        backgroundColor: 'rgba(6, 95, 70, 0.1)'
                       }
                     }}
                   >

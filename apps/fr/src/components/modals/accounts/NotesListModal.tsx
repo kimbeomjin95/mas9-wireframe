@@ -282,41 +282,25 @@ const NotesListModal: React.FC<NotesListModalProps> = ({
                             gap: 1,
                             mt: 2,
                             p: 1.5,
-                            backgroundColor: note.isActive ? '#fef3c7' : '#f3f4f6',
+                            backgroundColor: note.isActive ? '#ecfdf5' : '#f3f4f6',
                             borderRadius: 2,
-                            border: `1px solid ${note.isActive ? '#fed7aa' : '#e5e7eb'}`,
+                            border: `1px solid ${note.isActive ? '#d1fae5' : '#e5e7eb'}`,
                           }}
                         >
                           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flex: 1 }}>
                             {note.isActive ? (
-                              <Bell size={14} color="#f59e0b" />
+                              <Bell size={14} color="#10b981" />
                             ) : (
                               <BellOff size={14} color="#6b7280" />
                             )}
                             <Typography 
                               variant="caption" 
-                              color={note.isActive ? "#92400e" : "#6b7280"}
+                              color={note.isActive ? "#065f46" : "#6b7280"}
                             >
                               {note.isActive ? 'Remind at: ' : 'Cancelled: '}{note.reminderTime}
                             </Typography>
                           </Box>
                           
-                          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                            {/* Static pending chip */}
-                            {note.isActive && (
-                              <Chip 
-                                label="Pending" 
-                                size="small"
-                                sx={{ 
-                                  height: 18,
-                                  fontSize: '0.65rem',
-                                  backgroundColor: '#fbbf24',
-                                  color: 'white',
-                                  minWidth: 60
-                                }}
-                              />
-                            )}
-                          </Box>
                         </Box>
                       )}
                     </Box>
