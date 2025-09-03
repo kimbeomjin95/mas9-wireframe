@@ -147,6 +147,57 @@ VITE_SUPABASE_ANON_KEY="your-supabase-anon-key"
 - Workspace dependencies use `workspace:*` protocol
 - Shared packages: @mas9/shared-types, @mas9/shared-utils, @mas9/shared-ui
 
+## UI Component Standards
+
+### Data Display Components
+
+**Tables:**
+- Use `/packages/shared-ui/src/components/tables/DataGrid.tsx` for all table implementations
+- DataGrid provides consistent styling, sorting, pagination, and filtering capabilities
+
+### Form Components (To be standardized)
+
+**Input Fields:**
+- Standard text inputs, email, password fields
+- Number inputs with proper validation
+- Text areas for multi-line content
+
+**Selection Components:**
+- Select dropdowns for single/multiple selection
+- Checkbox groups for multi-option selection
+- Radio buttons for exclusive selection
+- Toggle switches using IOSSwitch component
+
+**Date/Time Components:**
+- Date pickers for date selection
+- Time pickers for time input
+- Date range selectors
+
+## Text Content Requirements
+
+**All UI Text Content:**
+- All user-facing text content must be written in English
+- This includes labels, buttons, placeholders, messages, tooltips, and error messages
+- Exception: Demo data may contain multilingual examples for testing purposes
+
+## Common Components
+
+### Switches
+**IOSSwitch Component:**
+- Location: `/apps/fr/src/components/common/IOSSwitch.tsx`
+- iOS-style toggle switch with primary red color theme
+- Use for all boolean on/off controls
+- Styled with consistent theme colors and animations
+
+### Popovers and Context Menus
+**ContextMenu Component:**
+- Location: `/apps/fr/src/components/common/ContextMenu.tsx`
+- Reusable context menu/popover for dropdown actions
+- Features: Outside click to close, ESC key support, customizable position
+- Default items: Edit (with Edit3 icon) and Delete (with Trash2 icon, error color)
+- Supports custom menu items with icons, colors, and disabled states
+- Use for all dropdown menus and action popovers
+
 ## Development Notes
 
 - Linting is disabled for TypeScript files in fr app - use `type-check` instead
