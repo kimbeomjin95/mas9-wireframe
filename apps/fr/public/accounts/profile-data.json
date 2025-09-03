@@ -1,0 +1,129 @@
+{
+  "member": {
+    "id": "1234",
+    "name": "John Doe", 
+    "rank": "White Belt"
+  },
+  "memo": {
+    "id": "string",
+    "type": "regular | reminder",
+    "title": "string (optional)",
+    "content": "string (required)",
+    "description": "메모 내용 설명",
+    "createdAt": "MM/dd/yyyy hh:mm AM/PM",
+    "updatedAt": "MM/dd/yyyy hh:mm AM/PM",
+    "createdBy": "string"
+  },
+  "reminderMemo": {
+    "id": "string",
+    "type": "reminder",
+    "title": "string (optional)", 
+    "content": "string (required)",
+    "description": "리마인더 메모 내용",
+    "createdAt": "MM/dd/yyyy hh:mm AM/PM",
+    "updatedAt": "MM/dd/yyyy hh:mm AM/PM", 
+    "reminderTime": "MM/dd/yyyy hh:mm AM/PM",
+    "isActive": "boolean",
+    "schedulingMethod": "quick | custom",
+    "quickOption": "string (if quick)",
+    "createdBy": "string"
+  },
+  "reminderSettings": {
+    "quickOptions": [
+      {
+        "id": "20min",
+        "label": "20분 후",
+        "minutes": 20,
+        "type": "minutes"
+      },
+      {
+        "id": "1hour", 
+        "label": "1시간 후",
+        "hours": 1,
+        "type": "hours"
+      },
+      {
+        "id": "3hours",
+        "label": "3시간 후", 
+        "hours": 3,
+        "type": "hours"
+      },
+      {
+        "id": "tomorrow_9am",
+        "label": "내일 오전 9시",
+        "nextDay": true,
+        "time": "09:00",
+        "type": "nextDay"
+      },
+      {
+        "id": "next_monday",
+        "label": "다음 주 월요일",
+        "nextWeek": true,
+        "time": "09:00", 
+        "type": "nextWeek"
+      }
+    ],
+    "datePickerConfig": {
+      "dateFormat": "MM/dd/yyyy",
+      "timeFormat": "h:mm aa",
+      "timeIntervals": 15,
+      "minTime": "12:00 AM",
+      "maxTime": "11:45 PM",
+      "shortcuts": ["Today", "Tomorrow", "Next Week"]
+    }
+  },
+  "sampleData": {
+    "regularMemos": [
+      {
+        "id": "memo_001",
+        "type": "regular",
+        "title": null,
+        "content": "수업 참여도가 매우 높고 성실한 학생. 다른 학생들의 모범이 되고 있음.",
+        "description": "회원 참여도 관련 기록",
+        "createdAt": "06/19/2025 12:58 AM",
+        "updatedAt": "06/19/2025 12:58 AM",
+        "createdBy": "instructor_001"
+      },
+      {
+        "id": "memo_002",
+        "type": "regular", 
+        "title": null,
+        "content": "유연성 부족으로 부상 위험 있음. 추가 스트레칭 지도 필요.",
+        "description": "건강 관련 주의사항",
+        "createdAt": "06/18/2025 03:45 PM",
+        "updatedAt": "06/18/2025 03:45 PM",
+        "createdBy": "coach_001"
+      }
+    ],
+    "reminderMemos": [
+      {
+        "id": "reminder_001",
+        "type": "reminder",
+        "title": "회원권 갱신 상담",
+        "content": "회원권 만료일이 다가오고 있어 갱신 상담 필요",
+        "description": "회원권 갱신 관련 업무",
+        "createdAt": "06/18/2025 10:30 AM",
+        "updatedAt": "06/18/2025 10:30 AM",
+        "reminderTime": "06/25/2025 09:00 AM",
+        "isActive": true,
+        "schedulingMethod": "custom",
+        "quickOption": null,
+        "createdBy": "admin_001"
+      },
+      {
+        "id": "reminder_002",
+        "type": "reminder",
+        "title": "승급 심사 준비", 
+        "content": "다음 승급 심사 대상자 검토 및 준비사항 안내",
+        "description": "승급 심사 관련 업무",
+        "createdAt": "06/17/2025 11:20 AM",
+        "updatedAt": "06/17/2025 11:20 AM", 
+        "reminderTime": "06/21/2025 02:00 PM",
+        "isActive": true,
+        "schedulingMethod": "quick",
+        "quickOption": "tomorrow_2pm",
+        "createdBy": "instructor_002"
+      }
+    ]
+  }
+}

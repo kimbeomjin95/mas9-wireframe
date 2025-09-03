@@ -1,14 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Box, Typography, Chip, IconButton } from '@mui/material';
-import { User, Edit3, Workflow, Database, FileText } from 'lucide-react';
+import { User, Edit3 } from 'lucide-react';
 import { useModal } from '@/hooks/useModal';
 import { showToast, useView } from '@mas9/shared-ui';
 import { PROFILE_MODALS } from '@/constants/modals';
 import NeedToSeeSection from '../../components/modals/accounts/NeedToSeeSection';
+import ActionHeaderToolbar from '../../components/common/ActionHeaderToolbar';
+import DocumentDrawer from '../../components/common/DocumentDrawer';
 
 const ProfileMemoPage: React.FC = () => {
   const { openModal } = useModal();
   const { IS_MOBILE, IS_TABLET } = useView();
+
+  // Drawer state
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [drawerConfig, setDrawerConfig] = useState<{
+    type: 'markdown' | 'json' | 'mermaid';
+    title: string;
+    filePath: string;
+  }>({
+    type: 'markdown',
+    title: '',
+    filePath: '',
+  });
 
   const handleViewNote = async () => {
     try {
@@ -61,16 +75,29 @@ const ProfileMemoPage: React.FC = () => {
     });
   };
 
+  const openDrawer = (
+    type: 'markdown' | 'json' | 'mermaid',
+    title: string,
+    filePath: string
+  ) => {
+    setDrawerConfig({ type, title, filePath });
+    setDrawerOpen(true);
+  };
+
   const handleFlowChart = () => {
-    showToast('Flow Chart feature coming soon', { type: 'info' });
+    openDrawer('mermaid', 'Profile Flow Chart', `/accounts/profile-flow.mmd`);
   };
 
   const handleJsonData = () => {
-    showToast('JSON Data structure feature coming soon', { type: 'info' });
+    openDrawer('json', 'Profile Data Structure', `/accounts/profile-data.json`);
   };
 
   const handleDescription = () => {
-    showToast('Description feature coming soon', { type: 'info' });
+    openDrawer(
+      'markdown',
+      'Profile Documentation',
+      `/accounts/profile-memo.md`
+    );
   };
   // DetailBox 컴포넌트 - 피그마 디자인 기준
   const DetailBox = ({ label, value, showEdit = false, sx }: any) => (
@@ -132,79 +159,12 @@ const ProfileMemoPage: React.FC = () => {
 
   return (
     <Box sx={{ width: '100%' }}>
-      {/* Fixed Header Area */}
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'flex-end',
-          alignItems: 'center',
-          gap: 2,
-          mb: 3,
-          px: 2,
-          py: 1.5,
-          backgroundColor: 'white',
-          borderRadius: '12px',
-          boxShadow:
-            '0px 0px 0px 1px rgba(0, 0, 0, 0.06), 0px 5px 22px 0px rgba(0, 0, 0, 0.04)',
-        }}
-      >
-        {/* Flow Chart Icon */}
-        <IconButton
-          size='small'
-          onClick={handleFlowChart}
-          sx={{
-            width: 40,
-            height: 40,
-            borderRadius: '8px',
-            backgroundColor: '#f8f9fa',
-            border: '1px solid #e5e7eb',
-            '&:hover': {
-              backgroundColor: '#e9ecef',
-              borderColor: '#dc2626',
-            },
-          }}
-        >
-          <Workflow size={20} color='#6b7280' />
-        </IconButton>
-
-        {/* JSON Data Structure Icon */}
-        <IconButton
-          size='small'
-          onClick={handleJsonData}
-          sx={{
-            width: 40,
-            height: 40,
-            borderRadius: '8px',
-            backgroundColor: '#f8f9fa',
-            border: '1px solid #e5e7eb',
-            '&:hover': {
-              backgroundColor: '#e9ecef',
-              borderColor: '#dc2626',
-            },
-          }}
-        >
-          <Database size={20} color='#6b7280' />
-        </IconButton>
-
-        {/* Description Icon */}
-        <IconButton
-          size='small'
-          onClick={handleDescription}
-          sx={{
-            width: 40,
-            height: 40,
-            borderRadius: '8px',
-            backgroundColor: '#f8f9fa',
-            border: '1px solid #e5e7eb',
-            '&:hover': {
-              backgroundColor: '#e9ecef',
-              borderColor: '#dc2626',
-            },
-          }}
-        >
-          <FileText size={20} color='#6b7280' />
-        </IconButton>
-      </Box>
+      {/* Action Header Toolbar */}
+      <ActionHeaderToolbar
+        // onFlowChart={handleFlowChart}
+        onJsonData={handleJsonData}
+        onDescription={handleDescription}
+      />
 
       <Box
         sx={{
@@ -463,6 +423,15 @@ const ProfileMemoPage: React.FC = () => {
         initialEnabled={false}
         initialMessage='Please come to the office for a moment.'
         onToggle={handleNeedToSeeToggle}
+      />
+
+      {/* Document Drawer */}
+      <DocumentDrawer
+        open={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+        type={drawerConfig.type}
+        title={drawerConfig.title}
+        filePath={drawerConfig.filePath}
       />
     </Box>
   );

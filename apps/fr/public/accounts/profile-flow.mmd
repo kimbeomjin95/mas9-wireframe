@@ -1,0 +1,65 @@
+graph TD
+    A["👤 Profile Management System"] --> B["📝 Note Management"]
+    A --> N["🚨 Need to See System"]
+    
+    %% Note Management Flow
+    B --> B1["Create Note"]
+    B --> B2["View Notes"]
+    
+    B1 --> B3["📄 Regular Note"]
+    B1 --> B4["⏰ Reminder Note"]
+    
+    B3 --> B5["Enter Content"]
+    B3 --> B6["Save Note"]
+    
+    B4 --> B7["Enter Content"]
+    B4 --> B8["⚙️ Set Reminder Time"]
+    B8 --> B9["🚀 Quick Options<br/>20min, 1hr, 3hr, Tomorrow, Next Week"]
+    B8 --> B10["📅 Custom Date/Time<br/>DatePicker with shortcuts"]
+    B9 --> B11["Save Reminder"]
+    B10 --> B11
+    
+    B2 --> B12["📋 Notes List Modal"]
+    B12 --> B13["Regular Tab"]
+    B12 --> B14["Reminder Tab"]
+    
+    B13 --> B15["View Regular Notes"]
+    B14 --> B16["View Active Reminders"]
+    
+    B15 --> B17["✏️ Edit/Delete Actions"]
+    B16 --> B18["✏️ Edit/Delete/Cancel Actions"]
+    
+    B16 --> B19["Status Tracking"]
+    B19 --> B20["🟡 Active<br/>Future notification"]
+    B19 --> B21["🔴 Expired<br/>Auto-removed"]
+    
+    %% Need to See System Flow
+    N --> N1["Toggle Activation"]
+    N1 --> N2["❌ Disabled"]
+    N1 --> N3["✅ Enabled"]
+    
+    N2 --> N4["No Action on Check-in"]
+    N3 --> N5["Monitor Check-in Events"]
+    
+    N5 --> N6["Member Self Check-in"]
+    N6 --> N7["🔔 Send Notification"]
+    N7 --> N8["📱 Gym Management App"]
+    N8 --> N9["👨‍💼 Staff Attention Required"]
+    
+    N3 --> N10["📄 Display Notification Message<br/>Read-only for security"]
+    
+    %% Integration Points
+    B11 --> I1["🔔 Schedule Notification"]
+    I1 --> I2["⏱️ Automated Monitoring"]
+    I2 --> I3["📨 Deliver Notification"]
+    I3 --> I4["📊 Update Status"]
+    
+    %% Styling
+    style A fill:#e3f2fd,stroke:#1976d2,stroke-width:3px
+    style B fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
+    style N fill:#ffebee,stroke:#c62828,stroke-width:2px
+    style B4 fill:#fff3e0,stroke:#f57c00,stroke-width:2px
+    style B12 fill:#e8f5e8,stroke:#2e7d32,stroke-width:2px
+    style N3 fill:#fff9c4,stroke:#f57f17,stroke-width:2px
+    style N7 fill:#ffcdd2,stroke:#d32f2f,stroke-width:2px
+    style I1 fill:#e1f5fe,stroke:#0277bd,stroke-width:2px
