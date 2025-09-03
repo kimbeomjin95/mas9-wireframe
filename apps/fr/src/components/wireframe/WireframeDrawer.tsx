@@ -14,14 +14,11 @@ import {
   useTheme,
   useMediaQuery,
 } from '@mui/material';
+import { X, FileText, MapPin, Component, Info } from 'lucide-react';
 import {
-  X,
-  FileText,
-  MapPin,
-  Component,
-  Info,
-} from 'lucide-react';
-import { getWireframeContent, WireframeSection } from '@/config/wireframe-config';
+  getWireframeContent,
+  WireframeSection,
+} from '@/config/wireframe-config';
 
 interface WireframeDrawerProps {
   open: boolean;
@@ -36,7 +33,7 @@ export const WireframeDrawer: React.FC<WireframeDrawerProps> = ({
 }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-  
+
   const wireframeContent = getWireframeContent(pageId);
 
   if (!wireframeContent) {
@@ -45,7 +42,9 @@ export const WireframeDrawer: React.FC<WireframeDrawerProps> = ({
 
   const drawerWidth = isMobile ? '100%' : 400;
 
-  const SectionItem: React.FC<{ section: WireframeSection }> = ({ section }) => (
+  const SectionItem: React.FC<{ section: WireframeSection }> = ({
+    section,
+  }) => (
     <Paper
       elevation={0}
       sx={{
@@ -63,8 +62,8 @@ export const WireframeDrawer: React.FC<WireframeDrawerProps> = ({
       <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1, mb: 1 }}>
         <Chip
           label={section.id}
-          size="small"
-          color="primary"
+          size='small'
+          color='primary'
           sx={{
             minWidth: 28,
             height: 24,
@@ -73,17 +72,23 @@ export const WireframeDrawer: React.FC<WireframeDrawerProps> = ({
           }}
         />
         <Box sx={{ flex: 1 }}>
-          <Typography variant="subtitle2" fontWeight={600} sx={{ mb: 0.5 }}>
+          <Typography variant='subtitle2' fontWeight={600} sx={{ mb: 0.5 }}>
             {section.title}
           </Typography>
-          <Typography variant="body2" color="text.secondary" sx={{ lineHeight: 1.5 }}>
+          <Typography
+            variant='body2'
+            color='text.secondary'
+            sx={{ lineHeight: 1.5 }}
+          >
             {section.description}
           </Typography>
-          
+
           {section.component && (
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mt: 1 }}>
+            <Box
+              sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mt: 1 }}
+            >
               <Component size={14} color={theme.palette.text.disabled} />
-              <Typography variant="caption" color="text.disabled">
+              <Typography variant='caption' color='text.disabled'>
                 {section.component}
               </Typography>
             </Box>
@@ -95,7 +100,7 @@ export const WireframeDrawer: React.FC<WireframeDrawerProps> = ({
 
   return (
     <Drawer
-      anchor="right"
+      anchor='right'
       open={open}
       onClose={onClose}
       PaperProps={{
@@ -121,15 +126,11 @@ export const WireframeDrawer: React.FC<WireframeDrawerProps> = ({
         >
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
             <FileText size={20} />
-            <Typography variant="h6" fontWeight={600}>
+            <Typography variant='h6' fontWeight={600}>
               화면설계서
             </Typography>
           </Box>
-          <IconButton
-            onClick={onClose}
-            size="small"
-            sx={{ color: 'inherit' }}
-          >
+          <IconButton onClick={onClose} size='small' sx={{ color: 'inherit' }}>
             <X size={20} />
           </IconButton>
         </Box>
@@ -139,10 +140,14 @@ export const WireframeDrawer: React.FC<WireframeDrawerProps> = ({
           <Box sx={{ p: 3 }}>
             {/* Page Info */}
             <Box sx={{ mb: 3 }}>
-              <Typography variant="h5" fontWeight={600} sx={{ mb: 1 }}>
+              <Typography variant='h5' fontWeight={600} sx={{ mb: 1 }}>
                 {wireframeContent.title}
               </Typography>
-              <Typography variant="body2" color="text.secondary" sx={{ lineHeight: 1.6 }}>
+              <Typography
+                variant='body2'
+                color='text.secondary'
+                sx={{ lineHeight: 1.6 }}
+              >
                 {wireframeContent.description}
               </Typography>
             </Box>
@@ -163,19 +168,19 @@ export const WireframeDrawer: React.FC<WireframeDrawerProps> = ({
               }}
             >
               <Box sx={{ textAlign: 'center' }}>
-                <Typography variant="h4" fontWeight={600} color="primary.main">
+                <Typography variant='h4' fontWeight={600} color='primary.main'>
                   {wireframeContent.sections.length}
                 </Typography>
-                <Typography variant="caption" color="text.secondary">
+                <Typography variant='caption' color='text.secondary'>
                   총 구성요소
                 </Typography>
               </Box>
-              <Divider orientation="vertical" flexItem />
+              <Divider orientation='vertical' flexItem />
               <Box sx={{ textAlign: 'center' }}>
-                <Typography variant="h4" fontWeight={600} color="success.main">
+                <Typography variant='h4' fontWeight={600} color='success.main'>
                   100%
                 </Typography>
-                <Typography variant="caption" color="text.secondary">
+                <Typography variant='caption' color='text.secondary'>
                   구현완료
                 </Typography>
               </Box>
@@ -192,23 +197,29 @@ export const WireframeDrawer: React.FC<WireframeDrawerProps> = ({
                 borderColor: 'info.main',
               }}
             >
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
+              <Box
+                sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}
+              >
                 <Info size={16} color={theme.palette.info.main} />
-                <Typography variant="subtitle2" fontWeight={600} color="info.main">
+                <Typography
+                  variant='subtitle2'
+                  fontWeight={600}
+                  color='info.main'
+                >
                   사용 방법
                 </Typography>
               </Box>
-              <Typography variant="body2" color="info.dark">
+              <Typography variant='body2' color='info.dark'>
                 각 번호를 클릭하면 해당 구성요소가 화면에서 하이라이트됩니다.
                 설계서를 참고하여 기능을 이해하고 개발에 활용하세요.
               </Typography>
             </Box>
 
             {/* Sections List */}
-            <Typography variant="h6" fontWeight={600} sx={{ mb: 2 }}>
+            <Typography variant='h6' fontWeight={600} sx={{ mb: 2 }}>
               구성요소 목록
             </Typography>
-            
+
             <Box>
               {wireframeContent.sections.map((section) => (
                 <SectionItem key={section.id} section={section} />
@@ -226,7 +237,12 @@ export const WireframeDrawer: React.FC<WireframeDrawerProps> = ({
             bgcolor: 'background.paper',
           }}
         >
-          <Typography variant="caption" color="text.secondary" align="center" display="block">
+          <Typography
+            variant='caption'
+            color='text.secondary'
+            align='center'
+            display='block'
+          >
             🎨 MAS9 Wireframe Design System
           </Typography>
         </Box>

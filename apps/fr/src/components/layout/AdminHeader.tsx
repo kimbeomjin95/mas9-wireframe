@@ -125,10 +125,10 @@ export const AdminHeader: React.FC<AdminHeaderProps> = ({
           {/* 사용자 정보 영역 */}
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
             {/* 화면설계서 버튼 */}
-            {onWireframeToggle && (
+            {/* {onWireframeToggle && (
               <IconButton
                 onClick={onWireframeToggle}
-                size="small"
+                size='small'
                 sx={{
                   bgcolor: 'primary.light',
                   color: 'primary.main',
@@ -137,12 +137,12 @@ export const AdminHeader: React.FC<AdminHeaderProps> = ({
                     color: 'primary.contrastText',
                   },
                 }}
-                title="화면설계서 보기"
+                title='화면설계서 보기'
               >
                 <FileText size={18} />
               </IconButton>
-            )}
-            
+            )} */}
+
             {/* 사용자 이름 (데스크톱에서만 표시) */}
             <Typography
               variant='body2'

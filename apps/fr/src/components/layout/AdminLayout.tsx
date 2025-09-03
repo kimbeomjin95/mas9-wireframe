@@ -73,8 +73,8 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
   return (
     <Box sx={{ display: 'flex', minHeight: '100vh' }}>
       {/* 헤더 */}
-      <AdminHeader 
-        onMenuToggle={handleSidebarToggle} 
+      <AdminHeader
+        onMenuToggle={handleSidebarToggle}
         title={title}
         onWireframeToggle={() => setWireframeDrawerOpen(true)}
       />
@@ -122,15 +122,15 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
           {children}
         </Box>
       </Box>
-      
+
       {/* 화면설계서 Drawer */}
-      {pageId && (
+      {/* {pageId && (
         <WireframeDrawer
           open={wireframeDrawerOpen}
           onClose={() => setWireframeDrawerOpen(false)}
           pageId={pageId}
         />
-      )}
+      )} */}
     </Box>
   );
 };
