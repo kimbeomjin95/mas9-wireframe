@@ -1,7 +1,7 @@
 // 🎯 FR 앱 모달 관리 - 도메인/서브메뉴별로 깔끔하게 분리!
 
 // 🎯 Profiles 도메인 (서브메뉴별로 분리: group, tag, member, notification)
-export * from './profiles';
+export { PROFILE_MODALS, type ProfileModalKey } from './profiles';
 
 // 🎯 Test 도메인
 export { TEST_MODALS, type TestModalKey } from './test';

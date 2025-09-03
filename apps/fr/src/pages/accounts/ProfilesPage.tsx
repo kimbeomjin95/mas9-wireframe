@@ -239,69 +239,10 @@ const ProfilesPage: React.FC = () => {
     setExpirationDateFilter('');
   };
 
-  return (
-    <Box sx={{ 
-      width: '100%'
-    }}>
-      {/* Header Section - 피그마와 정확히 일치 */}
-      <Box sx={{ 
-        display: 'flex', 
-        justifyContent: 'space-between', 
-        alignItems: 'flex-start',
-        mb: 3
-      }}>
-        <Box>
-          <Typography variant="h4" fontWeight={600} sx={{ color: '#1a1a1a', mb: 0.5 }}>
-            Accounts
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            View, add, edit and delete school members' details.
-          </Typography>
-        </Box>
-        
-        <Box sx={{ display: 'flex', gap: 1 }}>
-          <Button
-            variant="outlined"
-            size="medium"
-            sx={{ 
-              color: '#374151',
-              borderColor: '#d1d5db',
-              textTransform: 'none',
-              fontWeight: 500
-            }}
-          >
-            Export
-          </Button>
-          <Button
-            variant="outlined"
-            size="medium"
-            endIcon={<ChevronDown size={16} />}
-            sx={{ 
-              color: '#374151',
-              borderColor: '#d1d5db',
-              textTransform: 'none',
-              fontWeight: 500
-            }}
-          >
-            Action
-          </Button>
-          <Button
-            variant="contained"
-            size="medium"
-            sx={{ 
-              bgcolor: '#dc2626',
-              '&:hover': { bgcolor: '#b91c1c' },
-              textTransform: 'none',
-              fontWeight: 500,
-              boxShadow: 'none'
-            }}
-          >
-            Add member
-          </Button>
-        </Box>
-      </Box>
 
-      {/* Search Bar - 피그마와 정확히 일치 */}
+  return (
+    <>
+          {/* Search Bar - 피그마와 정확히 일치 */}
       <Box sx={{ mb: 3 }}>
         <TextField
           fullWidth
@@ -519,28 +460,28 @@ const ProfilesPage: React.FC = () => {
         />
       </Paper>
 
-      {/* Floating Action Button - 피그마 우하단 */}
-      <Box sx={{ 
-        position: 'fixed', 
-        bottom: 24, 
-        right: 24 
-      }}>
-        <Button
-          variant="contained"
-          sx={{
-            bgcolor: '#dc2626',
-            '&:hover': { bgcolor: '#b91c1c' },
-            borderRadius: '50%',
-            width: 56,
-            height: 56,
-            minWidth: 'auto',
-            boxShadow: '0 4px 12px rgba(220, 38, 38, 0.3)'
-          }}
-        >
-          +
-        </Button>
-      </Box>
-    </Box>
+          {/* Floating Action Button - 피그마 우하단 */}
+          <Box sx={{ 
+            position: 'fixed', 
+            bottom: 24, 
+            right: 24 
+          }}>
+            <Button
+              variant="contained"
+              sx={{
+                bgcolor: '#dc2626',
+                '&:hover': { bgcolor: '#b91c1c' },
+                borderRadius: '50%',
+                width: 56,
+                height: 56,
+                minWidth: 'auto',
+                boxShadow: '0 4px 12px rgba(220, 38, 38, 0.3)'
+              }}
+            >
+              +
+            </Button>
+          </Box>
+    </>
   );
 };
 

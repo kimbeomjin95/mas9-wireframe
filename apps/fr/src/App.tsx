@@ -10,7 +10,7 @@ import { LoginPage, DashboardPage, WireframePage, HistoryPage } from './pages';
 import HomePage from './pages/HomePage';
 
 // Accounts
-import ProfilesPage from './pages/accounts/ProfilesPage';
+import ProfileContainer from './pages/accounts/ProfileContainer';
 import GroupsPage from './pages/accounts/GroupsPage';
 import TagsPage from './pages/accounts/TagsPage';
 
@@ -30,7 +30,7 @@ import ConversationsPage from './pages/communications/ConversationsPage';
 
 // Events
 import EventManagementPage from './pages/events/EventManagementPage';
-import TestingPage from './pages/events/TestingPage';
+import TestingContainer from './pages/events/TestingContainer';
 
 // Learning Centers
 import LearningCentersPage from './pages/learning-centers/LearningCentersPage';
@@ -115,7 +115,7 @@ function App() {
             {/* Accounts */}
             <Route path="/accounts/profiles" element={
               <ProtectedAdminRoute title="Accounts" pageId="accounts">
-                <ProfilesPage />
+                <ProfileContainer />
               </ProtectedAdminRoute>
             } />
             <Route path="/accounts/groups" element={<ProtectedAdminRoute>그룹 관리<GroupsPage /></ProtectedAdminRoute>} />
@@ -136,8 +136,12 @@ function App() {
             <Route path="/communications/conversations" element={<ProtectedAdminRoute>대화<ConversationsPage /></ProtectedAdminRoute>} />
             
             {/* Events */}
-            <Route path="/events/management" element={<ProtectedAdminRoute>이벤트 관리<EventManagementPage /></ProtectedAdminRoute>} />
-            <Route path="/events/testings" element={<ProtectedAdminRoute>테스트<TestingPage /></ProtectedAdminRoute>} />
+            {/* <Route path="/events/management" element={<ProtectedAdminRoute>이벤트 관리<EventManagementPage /></ProtectedAdminRoute>} /> */}
+            <Route path="/events/testings" element={
+              <ProtectedAdminRoute title="Events" pageId="events">
+                <TestingContainer />
+              </ProtectedAdminRoute>
+            } />
             
             {/* Learning Centers */}
             <Route path="/learning-centers/centers" element={<ProtectedAdminRoute>학습 센터<LearningCentersPage /></ProtectedAdminRoute>} />
