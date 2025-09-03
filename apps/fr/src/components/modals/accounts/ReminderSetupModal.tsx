@@ -6,6 +6,9 @@ import {
   Stack,
   Chip,
   TextField,
+  FormControl,
+  Select,
+  MenuItem,
 } from '@mui/material';
 import { ResponsiveDialog } from '@mas9/shared-ui';
 import { 
@@ -29,7 +32,28 @@ const ReminderSetupModal: React.FC<ReminderSetupModalProps> = ({
   onSave,
 }) => {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
-  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [selectedTime, setSelectedTime] = useState<string>('16:00');
+
+  // Generate time options (15-minute intervals from 00:00 to 23:45)
+  const generateTimeOptions = () => {
+    const options = [];
+    for (let hour = 0; hour < 24; hour++) {
+      for (let minute = 0; minute < 60; minute += 15) {
+        const timeStr = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
+        const displayTime = new Date();
+        displayTime.setHours(hour, minute);
+        const displayStr = displayTime.toLocaleTimeString('en-US', { 
+          hour: 'numeric', 
+          minute: '2-digit', 
+          hour12: true 
+        });
+        options.push({ value: timeStr, label: displayStr });
+      }
+    }
+    return options;
+  };
+
+  const timeOptions = generateTimeOptions();
 
   // Quick options (Slack-style)
   const quickOptions = [
@@ -98,26 +122,31 @@ const ReminderSetupModal: React.FC<ReminderSetupModalProps> = ({
   const handleCustomSave = () => {
     const now = new Date();
     
+    // Combine selected date with selected time
+    const timeParts = selectedTime.split(':');
+    const hours = parseInt(timeParts[0] ?? '0', 10);
+    const minutes = parseInt(timeParts[1] ?? '0', 10);
+
+    const targetDate = new Date(selectedDate);
+    targetDate.setHours(hours, minutes, 0, 0);
+    
     // If selected time has passed today, move to tomorrow
-    if (selectedDate < now) {
-      const tomorrow = new Date(selectedDate);
-      tomorrow.setDate(tomorrow.getDate() + 1);
-      setSelectedDate(tomorrow);
-      return;
+    if (targetDate < now) {
+      targetDate.setDate(targetDate.getDate() + 1);
     }
 
-    const displayText = formatDisplayText(selectedDate);
+    const displayText = formatDisplayText(targetDate);
     
     onSave({
       displayText,
-      timestamp: selectedDate
+      timestamp: targetDate
     });
   };
 
   return (
     <>
       {/* Custom DatePicker Styles */}
-      <style jsx global>{`
+      <style>{`
         .custom-datepicker .react-datepicker {
           font-family: inherit;
           border: 1px solid #e5e7eb;
@@ -261,53 +290,40 @@ const ReminderSetupModal: React.FC<ReminderSetupModalProps> = ({
             />
           </Box>
 
-          {/* Time Picker */}
+          {/* Time Select */}
           <Box>
             <Typography variant="body2" sx={{ mb: 1, fontWeight: 500, color: '#374151' }}>
               Time
             </Typography>
-            <DatePicker
-              selected={selectedDate}
-              onChange={(date: Date | null) => {
-                if (date) setSelectedDate(date);
-              }}
-              showTimeSelect
-              showTimeSelectOnly
-              timeIntervals={15}
-              timeCaption="Time"
-              dateFormat="h:mm aa"
-              customInput={
-                <TextField
-                  fullWidth
-                  size="small"
-                  variant="outlined"
-                  placeholder="Select time"
-                  InputProps={{
-                    startAdornment: (
-                      <Box sx={{ mr: 1, display: 'flex', alignItems: 'center' }}>
-                        <Clock size={16} color="#6b7280" />
-                      </Box>
-                    )
-                  }}
-                  sx={{
-                    '& .MuiOutlinedInput-root': {
-                      backgroundColor: 'white',
-                      '&:hover .MuiOutlinedInput-notchedOutline': {
-                        borderColor: '#dc2626',
-                      },
-                      '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                        borderColor: '#dc2626',
-                      },
+            <FormControl size="small">
+              <Select
+                value={selectedTime}
+                onChange={(e) => setSelectedTime(e.target.value)}
+                displayEmpty
+                sx={{
+                  '& .MuiOutlinedInput-root': {
+                    backgroundColor: 'white',
+                    '&:hover .MuiOutlinedInput-notchedOutline': {
+                      borderColor: '#dc2626',
                     },
-                    '& .MuiInputBase-input': {
-                      cursor: 'pointer',
-                    }
-                  }}
-                />
-              }
-              popperClassName="custom-datepicker"
-              popperPlacement="bottom-start"
-            />
+                    '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                      borderColor: '#dc2626',
+                    },
+                  },
+                }}
+                startAdornment={
+                  <Box sx={{ mr: 1, display: 'flex', alignItems: 'center' }}>
+                    <Clock size={16} color="#6b7280" />
+                  </Box>
+                }
+              >
+                {timeOptions.map((option) => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
           </Box>
         </Box>
 
