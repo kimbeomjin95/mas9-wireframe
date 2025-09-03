@@ -198,6 +198,24 @@ VITE_SUPABASE_ANON_KEY="your-supabase-anon-key"
 - Supports custom menu items with icons, colors, and disabled states
 - Use for all dropdown menus and action popovers
 
+## Commit Message Convention
+
+### ✅ 주요 타입 (자주 사용)
+
+| Type      | 설명                                 | 예시                                    |
+| --------- | ------------------------------------ | --------------------------------------- |
+| **feat**  | 새로운 기능 추가                     | `feat: 사용자 로그인 기능 추가`          |
+| **fix**   | 버그 수정                            | `fix: 로그인 버튼 오류 수정`             |
+| **docs**  | 문서 수정                            | `docs: API 문서 업데이트`                |
+| **chore** | 기타 작업 (빌드, 설정, 콘솔 제거 등) | `chore: console.log 제거`                |
+
+### 📋 추가 타입 (필요시 사용)
+
+| Type         | 설명                       | 예시                                       |
+| ------------ | -------------------------- | ------------------------------------------ |
+| **refactor** | 코드 개선 (기능 변경 없음) | `refactor: 사용자 서비스 구조 개선`         |
+| **style**    | 코드 포맷팅, 린트 수정     | `style: eslint 경고 수정`                   |
+
 ## Development Notes
 
 - Linting is disabled for TypeScript files in fr app - use `type-check` instead
