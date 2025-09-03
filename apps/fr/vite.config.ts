@@ -9,7 +9,7 @@ export default defineConfig(({ command, mode }) => {
 
   return {
     plugins: [react()],
-    base: isDev ? '/' : '/mas9-wireframe/',
+    base: '/',
     
     // Path alias 설정
     resolve: {
