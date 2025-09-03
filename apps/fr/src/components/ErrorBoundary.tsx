@@ -52,7 +52,7 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
   };
 
   handleGoHome = () => {
-    window.location.href = '/mas9-wireframe/';
+    window.location.href = '/';
   };
 
   render() {

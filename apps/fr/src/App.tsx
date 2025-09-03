@@ -94,7 +94,7 @@ function App() {
     <ErrorBoundary>
       <ViewProvider>
         <ModalsProvider>
-          <Router basename="/mas9-wireframe">
+          <Router>
             <AuthInitializer>
           <Routes>
             {/* 로그인 페이지 */}
