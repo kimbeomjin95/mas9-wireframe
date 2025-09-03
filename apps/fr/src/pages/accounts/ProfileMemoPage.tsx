@@ -84,19 +84,24 @@ const ProfileMemoPage: React.FC = () => {
     setDrawerOpen(true);
   };
 
+  const getBasePath = () => {
+    // 개발환경에서는 빈 문자열, 프로덕션에서는 '/mas9-wireframe'
+    return import.meta.env.DEV ? '' : '/mas9-wireframe';
+  };
+
   const handleFlowChart = () => {
-    openDrawer('mermaid', 'Profile Flow Chart', `/accounts/profile-flow.mmd`);
+    openDrawer('mermaid', 'Profile Flow Chart', `${getBasePath()}/accounts/profile-flow.mmd`);
   };
 
   const handleJsonData = () => {
-    openDrawer('json', 'Profile Data Structure', `/accounts/profile-data.json`);
+    openDrawer('json', 'Profile Data Structure', `${getBasePath()}/accounts/profile-data.json`);
   };
 
   const handleDescription = () => {
     openDrawer(
       'markdown',
       'Profile Documentation',
-      `/accounts/profile-memo.md`
+      `${getBasePath()}/accounts/profile-memo.md`
     );
   };
   // DetailBox 컴포넌트 - 피그마 디자인 기준
