@@ -44,7 +44,6 @@ const ProfileMemoPage: React.FC = () => {
               content: 'Follow up on membership renewal',
               createdAt: '06/18/2025 10:30 AM',
               reminderTime: '06/25/2025 09:00 AM',
-              isActive: true,
             },
           ],
         },

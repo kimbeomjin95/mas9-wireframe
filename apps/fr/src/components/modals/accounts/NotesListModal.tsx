@@ -32,7 +32,6 @@ interface Note {
   content: string;
   createdAt: string;
   reminderTime?: string;
-  isActive?: boolean;
 }
 
 interface NotesListModalProps {
@@ -69,7 +68,6 @@ const NotesListModal: React.FC<NotesListModalProps> = ({
       content: 'Call client back regarding membership upgrade',
       createdAt: '06/19/2025 10:30 AM',
       reminderTime: '06/20/2025 09:00 AM',
-      isActive: true,
     },
     {
       id: '3',
@@ -83,7 +81,6 @@ const NotesListModal: React.FC<NotesListModalProps> = ({
       content: 'Follow up on payment status',
       createdAt: '06/17/2025 11:20 AM',
       reminderTime: '06/21/2025 02:00 PM',
-      isActive: true,
     },
   ];
 
@@ -216,18 +213,6 @@ const NotesListModal: React.FC<NotesListModalProps> = ({
                           <Typography variant="caption" color="text.secondary" sx={{ whiteSpace: 'nowrap' }}>
                             {note.createdAt}
                           </Typography>
-                          {note.type === 'reminder' && note.isActive && (
-                            <Chip 
-                              label="Active"
-                              size="small" 
-                              color="error"
-                              sx={{ 
-                                height: 20, 
-                                fontSize: '0.7rem',
-                                ml: 0.5
-                              }}
-                            />
-                          )}
                         </Box>
                         <IconButton 
                           size="small"
@@ -248,7 +233,7 @@ const NotesListModal: React.FC<NotesListModalProps> = ({
                               onClick: () => handleEditNote(note),
                               color: 'inherit',
                             },
-                            ...(note.type === 'reminder' && note.isActive ? [
+                            ...(note.type === 'reminder' ? [
                               {
                                 label: 'Cancel Reminder',
                                 icon: <BellOff size={14} />,
@@ -282,22 +267,18 @@ const NotesListModal: React.FC<NotesListModalProps> = ({
                             gap: 1,
                             mt: 2,
                             p: 1.5,
-                            backgroundColor: note.isActive ? '#ecfdf5' : '#f3f4f6',
+                            backgroundColor: '#ecfdf5',
                             borderRadius: 2,
-                            border: `1px solid ${note.isActive ? '#d1fae5' : '#e5e7eb'}`,
+                            border: '1px solid #d1fae5',
                           }}
                         >
                           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flex: 1 }}>
-                            {note.isActive ? (
-                              <Bell size={14} color="#10b981" />
-                            ) : (
-                              <BellOff size={14} color="#6b7280" />
-                            )}
+                            <Bell size={14} color="#10b981" />
                             <Typography 
                               variant="caption" 
-                              color={note.isActive ? "#065f46" : "#6b7280"}
+                              color="#065f46"
                             >
-                              {note.isActive ? 'Remind at: ' : 'Cancelled: '}{note.reminderTime}
+                              Remind at: {note.reminderTime}
                             </Typography>
                           </Box>
                           
