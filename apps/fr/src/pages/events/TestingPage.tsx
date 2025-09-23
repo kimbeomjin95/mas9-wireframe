@@ -1,21 +1,38 @@
-import React, { useState } from 'react';
+import type { ColumnDef } from '@mas9/shared-ui';
+import { COLORS, DataGrid, DetailRow, InfoCard } from '@mas9/shared-ui';
 import {
+  Avatar,
   Box,
-  Typography,
   Button,
   Card,
   CardContent,
   Chip,
-  TextField,
+  FormControl,
+  IconButton,
   InputAdornment,
   MenuItem,
   Select,
-  FormControl,
-  Avatar,
+  TextField,
+  Typography,
 } from '@mui/material';
-import { ArrowLeft, Calendar, Users, Search, ChevronDown } from 'lucide-react';
-import { COLORS, DataGrid, InfoCard, DetailRow } from '@mas9/shared-ui';
-import type { ColumnDef } from '@mas9/shared-ui';
+import {
+  ArrowLeft,
+  BarChart3,
+  Bell,
+  Calendar,
+  ChevronDown,
+  Download,
+  Edit3,
+  MoreHorizontal,
+  Search,
+  Trash2,
+  Users,
+} from 'lucide-react';
+import React, { useState } from 'react';
+import ContextMenu from '../../components/common/ContextMenu';
+import EvaluationModal from '../../components/evaluation/EvaluationModal';
+import ActionHeaderToolbar from '../../components/common/ActionHeaderToolbar';
+import DocumentDrawer from '../../components/common/DocumentDrawer';
 
 interface Candidate {
   id: number;
@@ -41,69 +58,92 @@ const TestingPage: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [rankFilter, setRankFilter] = useState('Rank');
   const [selected, setSelected] = useState<Set<number>>(new Set([1]));
+  const [menuOpen, setMenuOpen] = useState<number | null>(null);
+  const [actionsMenuOpen, setActionsMenuOpen] = useState(false);
+  const [evaluationModalOpen, setEvaluationModalOpen] = useState(false);
 
-  const candidates: Candidate[] = [
+  // Drawer state
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [drawerConfig, setDrawerConfig] = useState<{
+    type: 'markdown' | 'json' | 'mermaid';
+    title: string;
+    filePath: string;
+  }>({
+    type: 'markdown',
+    title: '',
+    filePath: '',
+  });
+
+  // 실제 참가자 데이터 구조로 변경 (데모용)
+  const participants = [
     {
       id: 1,
-      name: 'Xin Yue',
-      description: 'Description',
-      avatar: '/api/placeholder/40/40',
-      rankSystem: 'Default Rank',
-      currentRank: 'White',
-      nextRank: 'White',
-      testingCriteria: 'Not Ready',
-      status: 'Promoted',
-      selected: true,
+      status: 'INVITED',
+      oldRankName: 'WHITE',
+      newRankName: 'GREEN',
+      clubUser: {
+        user: {
+          fullName: 'Beom Jin Kim',
+          profile: '/api/placeholder/40/40',
+          birth: '1999-09-30',
+          gender: 'MALE' as const,
+        },
+        attendanceCount: 16,
+        homeworkCount: 5,
+      },
     },
     {
       id: 2,
-      name: 'Xin Yue',
-      description: 'Description',
-      avatar: '/api/placeholder/40/40',
-      rankSystem: 'Default Rank',
-      currentRank: 'White',
-      nextRank: 'White',
-      testingCriteria: 'Not Ready',
-      status: 'Invited',
-      selected: false,
+      status: 'INVITED',
+      oldRankName: 'YELLOW',
+      newRankName: 'GREEN',
+      clubUser: {
+        user: {
+          fullName: 'New User',
+          profile: '/api/placeholder/40/40',
+          birth: '2000-01-01',
+          gender: 'MALE' as const,
+        },
+        attendanceCount: 10,
+        homeworkCount: 3,
+      },
     },
     {
       id: 3,
-      name: 'Xin Yue',
-      description: 'Description',
-      avatar: '/api/placeholder/40/40',
-      rankSystem: 'Default Rank',
-      currentRank: 'White',
-      nextRank: 'White',
-      testingCriteria: 'Not Ready',
-      status: 'Invited',
-      selected: false,
-    },
-    {
-      id: 4,
-      name: 'Xin Yue',
-      description: 'Description',
-      avatar: '/api/placeholder/40/40',
-      rankSystem: 'Default Rank',
-      currentRank: 'White',
-      nextRank: 'White',
-      testingCriteria: 'Not Ready',
-      status: 'Invited',
-      selected: false,
-    },
-    {
-      id: 5,
-      name: 'Xin Yue',
-      description: 'Description',
-      avatar: '/api/placeholder/40/40',
-      rankSystem: 'Default Rank',
-      currentRank: 'White',
-      nextRank: 'White',
-      testingCriteria: 'Not Ready',
-      status: 'Invited',
-      selected: false,
+      status: 'PROMOTED',
+      oldRankName: 'ORANGE',
+      newRankName: 'RED',
+      clubUser: {
+        user: {
+          fullName: 'Test Student',
+          profile: '/api/placeholder/40/40',
+          birth: '2005-05-15',
+          gender: 'FEMALE' as const,
+        },
+        attendanceCount: 20,
+        homeworkCount: 8,
+      },
     },
   ];
+
+  // 기존 candidates 형식으로 변환 (호환성 유지)
+  const candidates: Candidate[] = participants.map((p) => ({
+    id: p.id,
+    name: p.clubUser.user.fullName,
+    description: `출석: ${p.clubUser.attendanceCount}회`,
+    avatar: p.clubUser.user.profile || '/api/placeholder/40/40',
+    rankSystem: 'Default Rank',
+    currentRank: p.oldRankName,
+    nextRank: p.newRankName,
+    testingCriteria: 'Ready',
+    status:
+      p.status === 'INVITED'
+        ? 'Invited'
+        : p.status === 'PROMOTED'
+          ? 'Promoted'
+          : 'Not Ready',
+    selected: false,
+  }));
 
   const filterOptions = [
     'All',
@@ -140,6 +180,94 @@ const TestingPage: React.FC = () => {
     const newSelected = new Set(selected);
     newSelected.delete(candidate.id);
     setSelected(newSelected);
+  };
+
+  const toggleMenu = (candidateId: number) => {
+    setMenuOpen(menuOpen === candidateId ? null : candidateId);
+  };
+
+  const handleEvaluateStudent = (candidate: Candidate) => {
+    const participant = participants.find((p) => p.id === candidate.id);
+    if (participant) {
+      setSelected(new Set([candidate.id]));
+      setEvaluationModalOpen(true);
+    }
+    setMenuOpen(null);
+  };
+
+  const handleBatchEvaluation = () => {
+    if (selected.size > 0) {
+      setEvaluationModalOpen(true);
+    }
+    setActionsMenuOpen(false);
+  };
+
+  const handleViewHistory = (candidate: Candidate) => {
+    console.log('View evaluation history for:', candidate.name);
+    setMenuOpen(null);
+  };
+
+  const handleDeleteCandidate = (candidate: Candidate) => {
+    console.log('Delete candidate:', candidate.name);
+    setMenuOpen(null);
+  };
+
+  const getSelectedParticipants = () => {
+    return participants.filter((p) => selected.has(p.id));
+  };
+
+  // Drawer functions
+  const openDrawer = (
+    type: 'markdown' | 'json' | 'mermaid',
+    title: string,
+    filePath: string
+  ) => {
+    setDrawerConfig({ type, title, filePath });
+    setDrawerOpen(true);
+  };
+
+  const getBasePath = () => {
+    // 개발환경에서는 빈 문자열, 프로덕션에서는 '/mas9-wireframe'
+    return import.meta.env.DEV ? '' : '/mas9-wireframe';
+  };
+
+  const handleJsonData = () => {
+    openDrawer(
+      'json',
+      'Evaluation API Data Structure',
+      `${getBasePath()}/testing/testing-evaluation-form/evaluation-data.json`
+    );
+  };
+
+  const handleDescription = () => {
+    openDrawer(
+      'markdown',
+      'Evaluation Business Policy',
+      `${getBasePath()}/testing/testing-evaluation-form/evaluation-business-policy.md`
+    );
+  };
+
+  const handleActionsClick = () => {
+    console.log('Actions button clicked, current state:', actionsMenuOpen);
+    setActionsMenuOpen(!actionsMenuOpen);
+  };
+
+  const handleExportSelected = () => {
+    console.log('Export selected candidates:', Array.from(selected));
+    setActionsMenuOpen(false);
+  };
+
+  const handleDeleteSelected = () => {
+    console.log('Delete selected candidates:', Array.from(selected));
+    setActionsMenuOpen(false);
+  };
+
+  const handleSendNotification = () => {
+    console.log(
+      'Send notification to selected candidates:',
+      Array.from(selected)
+    );
+    setActionsMenuOpen(false);
   };
 
   const getStatusColor = (status: Candidate['status']) => {
@@ -245,10 +373,56 @@ const TestingPage: React.FC = () => {
         </Typography>
       ),
     },
+    {
+      name: '',
+      field: 'id', // Use id field since actions column doesn't need field data
+      width: 60,
+      align: 'center',
+      formatter: (row) => (
+        <Box sx={{ position: 'relative' }}>
+          <IconButton
+            size='small'
+            onClick={(e) => {
+              e.stopPropagation();
+              toggleMenu(row.id);
+            }}
+            sx={{ p: 0.5 }}
+          >
+            <MoreHorizontal size={16} />
+          </IconButton>
+
+          <ContextMenu
+            open={menuOpen === row.id}
+            onClose={() => setMenuOpen(null)}
+            items={[
+              {
+                label: '이력 보기',
+                icon: <Edit3 size={14} />,
+                onClick: () => handleViewHistory(row),
+                color: 'inherit',
+              },
+              {
+                label: '삭제',
+                icon: <Trash2 size={14} />,
+                onClick: () => handleDeleteCandidate(row),
+                color: 'error',
+              },
+            ]}
+            position={{ top: 35, right: 8 }}
+          />
+        </Box>
+      ),
+    },
   ];
 
   return (
     <Box sx={{ width: '100%', p: 3, bgcolor: COLORS.BACKGROUND.GRAY_LIGHT }}>
+      {/* Action Header Toolbar */}
+      <ActionHeaderToolbar
+        onJsonData={handleJsonData}
+        onDescription={handleDescription}
+      />
+
       {/* Header */}
       <Box sx={{ mb: 3 }}>
         <Button
@@ -277,24 +451,18 @@ const TestingPage: React.FC = () => {
             alignItems: 'center',
           }}
         >
-          <Box />
           <Button
-            variant='contained'
+            variant='outlined'
             sx={{
-              bgcolor: COLORS.PRIMARY.RED,
-              color: COLORS.BACKGROUND.WHITE,
+              color: COLORS.TEXT.BLACK_PRIMARY,
+              borderColor: COLORS.BORDER.GRAY_DISABLED,
               fontSize: '17px',
-              fontWeight: 500,
+              fontWeight: 400,
               textTransform: 'none',
               borderRadius: 2.5,
               px: 2,
               py: 2,
               height: 50,
-              boxShadow: 'none',
-              '&:hover': {
-                bgcolor: COLORS.BUTTON.PRIMARY_HOVER,
-                boxShadow: 'none',
-              },
             }}
           >
             Order form
@@ -429,23 +597,56 @@ const TestingPage: React.FC = () => {
               </Typography>
             </Box>
 
-            <Button
-              variant='outlined'
-              endIcon={<ChevronDown size={16} />}
-              sx={{
-                color: COLORS.TEXT.BLACK_PRIMARY,
-                borderColor: COLORS.BORDER.GRAY_DISABLED,
-                fontSize: '17px',
-                fontWeight: 400,
-                textTransform: 'none',
-                borderRadius: 2,
-                px: 2,
-                py: 1.5,
-                height: 48,
-              }}
-            >
-              Actions
-            </Button>
+            <Box sx={{ position: 'relative' }}>
+              <Button
+                variant='outlined'
+                endIcon={<ChevronDown size={16} />}
+                onClick={handleActionsClick}
+                sx={{
+                  color:
+                    selected.size > 0
+                      ? COLORS.PRIMARY.RED
+                      : COLORS.TEXT.BLACK_PRIMARY,
+                  borderColor:
+                    selected.size > 0
+                      ? COLORS.PRIMARY.RED
+                      : COLORS.BORDER.GRAY_DISABLED,
+                  fontSize: '17px',
+                  fontWeight: 400,
+                  textTransform: 'none',
+                  borderRadius: 2,
+                  px: 2,
+                  py: 1.5,
+                  height: 48,
+                  cursor: 'pointer',
+                  '&:hover': {
+                    borderColor:
+                      selected.size > 0
+                        ? COLORS.BUTTON.PRIMARY_HOVER
+                        : COLORS.TEXT.GRAY_DISABLED,
+                    bgcolor: selected.size > 0 ? '#fef2f2' : '#f9fafb',
+                  },
+                }}
+              >
+                Actions {selected.size > 0 && `(${selected.size})`}
+              </Button>
+
+              <ContextMenu
+                open={actionsMenuOpen}
+                onClose={() => setActionsMenuOpen(false)}
+                items={[
+                  {
+                    label: `평가하기 (${selected.size}명)`,
+                    icon: <BarChart3 size={14} />,
+                    onClick: handleBatchEvaluation,
+                    color: 'inherit',
+                    disabled: selected.size === 0,
+                  },
+                ]}
+                position={{ top: 55, right: 0 }}
+                sx={{ zIndex: 9999 }}
+              />
+            </Box>
           </Box>
 
           <Box sx={{ px: 4, pb: 4 }}>
@@ -562,6 +763,25 @@ const TestingPage: React.FC = () => {
           Delete
         </Button>
       </Box>
+
+      {/* Evaluation Modal */}
+      {evaluationModalOpen && (
+        <EvaluationModal
+          open={evaluationModalOpen}
+          onClose={() => setEvaluationModalOpen(false)}
+          participants={getSelectedParticipants()}
+          testingEventId='test-event-1'
+        />
+      )}
+
+      {/* Document Drawer */}
+      <DocumentDrawer
+        open={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+        type={drawerConfig.type}
+        title={drawerConfig.title}
+        filePath={drawerConfig.filePath}
+      />
     </Box>
   );
 };

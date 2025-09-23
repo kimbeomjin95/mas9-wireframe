@@ -1,0 +1,18 @@
+{
+  "userId": "1",
+  "upgradeId": "2",
+  "evaluationId": "1", // 평가ID - 재평가시 기존 ID (없으면 신규)
+  "filePath": "s3://evaluation-bucket/pdfs/2025/09/23/evaluation_김범진_20250923_143022.pdf", // S3 PDF 경로
+  "homeworkCombinedScore": 8, // 가정평가 종합 (1-10점)
+  "attendanceDiligenceScore": 9, // 근면성실 (1-10점)
+  "characterGratitudeNotesScore": 7, // 감사노트 (1-10점)
+  "characterLeadershipScore": 8, // 리더십 (1-10점)
+  "physicalSquatsScore": 6, // 스쿼트 (1-10점)
+  "physicalJumpingJacksScore": 7, // 점핑잭 (1-10점)
+  "technicalPoomsaeScore": 9, // 품새 (1-10점)
+  "technicalSparringScore": 8, // 겨루기 (1-10점)
+  "technicalKicksScore": 7, // 발차기 (1-10점)
+  "technicalBreakingScore": 8, // 격파 (1-10점)
+  "overallComment": "전반적으로 우수한 실력을 보여주었으며, 체력 부분의 보완이 필요함", // 종합평가 (선택, 최대50자)
+  "totalScore": 77 // 총점
+}
